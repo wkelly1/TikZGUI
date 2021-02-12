@@ -12,7 +12,7 @@ public class RectanglePrinter {
         out += strokePrinter.print() + " ";
         out += rectangle.getPointA().toString();
         out += " rectangle ";
-        out += rectangle.getPointB().toString();
+        out += rectangle.getPointB().toString() + ";";
 
         return out;
     }
