@@ -2,8 +2,8 @@ package org.tikzgui.core;
 
 public class Rectangle extends GraphicsObject {
 	Stroke stroke;
-	Point topLeft;
-	Point topRight;
+	Point pointA;
+	Point pointB;
 
 	@Override
 	public PropertySet[] getProperties() {
@@ -18,20 +18,20 @@ public class Rectangle extends GraphicsObject {
 		this.stroke = stroke;
 	}
 
-	public Point getTopLeft() {
-		return topLeft;
+	public Point getPointA() {
+		return pointA;
 	}
 
-	public void setTopLeft(Point topLeft) {
-		this.topLeft = topLeft;
+	public void setPointA(Point pointA) {
+		this.pointA = pointA;
 	}
 
 	
-	public Point getTopRight() {
-		return topRight;
+	public Point getPointB() {
+		return pointB;
 	}
 
-	public void setTopRight(Point topRight) {
-		this.topRight = topRight;
+	public void setPointB(Point pointB) {
+		this.pointB = pointB;
 	}
 }
