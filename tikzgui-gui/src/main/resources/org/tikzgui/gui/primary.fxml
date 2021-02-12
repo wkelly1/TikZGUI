@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
-
-
-
 
 <BorderPane id="BorderPane" prefHeight="650.0" prefWidth="980.0"
        xmlns="http://javafx.com/javafx/8.0.60"
@@ -15,15 +13,26 @@
  
    <top>
       <HBox prefHeight="30" fx:id="toolbar">
-         <children></children>
+         <children>
+
+         </children>
       </HBox>
    </top>
    <left >
       <VBox prefWidth="100" fx:id="leftBar">
          <children >
-            <Label text="Secondary View" />
+            <Label fx:id="header1" text="Layers"/>
          </children>
       </VBox>
    </left>
-   <center><AnchorPane BorderPane.alignment="CENTER" /></center>
+   <center>
+      <Canvas fx:id="canvas"/>
+   </center>
+   <right >
+      <VBox prefWidth="100" fx:id="leftBar">
+         <children >
+            <Label fx:id="header1" text="Layers"/>
+         </children>
+      </VBox>
+   </right>
 </BorderPane>
