@@ -10,11 +10,16 @@ public class TexGenerator {
     }
 
     public String generate() {
+
+        Printer printer = new Printer();
+
+        String out = "\\begin{tikzpicture} \n";
         
-        String out = "\\begin{tikzpicture}";
         for (GraphicsObject gObject : gObjects) {
-            out += 
+            out += printer.print(gObject) + "\n";
         }
+
+        out += "\\end{tikzpicture}";
     }
 
 }
