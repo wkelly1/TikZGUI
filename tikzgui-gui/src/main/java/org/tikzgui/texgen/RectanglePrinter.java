@@ -1,12 +1,6 @@
 public class RectanglePrinter {
 
-    Rectangle rectangle;
-
-    public RectanglePrinter (Rectangle rectangle) {
-        this.rectangle = rectangle
-    }
-
-    public String print() {
+    public String print(Rectangle rectangle) {
         String out = "\\draw ";
         StrokePrinter strokePrinter = new StrokePrinter(rectangle.getStroke());
         out += strokePrinter.print() + " ";
