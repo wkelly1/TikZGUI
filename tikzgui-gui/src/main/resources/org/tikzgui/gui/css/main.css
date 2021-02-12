@@ -1,0 +1,18 @@
+#toolbar {
+  -fx-background-color: #595555;
+  background-color: #595555;
+}
+
+#leftBar {
+  -fx-background-color: #fff;
+  -fx-effect: dropshadow(
+    three-pass-box,
+    rgba(121, 120, 120, 0.25),
+    10,
+    0,
+    0,
+    0
+  );
+  /* box-shadow: 0px 4px 57px rgba(121, 120, 120, 0.25);
+  -fx-box-shadow: 0px 4px 57px rgba(121, 120, 120, 0.25); */
+}

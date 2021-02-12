@@ -18,5 +18,12 @@
          <children></children>
       </HBox>
    </top>
+   <left >
+      <VBox prefWidth="100" fx:id="leftBar">
+         <children >
+            <Label text="Secondary View" />
+         </children>
+      </VBox>
+   </left>
    <center><AnchorPane BorderPane.alignment="CENTER" /></center>
 </BorderPane>
