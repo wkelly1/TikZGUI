@@ -253,8 +253,8 @@ public class PrimaryController implements Initializable {
                     public void handle(MouseEvent t) {
                         if (tb.getAction().equals("POINTER")) {
                             if (!rect.isSelected()) {
-                                rect.select();
                                 setSelected(rect);
+                                rect.select();
 
                             } else {
                                 rect.unselect();
@@ -285,11 +285,11 @@ public class PrimaryController implements Initializable {
             }
         });
 
-        canvasParent.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
-            if (tb.getAction().equals("POINTER")) {
-                removeSelected();
-            }
-        });
+//        canvasParent.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
+//            if (tb.getAction().equals("POINTER")) {
+//                removeSelected();
+//            }
+//        });
 
         parent.addEventHandler(MouseEvent.MOUSE_DRAGGED, (MouseEvent event) -> {
             if (currentNode != null) {

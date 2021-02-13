@@ -1,7 +1,9 @@
 package org.tikzgui.guishapes;
 
 
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -79,7 +81,7 @@ public class GuiRectangle extends Rectangle implements Shape{
 
     @Override
     public void removeBoundingBox() {
-        this.parent.getChildren().remove(boundingBox);
+        this.parent.getChildren().remove(boundingBox.getBox());
         this.boundingBox = null;
     }
 
@@ -104,5 +106,13 @@ public class GuiRectangle extends Rectangle implements Shape{
         parent.getChildren().remove(this);
         parent.getChildren().remove(boundingBox.getBox());
     }
+
+    public VBox propertiesPanel(){
+        VBox properties = new VBox();
+        TextField x = new TextField();
+        x.setText(Double.toString(this.getX()));
+        return properties;
+    }
+
 }
 
