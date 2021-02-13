@@ -1,4 +1,11 @@
 package org.tikzgui.core;
 
-public class DimProperty extends Property<Double> {
+public abstract class DimProperty extends Property<Double> {
+
+	protected DimProperty(Double defaultVal) {
+		super(defaultVal);
+	}
+	protected DimProperty(Double val, Double defaultVal) {
+		super(val, defaultVal);
+	}
 }
