@@ -1,6 +1,6 @@
 package org.tikzgui.core;
 
-public abstract class GraphicsObject {
+public abstract class GraphicsObject extends TeXElement {
 	protected Container parent;
 	public abstract PropertySet[] getProperties();
 
