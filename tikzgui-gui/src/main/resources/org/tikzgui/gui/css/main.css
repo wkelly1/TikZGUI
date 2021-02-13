@@ -1,10 +1,8 @@
-#toolbar {
-  -fx-background-color: #595555;
-  background-color: #595555;
-}
-
-#canvas {
-
+.btn{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-background-radius: 0;
+    -fx-border: none;
 }
 
 #leftBar {
@@ -15,6 +13,7 @@
   -fx-background-color: #fff;
 
 }
+
 
 #canvasParent {
     -fx-effect: innershadown(gaussian, rgba(121, 120, 120, 0.25), 57, 0, 0, 0);
@@ -72,9 +71,15 @@
 }
 
 .layer{
-    -fx-padding: 5 0;
+    -fx-padding: 5;
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-background-radius: 0;
+    -fx-border: none;
 }
 
 .layer:hover {
-    -fx-background-color: gray;
+    -fx-border-color: #18A0FB;
+    -fx-stoke-width: 3;
+    -fx-border-style: inside
 }
