@@ -1,9 +1,13 @@
 package org.tikzgui.guishapes;
 
 import javafx.beans.property.DoublePropertyBase;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.ImageCursor;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -75,6 +79,34 @@ public class GuiRectangle extends Rectangle implements Shape{
         Rectangle bl = new Rectangle(this.getX()-5, this.getY()+this.getHeight()-5, 10, 10);
         Rectangle br = new Rectangle(this.getX()+this.getWidth()-5, this.getY()+this.getHeight()-5, 10, 10);
 
+        Rectangle tl_R = new Rectangle(this.getX()-15, this.getY()-15, 10, 10);
+        Rectangle tr_R = new Rectangle(this.getX() + this.getWidth() -15, this.getY()-15, 10, 10);
+        Rectangle bl_R = new Rectangle(this.getX()-15, this.getY()+this.getHeight()-15, 10, 10);
+        Rectangle br_R = new Rectangle(this.getX()+this.getWidth()-15, this.getY()+this.getHeight()-5, 10, 10);
+
+        Pane whOuter = new Pane();
+        Label wh = new Label(this.getWidth() + " x " + this.getHeight());
+        whOuter.setPadding(new Insets(1.0));
+        whOuter.styleProperty().set("-fx-background-color: #18A0FB; -fx-background-radius: 2;");
+        wh.setTextFill(Color.WHITE);
+        whOuter.getChildren().add(wh);
+        whOuter.setLayoutX(this.getX() + (this.getWidth()/2) - 40);
+        whOuter.setLayoutY(this.getY() +  this.getHeight() + 5);
+
+
+        tl_R.setStroke(Color.TRANSPARENT);
+        tl_R.setFill(Color.TRANSPARENT);
+//        tl_R.setCursor(ImageCursor.);
+
+        tr_R.setStroke(Color.TRANSPARENT);
+        tr_R.setFill(Color.TRANSPARENT);
+
+        bl_R.setStroke(Color.TRANSPARENT);
+        bl_R.setFill(Color.TRANSPARENT);
+
+        br_R.setStroke(Color.TRANSPARENT);
+        br_R.setFill(Color.TRANSPARENT);
+
         rect.setFill(Color.TRANSPARENT);
         rect.setStrokeWidth(4);
         rect.setStroke(Color.web("#18A0FB"));
@@ -103,7 +135,7 @@ public class GuiRectangle extends Rectangle implements Shape{
 
 
         this.boundingBox = group;
-        group.getChildren().addAll(rect, tl,tr,bl, br);
+        group.getChildren().addAll(rect, tl,tr,bl, br, tl_R,tr_R,bl_R, br_R, whOuter);
         this.parent.getChildren().add(pos, group);
         removeHover();
     }
