@@ -11,6 +11,17 @@ public class StrokePrinter {
     }
 
     public String print() {
+
+
+
+        // String out = "["
+
+        // out += stroke.getDashing() + ","
+        // // Handle unspecified line width in Core?
+        // out += "line width=" + stroke.getLineThickness() +","
+        // out += stroke.getColour + "]"
+
+
         return "";
     }
 }

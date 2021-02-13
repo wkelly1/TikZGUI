@@ -10,6 +10,7 @@ public class TeXElementPrinterFactory {
 	static {
 		texElemPrinters.put(PictureContainer.class, (TeXElementPrinter<PictureContainer>)new PictureContainerPrinter());
 		texElemPrinters.put(Rectangle.class, (TeXElementPrinter<Rectangle>)new RectanglePrinter());
+		texElemPrinters.put(Circle.class, (TeXElementPrinter<Circle>)new CirclePrinter());
 		
 	}
 	
