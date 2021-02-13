@@ -2,9 +2,9 @@ package org.tikzgui.texgen;
 
 import org.tikzgui.core.Rectangle;
 
-public class RectanglePrinter extends GraphicsObjectPrinter<Rectangle> {
+public class RectanglePrinter extends TeXElementPrinter<Rectangle> {
 	@Override
-    public String print(Rectangle rectangle) {
+    public String print(Rectangle rectangle, Printer printer) {
         String out = "\\draw ";
         StrokePrinter strokePrinter = new StrokePrinter(rectangle.getStroke());
         out += strokePrinter.print() + " ";
