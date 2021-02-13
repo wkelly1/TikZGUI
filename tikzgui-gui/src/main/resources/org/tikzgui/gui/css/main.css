@@ -3,6 +3,11 @@
   background-color: #595555;
 }
 
+#canvas {
+  -fx-background-color: green;
+  background-color: green;
+}
+
 #leftBar {
   -fx-background-color: #fff;
   -fx-effect: dropshadow(gaussian, rgba(121, 120, 120, 0.25), 57, 0, 0, 0);
@@ -13,6 +18,4 @@
 #header1 {
   -fx-font-weight: bold;
   -fx-padding: 5;
-
-}
 }

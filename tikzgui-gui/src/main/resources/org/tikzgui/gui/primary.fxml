@@ -7,32 +7,37 @@
 <?import javafx.scene.layout.BorderPane?>
 
 <BorderPane id="BorderPane" prefHeight="650.0" prefWidth="980.0"
-       xmlns="http://javafx.com/javafx/8.0.60"
-       xmlns:fx="http://javafx.com/fxml/1"  
-       fx:controller="org.tikzgui.gui.PrimaryController">
- 
-   <top>
-      <HBox prefHeight="30" fx:id="toolbar">
-         <children>
+            xmlns="http://javafx.com/javafx/8.0.60"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.tikzgui.gui.PrimaryController">
 
-         </children>
-      </HBox>
-   </top>
-   <left >
-      <VBox prefWidth="100" fx:id="leftBar">
-         <children >
+    <top>
+        <HBox prefHeight="30" fx:id="toolbar">
+            <children>
+
+            </children>
+        </HBox>
+    </top>
+    <left>
+        <VBox prefWidth="100" fx:id="leftBar">
+
             <Label fx:id="header1" text="Layers"/>
-         </children>
-      </VBox>
-   </left>
-   <center>
-      <Canvas fx:id="canvas"/>
-   </center>
-   <right >
-      <VBox prefWidth="100" fx:id="leftBar">
-         <children >
-            <Label fx:id="header1" text="Layers"/>
-         </children>
-      </VBox>
-   </right>
+
+        </VBox>
+    </left>
+    <center>
+        <ScrollPane fx:id="canvasParent">
+        <HBox>
+
+            <Canvas fx:id="canvas"  height="500.0"  width="500.0"/>
+        </HBox>
+        </ScrollPane>
+    </center>
+    <right>
+        <VBox prefWidth="150" fx:id="leftBar">
+
+            <Label fx:id="header1" text="Properties"/>
+
+        </VBox>
+    </right>
 </BorderPane>
