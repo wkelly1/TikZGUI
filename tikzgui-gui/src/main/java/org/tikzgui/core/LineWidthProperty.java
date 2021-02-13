@@ -34,7 +34,7 @@ public class LineWidthProperty extends DimProperty {
 		if (this.get().isEmpty()) {
 			return "";
 		} else {
-			return Double.toString(this.get().orElse(-1.0));
+			return "line width = " + this.get().orElse(-1.0).doubleValue();
 		}
 	}
 }
