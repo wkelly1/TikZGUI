@@ -5,10 +5,8 @@ import org.tikzgui.core.Ellipse;
 public class EllipsePrinter extends TeXElementPrinter <Ellipse> {
 	@Override
     public String print (Ellipse ellipse, Printer printer) {
-		StrokePrinter strokePrinter = new StrokePrinter();
-		String printedStroke = strokePrinter.print(ellipse.getStroke(), printer);
-		EllipsePropsPrinter ellipsePropsPrinter = new EllipsePropsPrinter();
-		String printedEllipseProps = ellipsePropsPrinter.print(ellipse.getEllipseProps(), printer);
+		String printedStroke = printer.print(ellipse.getStroke());
+		String printedEllipseProps = printer.print(ellipse.getEllipseProps());
 		String allProps;
 		if(printedStroke == "") {
 			allProps = printedEllipseProps;
