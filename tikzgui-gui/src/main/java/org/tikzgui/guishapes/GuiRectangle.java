@@ -65,13 +65,14 @@ public class GuiRectangle extends Rectangle implements Shape{
 
     @Override
     public void drawBoundingSelectBox() {
-        Rectangle rect = new Rectangle(this.getX()-5, this.getY()-5, this.getWidth()+10, this.getHeight()+10);
+        Rectangle rect = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         rect.setFill(Color.TRANSPARENT);
-        rect.setStrokeWidth(2);
-        rect.setStroke(Color.BLUE);
+        rect.setStrokeWidth(4);
+        rect.setStroke(Color.web("#18A0FB"));
         this.boundingBox = rect;
         int pos = this.parent.getChildren().indexOf(this);
         this.parent.getChildren().add(pos, rect);
+        removeHover();
     }
 
     @Override
@@ -88,10 +89,10 @@ public class GuiRectangle extends Rectangle implements Shape{
 
     @Override
     public void setHover() {
-        Rectangle rect = new Rectangle(this.getX()-5, this.getY()-5, this.getWidth()+10, this.getHeight()+10);
+        Rectangle rect = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         rect.setFill(Color.TRANSPARENT);
-        rect.setStrokeWidth(2);
-        rect.setStroke(Color.BLUE);
+        rect.setStrokeWidth(4);
+        rect.setStroke(Color.web("#18A0FB"));
         this.tempBoundingBox = rect;
         int pos = this.parent.getChildren().indexOf(this);
         this.parent.getChildren().add(pos, rect);

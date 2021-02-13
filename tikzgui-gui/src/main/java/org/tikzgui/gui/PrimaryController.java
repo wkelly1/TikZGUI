@@ -162,11 +162,8 @@ public class PrimaryController implements Initializable {
                     public void handle(MouseEvent t) {
 
                         if (tb.getAction().equals("POINTER")) {
-//                            canvas.setCursor(Cursor.MOVE);
-//                            rect.setStroke(Color.GREEN);
-//                            rect.setStrokeWidth(2);
+
                             if (!rect.isSelected()){
-                                System.out.println("select");
                                 rect.setHover();
                             }
                         }
@@ -178,10 +175,7 @@ public class PrimaryController implements Initializable {
                     public void handle(MouseEvent t) {
 
                         if (tb.getAction().equals("POINTER")) {
-//                            canvas.setCursor(Cursor.DEFAULT);
-//                            rect.setStroke(Color.BLACK);
                             if (!rect.isSelected()) {
-                                System.out.println("desldjf");
                                 rect.removeHover();
                             }
                         }
