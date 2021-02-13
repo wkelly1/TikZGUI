@@ -1,8 +1,11 @@
 package org.tikzgui.guishapes;
 
 import javafx.beans.property.DoublePropertyBase;
+import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -12,7 +15,7 @@ public class GuiRectangle extends Rectangle implements Shape{
     private boolean isSelected = false;
     private org.tikzgui.core.Rectangle guiElement;
     private Pane parent;
-    private Rectangle boundingBox;
+    private Group boundingBox;
     private Rectangle tempBoundingBox;
 
     public GuiRectangle(Pane parent) {
@@ -65,13 +68,43 @@ public class GuiRectangle extends Rectangle implements Shape{
 
     @Override
     public void drawBoundingSelectBox() {
+        Group group = new Group();
         Rectangle rect = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        Rectangle tl = new Rectangle(this.getX()-5, this.getY()-5, 10, 10);
+        Rectangle tr = new Rectangle(this.getX() + this.getWidth() -5, this.getY()-5, 10, 10);
+        Rectangle bl = new Rectangle(this.getX()-5, this.getY()+this.getHeight()-5, 10, 10);
+        Rectangle br = new Rectangle(this.getX()+this.getWidth()-5, this.getY()+this.getHeight()-5, 10, 10);
+
         rect.setFill(Color.TRANSPARENT);
         rect.setStrokeWidth(4);
         rect.setStroke(Color.web("#18A0FB"));
-        this.boundingBox = rect;
+
         int pos = this.parent.getChildren().indexOf(this);
-        this.parent.getChildren().add(pos, rect);
+
+        tl.setFill(Color.WHITE);
+        tl.setStroke(Color.web("#18A0FB"));
+        tl.setStrokeWidth(1);
+        tl.setCursor(Cursor.NW_RESIZE);
+
+        tr.setFill(Color.WHITE);
+        tr.setStroke(Color.web("#18A0FB"));
+        tr.setStrokeWidth(1);
+        tr.setCursor(Cursor.NE_RESIZE);
+
+        bl.setFill(Color.WHITE);
+        bl.setStroke(Color.web("#18A0FB"));
+        bl.setStrokeWidth(1);
+        bl.setCursor(Cursor.SW_RESIZE);
+
+        br.setFill(Color.WHITE);
+        br.setStroke(Color.web("#18A0FB"));
+        br.setStrokeWidth(1);
+        br.setCursor(Cursor.SE_RESIZE);
+
+
+        this.boundingBox = group;
+        group.getChildren().addAll(rect, tl,tr,bl, br);
+        this.parent.getChildren().add(pos, group);
         removeHover();
     }
 
