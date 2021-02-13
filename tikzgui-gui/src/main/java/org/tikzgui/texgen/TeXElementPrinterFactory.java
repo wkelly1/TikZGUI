@@ -6,14 +6,14 @@ import java.util.HashMap;
 public class TeXElementPrinterFactory {
 	
 	
-	static TeXElemClassToPrinterMap graphicsObjectPrinters= new TeXElemClassToPrinterMap();
+	static TeXElemClassToPrinterMap texElemPrinters= new TeXElemClassToPrinterMap();
 	static {
-		graphicsObjectPrinters.put(PictureContainer.class, (TeXElementPrinter<PictureContainer>)new PictureContainerPrinter());
-		graphicsObjectPrinters.put(Rectangle.class, (TeXElementPrinter<Rectangle>)new RectanglePrinter());
+		texElemPrinters.put(PictureContainer.class, (TeXElementPrinter<PictureContainer>)new PictureContainerPrinter());
+		texElemPrinters.put(Rectangle.class, (TeXElementPrinter<Rectangle>)new RectanglePrinter());
 		
 	}
 	
 	public static <T extends TeXElement> TeXElementPrinter<T> getPrinter(T object) {
-		return graphicsObjectPrinters.get(object);
+		return texElemPrinters.get(object);
 	}
 }
