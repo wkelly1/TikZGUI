@@ -18,7 +18,7 @@ public class TexGenerator {
         String out =""; 
         
         out += "\\documentclass{standalone}\n";
-        out += "\\usepackage{tikz}";
+        out += "\\usepackage{tikz}\n";
         out += "\\begin{document}\n";
         out += "\\begin{tikzpicture} \n";
         
