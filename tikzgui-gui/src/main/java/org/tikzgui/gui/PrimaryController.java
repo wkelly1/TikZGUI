@@ -16,10 +16,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
@@ -27,6 +24,7 @@ import javafx.stage.Stage;
 import org.tikzgui.core.PictureContainer;
 import org.tikzgui.core.Point;
 import org.tikzgui.core.Rectangle;
+import org.tikzgui.guishapes.GuiRectangle;
 import org.tikzgui.texgen.TexGenerator;
 
 import java.net.URL;
@@ -150,46 +148,66 @@ public class PrimaryController implements Initializable {
     }
 
 
-    private void initializeShapeDraw(Node parent){
+
+    private void initializeShapeDraw(Pane parent){
         // Shape drawing
         parent.addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent event) -> {
             if (tb.getAction().equals("SHAPE")) {
-                javafx.scene.shape.Rectangle rect1 = new javafx.scene.shape.Rectangle(event.getX(), event.getY(), 1, 1);
+//                javafx.scene.shape.Rectangle rect1 = new javafx.scene.shape.Rectangle(event.getX(), event.getY(), 1, 1);
+                GuiRectangle rect = new GuiRectangle(event.getX(), event.getY(), 1, 1, parent);
 
-                rect1.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+                rect.setOnMouseEntered(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent t) {
+
                         if (tb.getAction().equals("POINTER")) {
-                            canvas.setCursor(Cursor.MOVE);
-                            rect1.setStroke(Color.GREEN);
-                            rect1.setStrokeWidth(2);
+//                            canvas.setCursor(Cursor.MOVE);
+//                            rect.setStroke(Color.GREEN);
+//                            rect.setStrokeWidth(2);
+                            if (!rect.isSelected()){
+                                System.out.println("select");
+                                rect.setHover();
+                            }
                         }
                     }
                 });
-                rect1.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+                rect.setOnMouseExited(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent t) {
+
                         if (tb.getAction().equals("POINTER")) {
-                            canvas.setCursor(Cursor.DEFAULT);
-                            rect1.setStroke(Color.BLACK);
+//                            canvas.setCursor(Cursor.DEFAULT);
+//                            rect.setStroke(Color.BLACK);
+                            if (!rect.isSelected()) {
+                                System.out.println("desldjf");
+                                rect.removeHover();
+                            }
                         }
                     }
                 });
-                rect1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                rect.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent t) {
                         if (tb.getAction().equals("POINTER")) {
-                            rect1.setStroke(Color.GREEN);
-                            rect1.setStrokeWidth(2);
+                            if (!rect.isSelected()) {
+                                rect.select();
+                                setSelected(rect);
+                            } else {
+                                rect.unselect();
+                                removeSelected();
+                            }
+//                            rect.setStroke(Color.GREEN);
+//                            rect.setStrokeWidth(2);
                             t.consume();
-                            setSelected(rect1);
                         }
                     }
                 });
 
 
-                rect1.fillProperty().setValue(null);
-                rect1.setStroke(Color.BLACK);
+                rect.setFill(Color.TRANSPARENT);
+                rect.setStroke(Color.BLACK);
                 HBox hbox = new HBox();
                 Label lbl = new Label("Rectangle " + shapeIndex);
 
@@ -198,10 +216,10 @@ public class PrimaryController implements Initializable {
 
                 leftBar.getChildren().add(lbl);
                 shapeIndex++;
-                currentNode = rect1;
-                currentNodeX = rect1.getX();
-                currentNodeY = rect1.getY();
-                canvas.getChildren().add(rect1);
+                currentNode = rect;
+                currentNodeX = rect.getX();
+                currentNodeY = rect.getY();
+                canvas.getChildren().add(rect);
 
 
             }

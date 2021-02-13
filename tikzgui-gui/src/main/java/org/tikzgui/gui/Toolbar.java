@@ -26,7 +26,7 @@ public class Toolbar extends HBox {
         this.rightContent = rightContent;
 
         // Styling
-        this.setStyle("-fx-background-color: #595555;");
+        this.setStyle("-fx-background-color: #2C2C2C;");
         this.setPrefHeight(50);
 
         leftContent[0].select();

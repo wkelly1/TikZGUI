@@ -1,10 +1,13 @@
 package org.tikzgui.gui;
 
+import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -36,6 +39,23 @@ public class ToolbarButton extends Button {
 
         this.getStyleClass().add("btn");
 
+        this.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                if (!isSelected()) {
+                    setStyle("-fx-background-color: #000000");
+                }
+            }
+        });
+
+        this.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                if (!isSelected()) {
+                    setStyle("-fx-background-color: transparent");
+                }
+            }
+        });
     }
 
     public void addActionHandler(Runnable handler){

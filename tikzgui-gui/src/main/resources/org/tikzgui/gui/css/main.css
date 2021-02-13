@@ -1,16 +1,8 @@
 .btn{
--fx-background-color: transparent; -fx-text-fill: white; -fx-background-radius: 0; -fx-border: none;
-}
-
-
-
-#toolbar {
-  -fx-background-color: #595555;
-  background-color: #595555;
-}
-
-#canvas {
-
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-background-radius: 0;
+    -fx-border: none;
 }
 
 #leftBar {
