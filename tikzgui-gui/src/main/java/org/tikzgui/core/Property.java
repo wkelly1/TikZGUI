@@ -6,10 +6,11 @@ public abstract class Property<T> extends TeXElement {
 	T defaultVal;
 	T value;
 	
-	protected boolean inherit = false; // should this property inherit its value from parents/take the default value
+	protected boolean inherit = true; // should this property inherit its value from parents/take the default value
 	
 	protected Property(T defaultVal) {} //inherit
 	protected Property(T value, T defaultVal) {
+		inherit=false;
 		this.value=value;
 	}
 	
@@ -25,6 +26,11 @@ public abstract class Property<T> extends TeXElement {
 	}
 	
 	public void set(T value) {
+		inherit=false;
 		this.value = value;
+	}
+	
+	public void setInherit() {
+		inherit=true;
 	}
 }
