@@ -11,6 +11,8 @@ public class TeXElementPrinterFactory {
 		texElemPrinters.put(PictureContainer.class, (TeXElementPrinter<PictureContainer>)new PictureContainerPrinter());
 		texElemPrinters.put(Rectangle.class, (TeXElementPrinter<Rectangle>)new RectanglePrinter());
 		texElemPrinters.put(Circle.class, (TeXElementPrinter<Circle>)new CirclePrinter());
+		texElemPrinters.put(PropertySet.class, (TeXElementPrinter<PropertySet>)new PropertySetPrinter());
+		texElemPrinters.put(Stroke.class, (TeXElementPrinter<Stroke)new StrokePrinter());
 		
 	}
 	

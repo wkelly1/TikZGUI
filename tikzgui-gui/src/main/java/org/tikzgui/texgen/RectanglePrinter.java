@@ -6,7 +6,7 @@ public class RectanglePrinter extends TeXElementPrinter<Rectangle> {
 	@Override
     public String print(Rectangle rectangle, Printer printer) {
         String out = "\\draw ";
-        StrokePrinter strokePrinter = new StrokePrinter(rectangle.getStroke());
+        out += printer.print(rectangle.getLocalProperties(), printer);
         out += strokePrinter.print() + " ";
         out += rectangle.getPointA().toString();
         out += " rectangle ";

@@ -4,5 +4,5 @@ import org.tikzgui.core.*;
 
 public abstract class TeXElementPrinter<T extends TeXElement> {
 
-	public abstract String print (T graphicsObject, Printer printer);
+	public abstract String print (T teXElement, Printer printer);
 }
