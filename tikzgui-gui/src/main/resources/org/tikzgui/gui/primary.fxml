@@ -25,14 +25,7 @@
 
         </VBox>
     </left>
-    <center>
-        <ScrollPane fx:id="canvasParent">
-        <HBox>
 
-            <Canvas fx:id="canvas"  height="500.0"  width="500.0"/>
-        </HBox>
-        </ScrollPane>
-    </center>
     <right>
         <VBox prefWidth="150" fx:id="leftBar">
 
@@ -40,4 +33,12 @@
 
         </VBox>
     </right>
+
+    <center>
+        <ScrollPane fx:id="canvasParent">
+            <HBox>
+                <Canvas fx:id="canvas" />
+            </HBox>
+        </ScrollPane>
+    </center>
 </BorderPane>

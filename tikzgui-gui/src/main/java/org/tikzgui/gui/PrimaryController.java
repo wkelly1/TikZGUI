@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.*;
 import javafx.event.*;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
@@ -15,6 +16,7 @@ import java.util.ResourceBundle;
 public class PrimaryController implements Initializable{
     private double maxWidth = 0.0;
     private double maxHeight = 0.0;
+
 
     @FXML
     private Canvas canvas;
@@ -31,12 +33,6 @@ public class PrimaryController implements Initializable{
     }
 
     @FXML
-    private void canvasClick(MouseEvent event) {
-        System.out.println("sdfjlkd");
-        canvas.getGraphicsContext2D().fillRect(75,75,100,100);
-    }
-
-    @FXML
     private void switchToSecondary() throws IOException {
         App.setRoot("secondary");
     }
@@ -44,15 +40,32 @@ public class PrimaryController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+        canvas.setWidth(canvasParent.widthProperty().doubleValue());
+        canvas.setHeight(canvasParent.heightProperty().doubleValue());
+
+        canvasParent.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if (keyEvent.getCode().getCode() == 32 && !canvasParent.isPannable()) {
+                canvasParent.setPannable(true);
+
+            }
+        });
+
+        canvasParent.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
+            if (keyEvent.getCode().getCode() == 32 && canvasParent.isPannable()) {
+                canvasParent.setPannable(false);
+
+            }
+        });
+
         canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
-            System.out.println(event);
-            gc.fillRect(event.getX(), event.getY(), 10.0, 10.0);
+            if (!canvasParent.isPannable()) {
+                gc.fillRect(event.getX(), event.getY(), 10.0, 10.0);
+            }
         });
 
         canvasParent.widthProperty().addListener((ov, oldValue, newValue) -> {
 
             if (newValue.doubleValue() > this.maxWidth) {
-                System.out.println("resizing");
                 canvas.setWidth(newValue.doubleValue());
                 this.maxWidth = newValue.doubleValue();
             }
@@ -61,7 +74,6 @@ public class PrimaryController implements Initializable{
         canvasParent.heightProperty().addListener((ov, oldValue, newValue) -> {
 
             if (newValue.doubleValue() > this.maxHeight) {
-                System.out.println("resizing");
                 canvas.setHeight(newValue.doubleValue());
                 this.maxHeight = newValue.doubleValue();
             }
