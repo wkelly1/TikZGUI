@@ -11,29 +11,31 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.tikzgui.gui.PrimaryController">
     <left>
-        <VBox prefWidth="150" fx:id="leftBar" >
+        <ScrollPane style="-fx-hbar-policy: never; -fx-vbar-policy: never;  -fx-background-color: #fff;"
+                    fitToHeight="true">
+            <VBox prefWidth="150" fx:id="leftBar" style="-fx-padding: 10">
 
-            <Label fx:id="header1" text="Layers"/>
+                <Label fx:id="header1" text="Layers"/>
 
-        </VBox>
+            </VBox>
+        </ScrollPane>
     </left>
 
     <right>
-        <VBox prefWidth="150" fx:id="leftBar">
+        <VBox prefWidth="150" fx:id="rightBAr">
 
             <Label fx:id="header1" text="Properties"/>
 
         </VBox>
     </right>
     <center>
-        <ScrollPane  fx:id="canvasParent" style="-fx-hbar-policy: never; -fx-vbar-policy: never;">
-<!--        <ScrollPane  fx:id="canvasParent" >-->
+        <ScrollPane fx:id="canvasParent" style="-fx-hbar-policy: never; -fx-vbar-policy: never;">
+            <!--        <ScrollPane  fx:id="canvasParent" >-->
             <HBox>
-                <Canvas fx:id="canvas"/>
+                <AnchorPane fx:id="canvas"/>
             </HBox>
         </ScrollPane>
     </center>
-
 
 
     <top>
@@ -41,10 +43,10 @@
 
             <Button fx:id="panBtn" onAction="#onPan" prefHeight="49" prefWidth="50"/>
             <Button fx:id="squareBtn" onAction="#onSquare" prefHeight="49" prefWidth="50"/>
-            <Button fx:id="export"  text="export" onAction="#onExport" prefHeight="49" prefWidth="50"/>
+            <Button fx:id="export" text="export" onAction="#onExport" prefHeight="49"/>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
-                <Button fx:id="zoomOut"  onAction="#zoomOut" prefHeight="49" prefWidth="30" />
-                <Button fx:id="zoomIn"  onAction="#zoomIn" prefHeight="49" prefWidth="30"/>
+                <Button fx:id="zoomOut" onAction="#zoomOut" prefHeight="49" prefWidth="30"/>
+                <Button fx:id="zoomIn" onAction="#zoomIn" prefHeight="49" prefWidth="30"/>
             </HBox>
         </HBox>
     </top>

@@ -4,15 +4,16 @@
 }
 
 #canvas {
-  -fx-background-color: green;
-  background-color: green;
+
 }
 
 #leftBar {
   -fx-background-color: #fff;
-  /*-fx-effect: dropshadow(gaussian, rgba(121, 120, 120, 0.25), 57, 0, 0, 0);*/
-  /* box-shadow: 0px 4px 57px rgba(121, 120, 120, 0.25);
-  -fx-box-shadow: 0px 4px 57px rgba(121, 120, 120, 0.25); */
+
+}
+#rightBar {
+  -fx-background-color: #fff;
+
 }
 
 #canvasParent {
@@ -41,6 +42,12 @@
     -fx-text-fill: white;
     -fx-graphic: url('../icons/pan.png');
 }
+#export{
+    -fx-background-color: transparent;
+    -fx-border: none;
+    -fx-background-radius: 0;
+    -fx-text-fill: white;
+}
 
 
 #zoomIn{
@@ -62,4 +69,12 @@
 }
 #zoomIn:hover{
     -fx-background-color: #6F7178;
+}
+
+.layer{
+    -fx-padding: 5 0;
+}
+
+.layer:hover {
+    -fx-background-color: gray;
 }
