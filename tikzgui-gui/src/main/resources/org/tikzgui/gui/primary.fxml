@@ -26,6 +26,11 @@
 
             <Label fx:id="header1" text="Properties"/>
 
+            <VBox fx:id="properties" style="-fx-padding: 10">
+
+
+
+            </VBox>
         </VBox>
     </right>
     <center>

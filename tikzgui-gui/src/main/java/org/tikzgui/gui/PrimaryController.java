@@ -1,6 +1,7 @@
 package org.tikzgui.gui;
 
 import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.*;
 import javafx.event.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.*;
@@ -26,13 +28,13 @@ import org.tikzgui.core.PictureContainer;
 import org.tikzgui.core.Point;
 import org.tikzgui.core.Rectangle;
 import org.tikzgui.texgen.TexGenerator;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PrimaryController implements Initializable{
+public class PrimaryController implements Initializable {
     private double maxWidth = 0.0;
     private double maxHeight = 0.0;
-    private boolean pan = false;
 
     final private double canvasInitWidth = 5000.0;
     final private double canvasInitHeight = 5000.0;
@@ -47,10 +49,14 @@ public class PrimaryController implements Initializable{
 
     private PictureContainer rootContainer = new PictureContainer();
 
+    private Node selected;
 //    private String currentAction;
 
     @FXML
     private VBox leftBar;
+
+    @FXML
+    private VBox properties;
 
     @FXML
     private AnchorPane canvas;
@@ -61,16 +67,9 @@ public class PrimaryController implements Initializable{
     @FXML
     public ScrollPane canvasParent;
 
-    @FXML
-    public Button panBtn;
-
-    @FXML
-    public Button squareBtn;
-
     private Toolbar tb;
 
-    public void initGraphics()
-    {
+    public void initGraphics() {
 
         canvas.setPrefWidth(canvasInitWidth);
         canvas.setPrefHeight(canvasInitHeight);
@@ -83,8 +82,18 @@ public class PrimaryController implements Initializable{
 
 
         ToolbarButton pointer = new ToolbarButton("POINTER", "Pointer", false, Cursor.DEFAULT, canvasParent);
+        pointer.addActionHandler(() -> {
+            setCanDrag(false);
+        });
+
         ToolbarButton shape = new ToolbarButton("SHAPE", getClass().getResource("icons/plus.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
+        shape.addActionHandler(() -> {
+            setCanDrag(false);
+        });
         ToolbarButton pan = new ToolbarButton("PAN", getClass().getResource("icons/pan.png").toExternalForm(), true, Cursor.HAND, canvasParent);
+        pan.addActionHandler(() -> {
+            setCanDrag(true);
+        });
         ToolbarButton[] btnsLeft = {pointer, shape, pan};
         ToolbarButton[] btnsRight = {};
 
@@ -93,45 +102,6 @@ public class PrimaryController implements Initializable{
         this.layout.topProperty().setValue(tb);
 
     }
-
-
-//    @FXML
-//    private void zoomIn() throws IOException {
-//        canvas.setScaleX(canvas.getScaleX() + 0.1);
-//        canvas.setScaleY(canvas.getScaleY() + 0.1);
-//    }
-//
-//    @FXML
-//    private void zoomOut() throws IOException {
-//        canvas.setScaleX(canvas.getScaleX() - 0.1);
-//        canvas.setScaleY(canvas.getScaleY() - 0.1);
-//    }
-
-//    @FXML
-//    private void onPan() throws IOException {
-//        if (!this.pan) {
-//            panBtn.setStyle("-fx-background-color: #5684DF");
-//            squareBtn.setStyle("-fx-background-color: transparent");
-//            setCanDrag(true);
-//        }
-//    }
-//
-//    @FXML
-//    private void onSquare() throws IOException {
-//        if (this.pan) {
-//            squareBtn.setStyle("-fx-background-color: #5684DF");
-//            panBtn.setStyle("-fx-background-color: transparent");
-//            canvasParent.setPannable(false);
-//            this.pan = false;
-//            canvasParent.setCursor(Cursor.DEFAULT);
-//        }
-//    }
-//
-//    private static Parent loadFXML(String fxml) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-//
-//        return fxmlLoader.load();
-//    }
 
     @FXML
     private void onExport() throws IOException {
@@ -146,53 +116,162 @@ public class PrimaryController implements Initializable{
         System.out.println(generator.generate());
     }
 
-    private void setAction(String action){
-        if (action.equals("PAN")){
+    private void setAction(String action) {
+        if (action.equals("PAN")) {
             this.tb.setAction("PAN");
-//            setCanDrag(true);
+            setCanDrag(true);
         }
-        if (action.equals("SHAPE")){
+        if (action.equals("SHAPE")) {
             this.tb.setAction("SHAPE");
-//            setCanDrag(false);
+            setCanDrag(false);
         }
-        if (action.equals("POINTER")){
+        if (action.equals("POINTER")) {
             this.tb.setAction("POINTER");
-//            setCanDrag(false);
+            setCanDrag(false);
         }
     }
 
     private void setCanDrag(boolean value) {
-        if (!value){
-            canvasParent.setPannable(false);
-//            this.pan = false;
-//            canvasParent.setCursor(Cursor.DEFAULT);
-        } else {
-            canvasParent.setPannable(true);
-//            this.pan = true;
-//            canvasParent.setCursor(Cursor.HAND);
-        }
+        canvasParent.setPannable(value);
+    }
+
+    private void initializeShapeEdit(Node parent){
+
+    }
+
+    private void setSelected(Node element){
+        this.selected = element;
+        removeSelected();
+        properties.getChildren().add(new Label(element.getClass().toString()));
+    }
+
+    private void removeSelected(){
+        properties.getChildren().removeAll(properties.getChildren());
+    }
+
+
+    private void initializeShapeDraw(Node parent){
+        // Shape drawing
+        parent.addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent event) -> {
+            if (tb.getAction().equals("SHAPE")) {
+                javafx.scene.shape.Rectangle rect1 = new javafx.scene.shape.Rectangle(event.getX(), event.getY(), 1, 1);
+
+                rect1.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent t) {
+                        if (tb.getAction().equals("POINTER")) {
+                            canvas.setCursor(Cursor.MOVE);
+                            rect1.setStroke(Color.GREEN);
+                            rect1.setStrokeWidth(2);
+                        }
+                    }
+                });
+                rect1.setOnMouseExited(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent t) {
+                        if (tb.getAction().equals("POINTER")) {
+                            canvas.setCursor(Cursor.DEFAULT);
+                            rect1.setStroke(Color.BLACK);
+                        }
+                    }
+                });
+                rect1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent t) {
+                        if (tb.getAction().equals("POINTER")) {
+                            rect1.setStroke(Color.GREEN);
+                            rect1.setStrokeWidth(2);
+                            t.consume();
+                            setSelected(rect1);
+                        }
+                    }
+                });
+
+
+                rect1.fillProperty().setValue(null);
+                rect1.setStroke(Color.BLACK);
+                HBox hbox = new HBox();
+                Label lbl = new Label("Rectangle " + shapeIndex);
+
+                lbl.getStyleClass().add("layer");
+                hbox.getChildren().add(lbl);
+
+                leftBar.getChildren().add(lbl);
+                shapeIndex++;
+                currentNode = rect1;
+                currentNodeX = rect1.getX();
+                currentNodeY = rect1.getY();
+                canvas.getChildren().add(rect1);
+
+
+            }
+        });
+
+        canvasParent.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
+            if (tb.getAction().equals("POINTER")){
+                removeSelected();
+            }
+        });
+
+        parent.addEventHandler(MouseEvent.MOUSE_DRAGGED, (MouseEvent event) -> {
+            if (currentNode != null) {
+                if (event.getX() >= currentNodeX) {
+                    if (event.getX() <= currentNodeX) {
+
+                        ((javafx.scene.shape.Rectangle) currentNode).setX(event.getX());
+                        ((javafx.scene.shape.Rectangle) currentNode).setWidth((currentNodeX - event.getX()));
+                    } else {
+                        ((javafx.scene.shape.Rectangle) currentNode).setWidth((event.getX() - currentNodeX));
+
+                    }
+                } else if (event.getX() < currentNodeX) {
+                    ((javafx.scene.shape.Rectangle) currentNode).setWidth(currentNodeX - event.getX());
+                    ((javafx.scene.shape.Rectangle) currentNode).setX(event.getX());
+                }
+
+                if (event.getY() >= currentNodeY) {
+                    if (event.getY() <= currentNodeY) {
+
+                        ((javafx.scene.shape.Rectangle) currentNode).setY(event.getY());
+                        ((javafx.scene.shape.Rectangle) currentNode).setHeight(currentNodeY - event.getY());
+                    } else {
+                        ((javafx.scene.shape.Rectangle) currentNode).setHeight(event.getY() - currentNodeY);
+
+                    }
+                } else if (event.getY() < currentNodeY) {
+                    ((javafx.scene.shape.Rectangle) currentNode).setHeight(currentNodeY - event.getY());
+                    ((javafx.scene.shape.Rectangle) currentNode).setY(event.getY());
+                }
+            }
+        });
+
+        parent.addEventHandler(MouseEvent.MOUSE_RELEASED, (MouseEvent event) -> {
+            Rectangle rect = new Rectangle(new Point(event.getX() / 10, event.getY() / 10), new Point((event.getX() + 10) / 10, (event.getY() + 10) / 10), rootContainer);
+            rootContainer.addChild(rect);
+            currentNode = null;
+        });
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
 
         // KEY BINDINGS
         canvasParent.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
             if (keyEvent.getCode() == KeyCode.P) {
-                setAction("PAN");
+                tb.setAction("PAN");
             }
 
             if (keyEvent.getCode() == KeyCode.V) {
-                setAction("POINTER");
+                tb.setAction("POINTER");
             }
 
             if (keyEvent.getCode() == KeyCode.S) {
-                setAction("SHAPE");
+                tb.setAction("SHAPE");
             }
         });
 
 
+        // Store for multi key press
         canvasParent.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
             if (this.currentKeyPressed == null) {
                 this.currentKeyPressed = keyEvent;
@@ -206,23 +285,27 @@ public class PrimaryController implements Initializable{
         });
 
 
-
+        // Middle mouse button panning
         canvasParent.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.MIDDLE) {
-                setCanDrag(true);
+                if (!tb.getAction().equals("PAN")) {
+                    tb.setActionTemp("PAN");
+                }
             }
         });
 
         canvasParent.addEventFilter(MouseEvent.MOUSE_RELEASED, mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.MIDDLE) {
                 setCanDrag(false);
+                tb.removeTempAction();
             }
         });
 
+        // Ctrl Scroll zooming
         canvasParent.addEventFilter(ScrollEvent.SCROLL, scrollEvent -> {
             if (this.currentKeyPressed != null) {
 
-                if (this.currentKeyPressed.getCode().getName().equals("Ctrl")){
+                if (this.currentKeyPressed.getCode().getName().equals("Ctrl")) {
                     scrollEvent.consume();
                     if (scrollEvent.getDeltaY() > 0) {
                         canvas.setScaleX(canvas.getScaleX() + 0.1);
@@ -235,78 +318,14 @@ public class PrimaryController implements Initializable{
             }
         });
 
-        canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent event) -> {
-            if (!canvasParent.isPannable()) {
-                javafx.scene.shape.Rectangle rect1 = new javafx.scene.shape.Rectangle(event.getX(), event.getY(), 1, 1);
-                rect1.fillProperty().setValue(null);
-                rect1.setStroke(Color.BLACK);
-                HBox hbox = new HBox();
-                Label lbl = new Label("Rectangle " + shapeIndex);
-
-                lbl.getStyleClass().add("layer");
-                hbox.getChildren().add(lbl);
-
-                leftBar.getChildren().add(lbl);
-                shapeIndex ++;
-                currentNode = rect1;
-                currentNodeX = rect1.getX();
-                currentNodeY = rect1.getY();
-                canvas.getChildren().add(rect1);
+        initializeShapeDraw(canvas);
 
 
-            }
-        });
-
-        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, (MouseEvent event) -> {
-            if (currentNode != null){
-                if (event.getX() >= currentNodeX){
-                    if (event.getX() <= currentNodeX){
-                        System.out.println("1");
-                        ((javafx.scene.shape.Rectangle) currentNode).setX(event.getX());
-                        ((javafx.scene.shape.Rectangle) currentNode).setWidth((currentNodeX - event.getX()));
-                    }else {
-                        ((javafx.scene.shape.Rectangle) currentNode).setWidth((event.getX() - currentNodeX));
-
-                    }
-                } else if (event.getX() < currentNodeX){
-                    ((javafx.scene.shape.Rectangle) currentNode).setWidth(currentNodeX - event.getX());
-                    ((javafx.scene.shape.Rectangle) currentNode).setX(event.getX());
-                }
-
-                if (event.getY() >= currentNodeY){
-                    if (event.getY() <= currentNodeY ){
-                        System.out.println("2");
-                        ((javafx.scene.shape.Rectangle) currentNode).setY(event.getY());
-                        ((javafx.scene.shape.Rectangle) currentNode).setHeight(currentNodeY - event.getY());
-                    } else {
-                        ((javafx.scene.shape.Rectangle) currentNode).setHeight(event.getY() - currentNodeY);
-
-                    }
-                } else if (event.getY() < currentNodeY) {
-                    ((javafx.scene.shape.Rectangle) currentNode).setHeight(currentNodeY - event.getY());
-                    ((javafx.scene.shape.Rectangle) currentNode).setY(event.getY());
-//                    ((javafx.scene.shape.Rectangle) currentNode).setWidth(y + event.getY());
-                }
-            }
-        });
-
-        canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, (MouseEvent event) -> {
-            System.out.println("done");
-
-            Rectangle rect = new Rectangle(new Point(event.getX()/10, event.getY()/10), new Point((event.getX() + 10)/10, (event.getY() + 10)/10), rootContainer);
-            rootContainer.addChild(rect);
-            for (int i=0; i<rootContainer.getChildren().length; i++){
-                System.out.println(((Rectangle) rootContainer.getChildren()[i]).getPointA().toString());
-            }
-            currentNode = null;
-        });
-
-
-
+        // Window resizing
         canvasParent.widthProperty().addListener((ov, oldValue, newValue) -> {
 
             if (newValue.doubleValue() > this.maxWidth && newValue.doubleValue() > this.canvasInitWidth) {
-                System.out.println("resizeW");
+
                 canvas.setPrefWidth(newValue.doubleValue());
                 this.maxWidth = newValue.doubleValue();
             }
@@ -315,7 +334,7 @@ public class PrimaryController implements Initializable{
         canvasParent.heightProperty().addListener((ov, oldValue, newValue) -> {
 
             if (newValue.doubleValue() > this.maxHeight && newValue.doubleValue() > this.canvasInitHeight) {
-                System.out.println("resizeH");
+
                 canvas.setPrefHeight(newValue.doubleValue());
                 this.maxHeight = newValue.doubleValue();
             }
@@ -323,5 +342,5 @@ public class PrimaryController implements Initializable{
 
 
         initGraphics();
-    }  
+    }
 }

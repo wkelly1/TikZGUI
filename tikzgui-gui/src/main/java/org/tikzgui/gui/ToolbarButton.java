@@ -6,6 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 
 public class ToolbarButton extends Button {
 
@@ -14,6 +17,7 @@ public class ToolbarButton extends Button {
     private boolean isSelected;
     private Cursor cursor;
     private Node parent;
+    private Runnable actionHandler;
 
     public ToolbarButton(String action, String text, boolean icon, Cursor cursor, Node parent){
         this.action = action;
@@ -32,6 +36,17 @@ public class ToolbarButton extends Button {
 
         this.getStyleClass().add("btn");
 
+    }
+
+    public void addActionHandler(Runnable handler){
+        this.actionHandler = handler;
+
+    }
+
+    public void runAction(){
+        if (this.actionHandler != null) {
+            this.actionHandler.run();
+        }
     }
 
     public String getAction() {

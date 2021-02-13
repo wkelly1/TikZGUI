@@ -12,6 +12,7 @@ public class Toolbar extends HBox {
     final private ToolbarButton[] rightContent;
 
     private String currentAction;
+    private String prevAction;
 
     public Toolbar(ToolbarButton[] leftContent, ToolbarButton[] rightContent){
         // Add the left content
@@ -53,6 +54,7 @@ public class Toolbar extends HBox {
                     System.out.println(btn.getAction());
                     btn.select();
                     setAction(btn.getAction());
+
                 }
             });
         }
@@ -87,6 +89,27 @@ public class Toolbar extends HBox {
         return this.currentAction;
     }
 
+    public void setActionTemp(String action){
+
+        this.prevAction = getAction();
+        this.currentAction = action;
+        for (ToolbarButton btn : leftContent){
+            if (btn.getAction().equals(action)){
+                btn.runAction();
+            }
+        }
+
+        for (ToolbarButton btn : rightContent){
+            if (btn.getAction().equals(action)){
+                btn.runAction();
+            }
+        }
+    }
+
+    public void removeTempAction(){
+        this.currentAction = this.prevAction;
+    }
+
     public void setAction(String action){
         deselectAll();
         this.currentAction = action;
@@ -94,13 +117,17 @@ public class Toolbar extends HBox {
         for (ToolbarButton btn : leftContent){
             if (btn.getAction().equals(action)){
                 btn.select();
+                btn.runAction();
             }
         }
 
         for (ToolbarButton btn : rightContent){
             if (btn.getAction().equals(action)){
                 btn.select();
+                btn.runAction();
             }
         }
     }
+
+
 }
