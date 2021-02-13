@@ -10,9 +10,16 @@
 
 #leftBar {
   -fx-background-color: #fff;
-  -fx-effect: dropshadow(gaussian, rgba(121, 120, 120, 0.25), 57, 0, 0, 0);
+  /*-fx-effect: dropshadow(gaussian, rgba(121, 120, 120, 0.25), 57, 0, 0, 0);*/
   /* box-shadow: 0px 4px 57px rgba(121, 120, 120, 0.25);
   -fx-box-shadow: 0px 4px 57px rgba(121, 120, 120, 0.25); */
+}
+
+#canvasParent {
+    -fx-effect: innershadown(gaussian, rgba(121, 120, 120, 0.25), 57, 0, 0, 0);
+}
+#canvasParent:focus {
+    -fx-outline: none;
 }
 
 #header1 {

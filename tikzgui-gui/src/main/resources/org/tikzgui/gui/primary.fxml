@@ -10,10 +10,8 @@
             xmlns="http://javafx.com/javafx/8.0.60"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.tikzgui.gui.PrimaryController">
-
-
     <left>
-        <VBox prefWidth="100" fx:id="leftBar">
+        <VBox prefWidth="150" fx:id="leftBar" >
 
             <Label fx:id="header1" text="Layers"/>
 
@@ -27,14 +25,17 @@
 
         </VBox>
     </right>
-
     <center>
-        <ScrollPane fx:id="canvasParent">
+        <ScrollPane  fx:id="canvasParent" style="-fx-hbar-policy: never; -fx-vbar-policy: never;">
+<!--        <ScrollPane  fx:id="canvasParent" >-->
             <HBox>
                 <Canvas fx:id="canvas"/>
             </HBox>
         </ScrollPane>
     </center>
+
+
+
     <top>
         <HBox prefHeight="50" fx:id="toolbar">
 

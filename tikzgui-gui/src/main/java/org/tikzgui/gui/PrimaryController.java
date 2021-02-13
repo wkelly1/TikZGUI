@@ -21,6 +21,9 @@ public class PrimaryController implements Initializable{
     private double maxHeight = 0.0;
     private boolean pan = false;
 
+    private double canvasInitWidth = 5000.0;
+    private double canvasInitHeight = 5000.0;
+
     @FXML
     private Canvas canvas;
 
@@ -38,6 +41,14 @@ public class PrimaryController implements Initializable{
 
     public void initGraphics()
     {
+        canvas.setWidth(canvasInitWidth);
+        canvas.setHeight(canvasInitHeight);
+
+        canvasParent.setHvalue(canvasInitHeight / 2);
+        canvasParent.setVvalue(canvasInitHeight / 2);
+        canvasParent.setHmax(canvasInitWidth);
+        canvasParent.setVmax(canvasInitWidth);
+        System.out.println(canvasParent.getHmax());
         gc = canvas.getGraphicsContext2D();
     }
 
@@ -67,8 +78,6 @@ public class PrimaryController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        canvas.setWidth(canvasParent.widthProperty().doubleValue());
-        canvas.setHeight(canvasParent.heightProperty().doubleValue());
 
         canvasParent.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
             if (keyEvent.getCode() == KeyCode.P && this.pan) {
@@ -88,7 +97,8 @@ public class PrimaryController implements Initializable{
 
         canvasParent.widthProperty().addListener((ov, oldValue, newValue) -> {
 
-            if (newValue.doubleValue() > this.maxWidth) {
+            if (newValue.doubleValue() > this.maxWidth && newValue.doubleValue() > this.canvasInitWidth) {
+                System.out.println("resizeW");
                 canvas.setWidth(newValue.doubleValue());
                 this.maxWidth = newValue.doubleValue();
             }
@@ -96,7 +106,8 @@ public class PrimaryController implements Initializable{
 
         canvasParent.heightProperty().addListener((ov, oldValue, newValue) -> {
 
-            if (newValue.doubleValue() > this.maxHeight) {
+            if (newValue.doubleValue() > this.maxHeight && newValue.doubleValue() > this.canvasInitHeight) {
+                System.out.println("resizeH");
                 canvas.setHeight(newValue.doubleValue());
                 this.maxHeight = newValue.doubleValue();
             }
