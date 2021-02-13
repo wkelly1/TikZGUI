@@ -1,6 +1,6 @@
 package org.tikzgui.texgen;
 
-import org.tikzgui.core.Ellipse;
+import org.tikzgui.core.*;
 
 public class EllipsePrinter extends TeXElementPrinter <Ellipse> {
 	@Override
@@ -19,7 +19,7 @@ public class EllipsePrinter extends TeXElementPrinter <Ellipse> {
         String out = "\\draw ";
         out += ellipse.getCentre().toString();
         out += " ellipse ";
-        out += "[" + allProps + "] ";
+        out += "[" + printPropertySetArray((PropertySet[])ellipse.getProperties().toArray(), printer) + "] ";
         out += ";";
 
         return out;
