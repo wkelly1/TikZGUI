@@ -1,5 +1,6 @@
 package org.tikzgui.texgen;
 
+import org.tikzgui.core.PropertySet;
 import org.tikzgui.core.Rectangle;
 
 public class RectanglePrinter extends TeXElementPrinter<Rectangle> {
@@ -11,7 +12,7 @@ public class RectanglePrinter extends TeXElementPrinter<Rectangle> {
         out += rectangle.getPointA().toString();
         out += " rectangle ";
         out += rectangle.getPointB().toString();
-        out += " [" + printedStroke + "] ";
+        out += " [" + this.printPropertySetArray((PropertySet[]) rectangle.getProperties().toArray(), printer) + "] ";
         out += ";";
 
         return out;

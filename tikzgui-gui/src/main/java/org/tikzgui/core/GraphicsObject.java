@@ -16,8 +16,6 @@ public abstract class GraphicsObject extends TeXElement {
 	}
 
 	public ArrayList<PropertySet> getProperties() {
-		ArrayList<PropertySet> returnable = new ArrayList<PropertySet> (Arrays.asList(getLocalProperties()));
-		returnable.addAll(parent.getProperties());
-		return returnable;
+		return new ArrayList<PropertySet> (Arrays.asList(getLocalProperties()));
 	}
 }
