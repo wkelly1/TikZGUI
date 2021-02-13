@@ -13,7 +13,7 @@ public class TeXElementPrinterFactory {
 		
 	}
 	
-	public static <T extends GraphicsObject> TeXElementPrinter<T> getPrinter(T object) {
+	public static <T extends TeXElement> TeXElementPrinter<T> getPrinter(T object) {
 		return graphicsObjectPrinters.get(object);
 	}
 }

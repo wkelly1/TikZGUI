@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import org.tikzgui.core.PictureContainer;
 import org.tikzgui.core.Point;
 import org.tikzgui.core.Rectangle;
+import org.tikzgui.texgen.TexGenerator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -116,12 +117,15 @@ public class PrimaryController implements Initializable{
 
     @FXML
     private void onExport() throws IOException {
-        Stage stage = new Stage();
-        Scene scene = new Scene(loadFXML("secondary"), 400, 400);
-        stage.setTitle("TikZGUI");
-        scene.getStylesheets().add(getClass().getResource("css/main.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+//        Stage stage = new Stage();
+//        Scene scene = new Scene(loadFXML("secondary"), 400, 400);
+//        stage.setTitle("TikZGUI");
+//        scene.getStylesheets().add(getClass().getResource("css/main.css").toExternalForm());
+//        stage.setScene(scene);
+//        stage.show();
+
+        TexGenerator generator = new TexGenerator(rootContainer);
+        System.out.println(generator.generate());
     }
 
 
@@ -206,12 +210,7 @@ public class PrimaryController implements Initializable{
                 currentNodeX = rect1.getX();
                 currentNodeY = rect1.getY();
                 canvas.getChildren().add(rect1);
-//                gc.fillRect(event.getX(), event.getY(), 10.0, 10.0);
-                Rectangle rect = new Rectangle(new Point(event.getX(), event.getY()), new Point(event.getX() + 1, event.getY() + 1), rootContainer);
-                rootContainer.addChild(rect);
-                for (int i=0; i<rootContainer.getChildren().length; i++){
-                    System.out.println(((Rectangle) rootContainer.getChildren()[i]).getPointA().toString());
-                }
+
 
             }
         });
@@ -250,8 +249,14 @@ public class PrimaryController implements Initializable{
         });
 
         canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, (MouseEvent event) -> {
-            currentNode = null;
             System.out.println("done");
+
+            Rectangle rect = new Rectangle(new Point(event.getX(), event.getY()), new Point(event.getX() + 1, event.getY() + 1), rootContainer);
+            rootContainer.addChild(rect);
+            for (int i=0; i<rootContainer.getChildren().length; i++){
+                System.out.println(((Rectangle) rootContainer.getChildren()[i]).getPointA().toString());
+            }
+            currentNode = null;
         });
 
 
