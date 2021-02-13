@@ -5,6 +5,17 @@ public class Rectangle extends GraphicsObject {
 	Point pointA;
 	Point pointB;
 
+	public Rectangle(Point pointA, Point pointB, Stroke stroke, Container parent) {
+		super(parent);
+		this.pointA = pointA;
+		this.pointB = pointB;
+		this.stroke = stroke;
+	}
+
+	public Rectangle(Point pointA, Point pointB, Container parent) {
+		this(pointA, pointB, new Stroke(), parent);
+	}
+
 	@Override
 	public PropertySet[] getProperties() {
 		return (new PropertySet[] {stroke});
