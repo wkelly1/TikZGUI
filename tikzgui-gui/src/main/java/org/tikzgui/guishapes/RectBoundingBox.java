@@ -17,6 +17,7 @@ public class RectBoundingBox {
     private Rectangle bl;
     private Rectangle br;
     private Pane label;
+    private Label labelText;
     private GuiRectangle innerRect;
 
 
@@ -49,6 +50,7 @@ public class RectBoundingBox {
         whOuter.setLayoutX(innerRect.getX() + (innerRect.getWidth() / 2) - 40);
         whOuter.setLayoutY(innerRect.getY() + innerRect.getHeight() + 5);
         this.label = whOuter;
+        this.labelText = wh;
 
 
         calcOffset();
@@ -104,6 +106,8 @@ public class RectBoundingBox {
 //    br = new Rectangle(innerRect.getX()+innerRect.getWidth()-5, innerRect.getY()+innerRect.getHeight()-5, 10, 10);
     public void calcOffset() {
 
+
+        labelText.setText(innerRect.getWidth() + " x " + innerRect.getHeight());
         label.setLayoutX(innerRect.getX() + (innerRect.getWidth() / 2) - 40);
         label.setLayoutY(innerRect.getY() + innerRect.getHeight() + 5);
 
