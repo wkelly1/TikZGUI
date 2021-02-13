@@ -1,6 +1,7 @@
 package org.tikzgui.guishapes;
 
 import javafx.beans.property.DoublePropertyBase;
+import javafx.geometry.BoundingBox;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -19,7 +20,7 @@ public class GuiRectangle extends Rectangle implements Shape{
     private boolean isSelected = false;
     private org.tikzgui.core.Rectangle guiElement;
     private Pane parent;
-    private Group boundingBox;
+    private RectBoundingBox boundingBox;
     private Rectangle tempBoundingBox;
 
     public GuiRectangle(Pane parent) {
@@ -72,73 +73,20 @@ public class GuiRectangle extends Rectangle implements Shape{
 
     @Override
     public void drawBoundingSelectBox() {
-        Group group = new Group();
-        Rectangle rect = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-        Rectangle tl = new Rectangle(this.getX()-5, this.getY()-5, 10, 10);
-        Rectangle tr = new Rectangle(this.getX() + this.getWidth() -5, this.getY()-5, 10, 10);
-        Rectangle bl = new Rectangle(this.getX()-5, this.getY()+this.getHeight()-5, 10, 10);
-        Rectangle br = new Rectangle(this.getX()+this.getWidth()-5, this.getY()+this.getHeight()-5, 10, 10);
 
-        Rectangle tl_R = new Rectangle(this.getX()-15, this.getY()-15, 10, 10);
-        Rectangle tr_R = new Rectangle(this.getX() + this.getWidth() -15, this.getY()-15, 10, 10);
-        Rectangle bl_R = new Rectangle(this.getX()-15, this.getY()+this.getHeight()-15, 10, 10);
-        Rectangle br_R = new Rectangle(this.getX()+this.getWidth()-15, this.getY()+this.getHeight()-5, 10, 10);
-
-        Pane whOuter = new Pane();
-        Label wh = new Label(this.getWidth() + " x " + this.getHeight());
-        whOuter.setPadding(new Insets(1.0));
-        whOuter.styleProperty().set("-fx-background-color: #18A0FB; -fx-background-radius: 2;");
-        wh.setTextFill(Color.WHITE);
-        whOuter.getChildren().add(wh);
-        whOuter.setLayoutX(this.getX() + (this.getWidth()/2) - 40);
-        whOuter.setLayoutY(this.getY() +  this.getHeight() + 5);
-
-
-        tl_R.setStroke(Color.TRANSPARENT);
-        tl_R.setFill(Color.TRANSPARENT);
-//        tl_R.setCursor(ImageCursor.);
-
-        tr_R.setStroke(Color.TRANSPARENT);
-        tr_R.setFill(Color.TRANSPARENT);
-
-        bl_R.setStroke(Color.TRANSPARENT);
-        bl_R.setFill(Color.TRANSPARENT);
-
-        br_R.setStroke(Color.TRANSPARENT);
-        br_R.setFill(Color.TRANSPARENT);
-
-        rect.setFill(Color.TRANSPARENT);
-        rect.setStrokeWidth(4);
-        rect.setStroke(Color.web("#18A0FB"));
 
         int pos = this.parent.getChildren().indexOf(this);
 
-        tl.setFill(Color.WHITE);
-        tl.setStroke(Color.web("#18A0FB"));
-        tl.setStrokeWidth(1);
-        tl.setCursor(Cursor.NW_RESIZE);
-
-        tr.setFill(Color.WHITE);
-        tr.setStroke(Color.web("#18A0FB"));
-        tr.setStrokeWidth(1);
-        tr.setCursor(Cursor.NE_RESIZE);
-
-        bl.setFill(Color.WHITE);
-        bl.setStroke(Color.web("#18A0FB"));
-        bl.setStrokeWidth(1);
-        bl.setCursor(Cursor.SW_RESIZE);
-
-        br.setFill(Color.WHITE);
-        br.setStroke(Color.web("#18A0FB"));
-        br.setStrokeWidth(1);
-        br.setCursor(Cursor.SE_RESIZE);
+        RectBoundingBox boundingBox = new RectBoundingBox(this, this.parent);
 
 
-        this.boundingBox = group;
-        group.getChildren().addAll(rect, tl,tr,bl, br, tl_R,tr_R,bl_R, br_R, whOuter);
-        this.parent.getChildren().add(pos, group);
+
+        this.boundingBox = boundingBox;
+
+        this.parent.getChildren().add(pos, boundingBox.getBox());
         removeHover();
     }
+
 
     @Override
     public void removeBoundingBox() {
