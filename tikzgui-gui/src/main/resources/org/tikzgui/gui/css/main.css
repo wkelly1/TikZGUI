@@ -1,0 +1,65 @@
+#toolbar {
+  -fx-background-color: #595555;
+  background-color: #595555;
+}
+
+#canvas {
+  -fx-background-color: green;
+  background-color: green;
+}
+
+#leftBar {
+  -fx-background-color: #fff;
+  /*-fx-effect: dropshadow(gaussian, rgba(121, 120, 120, 0.25), 57, 0, 0, 0);*/
+  /* box-shadow: 0px 4px 57px rgba(121, 120, 120, 0.25);
+  -fx-box-shadow: 0px 4px 57px rgba(121, 120, 120, 0.25); */
+}
+
+#canvasParent {
+    -fx-effect: innershadown(gaussian, rgba(121, 120, 120, 0.25), 57, 0, 0, 0);
+    -fx-border: none;
+}
+
+
+#header1 {
+  -fx-font-weight: bold;
+  -fx-padding: 5;
+}
+
+#squareBtn{
+    -fx-background-color: #5684DF;
+    -fx-border: none;
+    -fx-background-radius: 0;
+    -fx-text-fill: white;
+    -fx-graphic: url('../icons/plus.png');
+}
+
+#panBtn{
+    -fx-background-color: transparent;
+    -fx-border: none;
+    -fx-background-radius: 0;
+    -fx-text-fill: white;
+    -fx-graphic: url('../icons/pan.png');
+}
+
+
+#zoomIn{
+    -fx-background-color: transparent;
+    -fx-border: none;
+    -fx-background-radius: 0;
+    -fx-text-fill: white;
+    -fx-graphic: url('../icons/zoomIn.png');
+}
+#zoomOut{
+    -fx-background-color: transparent;
+    -fx-border: none;
+    -fx-background-radius: 0;
+    -fx-text-fill: white;
+    -fx-graphic: url('../icons/zoomOut.png');
+}
+#zoomOut:hover{
+    -fx-background-color: #6F7178;
+}
+#zoomIn:hover{
+    -fx-background-color: #6F7178;
+}

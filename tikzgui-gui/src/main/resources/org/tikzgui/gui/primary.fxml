@@ -1,16 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tikzgui.gui.PrimaryController">
-   <children>
-      <Label text="Primary View" />
-      <Button fx:id="primaryButton" text="Switch to Secondary View" onAction="#switchToSecondary"/>
-   </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-</VBox>
+
+<BorderPane id="BorderPane" prefHeight="850.0" prefWidth="1280.0"
+            xmlns="http://javafx.com/javafx/8.0.60"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.tikzgui.gui.PrimaryController">
+    <left>
+        <VBox prefWidth="150" fx:id="leftBar" >
+
+            <Label fx:id="header1" text="Layers"/>
+
+        </VBox>
+    </left>
+
+    <right>
+        <VBox prefWidth="150" fx:id="leftBar">
+
+            <Label fx:id="header1" text="Properties"/>
+
+        </VBox>
+    </right>
+    <center>
+        <ScrollPane  fx:id="canvasParent" style="-fx-hbar-policy: never; -fx-vbar-policy: never;">
+<!--        <ScrollPane  fx:id="canvasParent" >-->
+            <HBox>
+                <Canvas fx:id="canvas"/>
+            </HBox>
+        </ScrollPane>
+    </center>
+
+
+
+    <top>
+        <HBox prefHeight="50" fx:id="toolbar">
+
+            <Button fx:id="panBtn" onAction="#onPan" prefHeight="49" prefWidth="50"/>
+            <Button fx:id="squareBtn" onAction="#onSquare" prefHeight="49" prefWidth="50"/>
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
+                <Button fx:id="zoomOut"  onAction="#zoomOut" prefHeight="49" prefWidth="30" />
+                <Button fx:id="zoomIn"  onAction="#zoomIn" prefHeight="49" prefWidth="30"/>
+            </HBox>
+        </HBox>
+    </top>
+</BorderPane>
