@@ -3,6 +3,7 @@ package org.tikzgui.gui;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.canvas.*;
 import javafx.event.*;
 import javafx.scene.control.Button;
@@ -48,6 +49,7 @@ public class PrimaryController implements Initializable{
             squareBtn.setStyle("-fx-background-color: transparent");
             canvasParent.setPannable(true);
             this.pan = true;
+            canvasParent.setCursor(Cursor.HAND);
         }
     }
 
@@ -58,6 +60,7 @@ public class PrimaryController implements Initializable{
             panBtn.setStyle("-fx-background-color: transparent");
             canvasParent.setPannable(false);
             this.pan = false;
+            canvasParent.setCursor(Cursor.DEFAULT);
         }
     }
 

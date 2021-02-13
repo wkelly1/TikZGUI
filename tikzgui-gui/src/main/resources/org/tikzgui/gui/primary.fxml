@@ -4,10 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.control.Button?>
 
-<BorderPane id="BorderPane" prefHeight="650.0" prefWidth="980.0"
+
+<BorderPane id="BorderPane" prefHeight="850.0" prefWidth="1280.0"
             xmlns="http://javafx.com/javafx/8.0.60"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.tikzgui.gui.PrimaryController">
@@ -37,10 +36,10 @@
         </ScrollPane>
     </center>
     <top>
-        <HBox prefHeight="30" fx:id="toolbar">
+        <HBox prefHeight="50" fx:id="toolbar">
 
-            <Button fx:id="panBtn" text="Pan" onAction="#onPan"/>
-            <Button fx:id="squareBtn" text="Square" onAction="#onSquare"/>
+            <Button fx:id="panBtn" onAction="#onPan" prefHeight="49" prefWidth="50"/>
+            <Button fx:id="squareBtn" onAction="#onSquare" prefHeight="49" prefWidth="50"/>
 
         </HBox>
     </top>

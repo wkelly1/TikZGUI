@@ -25,6 +25,7 @@
     -fx-border: none;
     -fx-background-radius: 0;
     -fx-text-fill: white;
+    -fx-graphic: url('../icons/plus.png');
 }
 
 #panBtn{
@@ -32,4 +33,5 @@
     -fx-border: none;
     -fx-background-radius: 0;
     -fx-text-fill: white;
+    -fx-graphic: url('../icons/pan.png');
 }
