@@ -2,7 +2,6 @@ package org.tikzgui.texgen;
 
 import java.util.HashMap;
 
-import org.tikzgui.core.GraphicsObject;
 import org.tikzgui.core.TeXElement;
 
 class TeXElemClassToPrinterMap { //pure, unadulterated jank
@@ -11,8 +10,8 @@ class TeXElemClassToPrinterMap { //pure, unadulterated jank
 		internalMap.put(texElemClass, printer);
 	}
 	
-	public <T extends TeXElement> TeXElementPrinter<T> get(T graphicsObjectClass) {
+	public <T extends TeXElement> TeXElementPrinter<T> get(T texElemClass) {
 		//is safe my friend
-		return (TeXElementPrinter<T>)internalMap.get(graphicsObjectClass.getClass());
+		return (TeXElementPrinter<T>)internalMap.get(texElemClass.getClass());
 	}
 }

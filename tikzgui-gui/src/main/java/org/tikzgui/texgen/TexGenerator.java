@@ -1,6 +1,5 @@
 package org.tikzgui.texgen;
 
-import org.tikzgui.core.GraphicsObject;
 import org.tikzgui.core.TeXElement;
 
 public class TexGenerator {
@@ -16,11 +15,16 @@ public class TexGenerator {
 
         Printer printer = new Printer();
 
-        String out = "\\begin{tikzpicture} \n";
+        String out =""; 
         
-        out = printer.print(gObject) + "\n";
+        out += "\\documentclass{standalone}\n";
+        out += "\\begin{document}\n";
+        out += "\\begin{tikzpicture} \n";
+        
+        out += printer.print(gObject) + "\n";
 
-        out += "\\end{tikzpicture}";
+        out += "\\end{tikzpicture}\n";
+        out += "\\end{document}\n";
         return out;
     }
 
