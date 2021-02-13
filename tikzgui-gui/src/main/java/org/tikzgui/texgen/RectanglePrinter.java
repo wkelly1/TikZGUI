@@ -1,3 +1,7 @@
+package org.tikzgui.texgen;
+
+import org.tikzgui.core.Rectangle;
+
 public class RectanglePrinter {
 
     Rectangle rectangle;

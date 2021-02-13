@@ -1,5 +1,7 @@
 package org.tikzgui.texgen;
 
+import org.tikzgui.core.GraphicsObject;
+
 public class TexGenerator {
 
     GraphicsObject[] gObjects;
@@ -20,6 +22,7 @@ public class TexGenerator {
         }
 
         out += "\\end{tikzpicture}";
+        return ""; //dummy TODO: implement
     }
 
 }
