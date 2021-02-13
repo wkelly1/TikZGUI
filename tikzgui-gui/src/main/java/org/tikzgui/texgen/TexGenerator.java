@@ -4,11 +4,11 @@ import org.tikzgui.core.GraphicsObject;
 
 public class TexGenerator {
 
-    GraphicsObject[] gObjects;
+    GraphicsObject gObject;
 
 
-    public TexGenerator (GraphicsObject[] gObjects) {
-        this.gObjects = gObjects;
+    public TexGenerator (GraphicsObject gObject) {
+        this.gObject = gObject;
     }
 
     public String generate() {
@@ -17,9 +17,7 @@ public class TexGenerator {
 
         String out = "\\begin{tikzpicture} \n";
         
-        for (GraphicsObject gObject : gObjects) {
-            out += printer.print(gObject) + "\n";
-        }
+        out = printer.print(gObject) + "\n";
 
         out += "\\end{tikzpicture}";
         return out;
