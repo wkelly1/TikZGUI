@@ -133,23 +133,23 @@ public class PrimaryController implements Initializable {
         canvasParent.setPannable(value);
     }
 
-    private void initializeShapeEdit(Node parent){
+    private void initializeShapeEdit(Node parent) {
 
     }
 
-    private void setSelected(Node element){
+    private void setSelected(Node element) {
         this.selected = element;
         removeSelected();
         properties.getChildren().add(new Label(element.getClass().toString()));
     }
 
-    private void removeSelected(){
+    private void removeSelected() {
+//        ((GuiRectangle) selected).unselect();
         properties.getChildren().removeAll(properties.getChildren());
     }
 
 
-
-    private void initializeShapeDraw(Pane parent){
+    private void initializeShapeDraw(Pane parent) {
         // Shape drawing
         parent.addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent event) -> {
             if (tb.getAction().equals("SHAPE")) {
@@ -163,7 +163,7 @@ public class PrimaryController implements Initializable {
 
                         if (tb.getAction().equals("POINTER")) {
 
-                            if (!rect.isSelected()){
+                            if (!rect.isSelected()) {
                                 rect.setHover();
                             }
                         }
@@ -188,6 +188,7 @@ public class PrimaryController implements Initializable {
                             if (!rect.isSelected()) {
                                 rect.select();
                                 setSelected(rect);
+                                selected = rect;
                             } else {
                                 rect.unselect();
                                 removeSelected();
@@ -200,8 +201,9 @@ public class PrimaryController implements Initializable {
                 });
 
 
-                rect.setFill(Color.TRANSPARENT);
+                rect.setFill(null);
                 rect.setStroke(Color.BLACK);
+                rect.setStrokeWidth(5);
                 HBox hbox = new HBox();
                 Label lbl = new Label("Rectangle " + shapeIndex);
 
@@ -220,7 +222,8 @@ public class PrimaryController implements Initializable {
         });
 
         canvasParent.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
-            if (tb.getAction().equals("POINTER")){
+            if (tb.getAction().equals("POINTER")) {
+                System.out.println("hi");
                 removeSelected();
             }
         });
@@ -228,31 +231,16 @@ public class PrimaryController implements Initializable {
         parent.addEventHandler(MouseEvent.MOUSE_DRAGGED, (MouseEvent event) -> {
             if (currentNode != null) {
                 if (event.getX() >= currentNodeX) {
-                    if (event.getX() <= currentNodeX) {
-
-                        ((javafx.scene.shape.Rectangle) currentNode).setX(event.getX());
-                        ((javafx.scene.shape.Rectangle) currentNode).setWidth((currentNodeX - event.getX()));
-                    } else {
-                        ((javafx.scene.shape.Rectangle) currentNode).setWidth((event.getX() - currentNodeX));
-
-                    }
+                    ((javafx.scene.shape.Rectangle) currentNode).setWidth((event.getX() - currentNodeX));
                 } else if (event.getX() < currentNodeX) {
                     ((javafx.scene.shape.Rectangle) currentNode).setWidth(currentNodeX - event.getX());
-                    ((javafx.scene.shape.Rectangle) currentNode).setX(event.getX());
+                    ((javafx.scene.shape.Rectangle) currentNode).setX(event.getX() - currentNode.getStrokeWidth());
                 }
-
                 if (event.getY() >= currentNodeY) {
-                    if (event.getY() <= currentNodeY) {
-
-                        ((javafx.scene.shape.Rectangle) currentNode).setY(event.getY());
-                        ((javafx.scene.shape.Rectangle) currentNode).setHeight(currentNodeY - event.getY());
-                    } else {
-                        ((javafx.scene.shape.Rectangle) currentNode).setHeight(event.getY() - currentNodeY);
-
-                    }
+                    ((javafx.scene.shape.Rectangle) currentNode).setHeight(event.getY() - currentNodeY);
                 } else if (event.getY() < currentNodeY) {
                     ((javafx.scene.shape.Rectangle) currentNode).setHeight(currentNodeY - event.getY());
-                    ((javafx.scene.shape.Rectangle) currentNode).setY(event.getY());
+                    ((javafx.scene.shape.Rectangle) currentNode).setY(event.getY() - currentNode.getStrokeWidth());
                 }
             }
         });

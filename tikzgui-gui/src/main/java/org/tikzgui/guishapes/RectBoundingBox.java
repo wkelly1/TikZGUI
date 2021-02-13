@@ -72,31 +72,31 @@ public class RectBoundingBox {
         rect.setStroke(Color.web("#18A0FB"));
 
 
-        tl.setFill(Color.WHITE);
+        tl.setFill(Color.BLUE);
         tl.setStroke(Color.web("#18A0FB"));
         tl.setStrokeWidth(1);
         tl.setCursor(Cursor.NW_RESIZE);
 
-        tr.setFill(Color.WHITE);
+        tr.setFill(Color.GREEN);
         tr.setStroke(Color.web("#18A0FB"));
         tr.setStrokeWidth(1);
         tr.setCursor(Cursor.NE_RESIZE);
 
-        bl.setFill(Color.WHITE);
+        bl.setFill(Color.GRAY);
         bl.setStroke(Color.web("#18A0FB"));
         bl.setStrokeWidth(1);
         bl.setCursor(Cursor.SW_RESIZE);
 
-        br.setFill(Color.WHITE);
+        br.setFill(Color.RED);
         br.setStroke(Color.web("#18A0FB"));
         br.setStrokeWidth(1);
         br.setCursor(Cursor.SE_RESIZE);
         group.getChildren().addAll(rect, tl, tr, bl, br, tl_R, tr_R, bl_R, br_R, whOuter);
         this.box = group;
-        new RectResizer(parent, innerRect, br, this);
-        new RectResizer(parent, innerRect, tl, this);
-        new RectResizer(parent, innerRect, tr, this);
-        new RectResizer(parent, innerRect, bl, this);
+        new RectResizer(parent, innerRect, br, this, "dr");
+        new RectResizer(parent, innerRect, tl, this, "ul");
+        new RectResizer(parent, innerRect, tr, this, "ur");
+        new RectResizer(parent, innerRect, bl, this, "dl");
     }
 
     //    rect = new Rectangle(innerRect.getX(), innerRect.getY(), innerRect.getWidth(), innerRect.getHeight());
