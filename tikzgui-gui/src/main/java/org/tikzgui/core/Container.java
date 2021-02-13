@@ -3,7 +3,7 @@ package org.tikzgui.core;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public abstract class Container {
+public abstract class Container extends TeXElement{
 	private ArrayList<PropertySet> properties;
 
 	public Container(ArrayList<PropertySet> properties) {

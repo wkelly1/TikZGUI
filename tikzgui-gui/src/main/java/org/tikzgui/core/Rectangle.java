@@ -17,7 +17,7 @@ public class Rectangle extends GraphicsObject {
 	}
 
 	@Override
-	public PropertySet[] getProperties() {
+	protected PropertySet[] getLocalProperties() {
 		return (new PropertySet[] {stroke});
 	}
 
