@@ -12,6 +12,7 @@ public class TeXElementPrinterFactory {
 		texElemPrinters.put(Ellipse.class, (TeXElementPrinter<Ellipse>)new EllipsePrinter());
 		texElemPrinters.put(Stroke.class, (TeXElementPrinter<Stroke>)new StrokePrinter());
 		texElemPrinters.put(EllipseProps.class, (TeXElementPrinter<EllipseProps>)new EllipsePropsPrinter());
+		texElemPrinters.put(LineWidthProperty.class, new PropertyPrinter<LineWidthProperty>()) ;
 	}
 	
 	public static <T extends TeXElement> TeXElementPrinter<T> getPrinter(T object) {
