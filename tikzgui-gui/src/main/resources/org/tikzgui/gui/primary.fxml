@@ -13,10 +13,13 @@
     <left>
         <ScrollPane style="-fx-hbar-policy: never; -fx-vbar-policy: never;  -fx-background-color: #fff;"
                     fitToHeight="true">
-            <VBox prefWidth="150" fx:id="leftBar" style="-fx-padding: 10">
 
+            <VBox style="-fx-background-color: white;">
                 <Label fx:id="header1" text="Layers"/>
+                <VBox prefWidth="150" fx:id="leftBar">
 
+
+                </VBox>
             </VBox>
         </ScrollPane>
     </left>

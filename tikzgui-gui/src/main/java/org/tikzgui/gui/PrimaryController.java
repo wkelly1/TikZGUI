@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.event.*;
@@ -39,7 +40,6 @@ public class PrimaryController implements Initializable {
 
     private PictureContainer rootContainer = new PictureContainer();
 
-    private Node selected;
 //    private String currentAction;
 
     @FXML
@@ -59,6 +59,9 @@ public class PrimaryController implements Initializable {
 
     private Toolbar tb;
 
+    private ArrayList<Shape> elements = new ArrayList<>();
+
+
     public void initGraphics() {
 
         canvas.setPrefWidth(canvasInitWidth);
@@ -71,7 +74,7 @@ public class PrimaryController implements Initializable {
         System.out.println(canvasParent.getHmax());
 
 
-        ToolbarButton pointer = new ToolbarButton("POINTER", "Pointer", false, Cursor.DEFAULT, canvasParent);
+        ToolbarButton pointer = new ToolbarButton("POINTER", getClass().getResource("icons/pointer.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
         pointer.addActionHandler(() -> {
             setCanDrag(false);
             canvasParent.setCursor(Cursor.DEFAULT);
@@ -150,35 +153,67 @@ public class PrimaryController implements Initializable {
         canvasParent.setPannable(value);
     }
 
+    private void updateLayers(){
+        leftBar.getChildren().removeAll(leftBar.getChildren());
+
+        for (int i=1; i<elements.size()+1; i++){
+            final Node elem = elements.get(i-1);
+            HBox panelItem = createLayerPanelItem("Rectangle "+ i );
+            panelItem.setOnMouseClicked((MouseEvent e) -> {
+                if (!((GuiRectangle) elem).isSelected()){
+                    ((GuiRectangle) elem).select();
+                }
+            });
+
+
+            leftBar.getChildren().add(panelItem);
+        }
+    }
+
+    private HBox createLayerPanelItem(String text){
+        HBox hbox = new HBox();
+        Label label = new Label(text);
+        label.setCursor(Cursor.HAND);
+        HBox.setHgrow(hbox, Priority.ALWAYS);
+        hbox.getChildren().add(label);
+        hbox.getStyleClass().add("layer");
+        return hbox;
+    }
 
     private void deleteShape(Node shape){
-        canvas.getChildren().remove(shape);
+        getSelected().forEach(node -> {
+            ((GuiRectangle) node).delete();
+            elements.remove(node);
+        });
+
+        updateLayers();
     }
 
     private void setSelected(Node element) {
-        this.selected = element;
+
         removeSelected();
         properties.getChildren().add(new Label(element.getClass().toString()));
     }
 
     private void removeSelected() {
-//        ((GuiRectangle) selected).unselect();
-        properties.getChildren().removeAll(properties.getChildren());
+        getSelected().forEach(node -> {
+            System.out.println("UNSELECT");
+            ((GuiRectangle) node).unselect();
+
+        });
     }
 
     private ArrayList<Node> getSelected(){
-        ArrayList<Node> out = new ArrayList<Node>();
-        for (Node i : canvas.getChildren()){
-            try {
-                if (((GuiRectangle) i).isSelected()) {
-                    out.add(i);
-                }
-            } catch(ClassCastException e ){
-                continue;
+        ArrayList<Node> selected = new ArrayList<>();
+        elements.forEach(node -> {
+            if (((GuiRectangle) node).isSelected()){
+                selected.add(node);
             }
-        }
-        return out;
+        });
+        return selected;
     }
+
+
 
 
     private void initializeShapeDraw(Pane parent) {
@@ -220,13 +255,11 @@ public class PrimaryController implements Initializable {
                             if (!rect.isSelected()) {
                                 rect.select();
                                 setSelected(rect);
-                                selected = rect;
+
                             } else {
                                 rect.unselect();
                                 removeSelected();
                             }
-//                            rect.setStroke(Color.GREEN);
-//                            rect.setStrokeWidth(2);
                             t.consume();
                         }
                     }
@@ -248,32 +281,27 @@ public class PrimaryController implements Initializable {
                 currentNodeX = rect.getX();
                 currentNodeY = rect.getY();
                 canvas.getChildren().add(rect);
-
-
+                elements.add(rect);
             }
         });
 
         canvasParent.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
             if (tb.getAction().equals("POINTER")) {
-                System.out.println("hi");
                 removeSelected();
             }
         });
 
         parent.addEventHandler(MouseEvent.MOUSE_DRAGGED, (MouseEvent event) -> {
             if (currentNode != null) {
-                if (event.getX() >= currentNodeX) {
-                    ((javafx.scene.shape.Rectangle) currentNode).setWidth((event.getX() - currentNodeX));
-                } else if (event.getX() < currentNodeX) {
-                    ((javafx.scene.shape.Rectangle) currentNode).setWidth(currentNodeX - event.getX());
-                    ((javafx.scene.shape.Rectangle) currentNode).setX(event.getX() - currentNode.getStrokeWidth());
-                }
-                if (event.getY() >= currentNodeY) {
-                    ((javafx.scene.shape.Rectangle) currentNode).setHeight(event.getY() - currentNodeY);
-                } else if (event.getY() < currentNodeY) {
-                    ((javafx.scene.shape.Rectangle) currentNode).setHeight(currentNodeY - event.getY());
-                    ((javafx.scene.shape.Rectangle) currentNode).setY(event.getY() - currentNode.getStrokeWidth());
-                }
+                double currentWidth = Math.abs(event.getX() - currentNodeX);
+                double currentHeight = Math.abs(currentNodeY - event.getY());
+                double xPos = Math.min(event.getX(), currentNodeX);
+                double yPos = Math.min(event.getY(), currentNodeY);
+                ((javafx.scene.shape.Rectangle) currentNode).setWidth(currentWidth);
+                ((javafx.scene.shape.Rectangle) currentNode).setHeight(currentHeight);
+                ((javafx.scene.shape.Rectangle) currentNode).setX(xPos);
+                ((javafx.scene.shape.Rectangle) currentNode).setY(yPos);
+
             }
         });
 
@@ -281,6 +309,7 @@ public class PrimaryController implements Initializable {
             Rectangle rect = new Rectangle(new Point(event.getX() / 10, event.getY() / 10), new Point((event.getX() + 10) / 10, (event.getY() + 10) / 10), rootContainer);
             rootContainer.addChild(rect);
             currentNode = null;
+            updateLayers();
         });
     }
 

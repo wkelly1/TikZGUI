@@ -1,16 +1,7 @@
 package org.tikzgui.guishapes;
 
-import javafx.beans.property.DoublePropertyBase;
-import javafx.geometry.BoundingBox;
-import javafx.geometry.Insets;
-import javafx.scene.Cursor;
-import javafx.scene.Group;
-import javafx.scene.ImageCursor;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
+
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -111,8 +102,7 @@ public class GuiRectangle extends Rectangle implements Shape{
 
     public void delete(){
         parent.getChildren().remove(this);
-        parent.getChildren().remove(boundingBox);
-
+        parent.getChildren().remove(boundingBox.getBox());
     }
 }
 
