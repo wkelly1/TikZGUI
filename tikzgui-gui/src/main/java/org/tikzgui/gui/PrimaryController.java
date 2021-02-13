@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -25,7 +26,6 @@ import org.tikzgui.core.PictureContainer;
 import org.tikzgui.core.Point;
 import org.tikzgui.core.Rectangle;
 import org.tikzgui.texgen.TexGenerator;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -47,11 +47,16 @@ public class PrimaryController implements Initializable{
 
     private PictureContainer rootContainer = new PictureContainer();
 
+//    private String currentAction;
+
     @FXML
     private VBox leftBar;
 
     @FXML
     private AnchorPane canvas;
+
+    @FXML
+    private BorderPane layout;
 
     @FXML
     public ScrollPane canvasParent;
@@ -61,6 +66,8 @@ public class PrimaryController implements Initializable{
 
     @FXML
     public Button squareBtn;
+
+    private Toolbar tb;
 
     public void initGraphics()
     {
@@ -74,46 +81,57 @@ public class PrimaryController implements Initializable{
         canvasParent.setVmax(canvasInitWidth);
         System.out.println(canvasParent.getHmax());
 
+
+        ToolbarButton pointer = new ToolbarButton("POINTER", "Pointer", false, Cursor.DEFAULT, canvasParent);
+        ToolbarButton shape = new ToolbarButton("SHAPE", getClass().getResource("icons/plus.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
+        ToolbarButton pan = new ToolbarButton("PAN", getClass().getResource("icons/pan.png").toExternalForm(), true, Cursor.HAND, canvasParent);
+        ToolbarButton[] btnsLeft = {pointer, shape, pan};
+        ToolbarButton[] btnsRight = {};
+
+        tb = new Toolbar(btnsLeft, btnsRight);
+        tb.setAction("POINTER");
+        this.layout.topProperty().setValue(tb);
+
     }
 
 
-    @FXML
-    private void zoomIn() throws IOException {
-        canvas.setScaleX(canvas.getScaleX() + 0.1);
-        canvas.setScaleY(canvas.getScaleY() + 0.1);
-    }
+//    @FXML
+//    private void zoomIn() throws IOException {
+//        canvas.setScaleX(canvas.getScaleX() + 0.1);
+//        canvas.setScaleY(canvas.getScaleY() + 0.1);
+//    }
+//
+//    @FXML
+//    private void zoomOut() throws IOException {
+//        canvas.setScaleX(canvas.getScaleX() - 0.1);
+//        canvas.setScaleY(canvas.getScaleY() - 0.1);
+//    }
 
-    @FXML
-    private void zoomOut() throws IOException {
-        canvas.setScaleX(canvas.getScaleX() - 0.1);
-        canvas.setScaleY(canvas.getScaleY() - 0.1);
-    }
-
-    @FXML
-    private void onPan() throws IOException {
-        if (!this.pan) {
-            panBtn.setStyle("-fx-background-color: #5684DF");
-            squareBtn.setStyle("-fx-background-color: transparent");
-            setCanDrag(true);
-        }
-    }
-
-    @FXML
-    private void onSquare() throws IOException {
-        if (this.pan) {
-            squareBtn.setStyle("-fx-background-color: #5684DF");
-            panBtn.setStyle("-fx-background-color: transparent");
-            canvasParent.setPannable(false);
-            this.pan = false;
-            canvasParent.setCursor(Cursor.DEFAULT);
-        }
-    }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-
-        return fxmlLoader.load();
-    }
+//    @FXML
+//    private void onPan() throws IOException {
+//        if (!this.pan) {
+//            panBtn.setStyle("-fx-background-color: #5684DF");
+//            squareBtn.setStyle("-fx-background-color: transparent");
+//            setCanDrag(true);
+//        }
+//    }
+//
+//    @FXML
+//    private void onSquare() throws IOException {
+//        if (this.pan) {
+//            squareBtn.setStyle("-fx-background-color: #5684DF");
+//            panBtn.setStyle("-fx-background-color: transparent");
+//            canvasParent.setPannable(false);
+//            this.pan = false;
+//            canvasParent.setCursor(Cursor.DEFAULT);
+//        }
+//    }
+//
+//    private static Parent loadFXML(String fxml) throws IOException {
+//        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+//
+//        return fxmlLoader.load();
+//    }
 
     @FXML
     private void onExport() throws IOException {
@@ -128,22 +146,52 @@ public class PrimaryController implements Initializable{
         System.out.println(generator.generate());
     }
 
+    private void setAction(String action){
+        if (action.equals("PAN")){
+            this.tb.setAction("PAN");
+//            setCanDrag(true);
+        }
+        if (action.equals("SHAPE")){
+            this.tb.setAction("SHAPE");
+//            setCanDrag(false);
+        }
+        if (action.equals("POINTER")){
+            this.tb.setAction("POINTER");
+//            setCanDrag(false);
+        }
+    }
 
     private void setCanDrag(boolean value) {
         if (!value){
             canvasParent.setPannable(false);
-            this.pan = false;
-            canvasParent.setCursor(Cursor.DEFAULT);
+//            this.pan = false;
+//            canvasParent.setCursor(Cursor.DEFAULT);
         } else {
             canvasParent.setPannable(true);
-            this.pan = true;
-            canvasParent.setCursor(Cursor.HAND);
+//            this.pan = true;
+//            canvasParent.setCursor(Cursor.HAND);
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+
+        // KEY BINDINGS
+        canvasParent.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.P) {
+                setAction("PAN");
+            }
+
+            if (keyEvent.getCode() == KeyCode.V) {
+                setAction("POINTER");
+            }
+
+            if (keyEvent.getCode() == KeyCode.S) {
+                setAction("SHAPE");
+            }
+        });
+
 
         canvasParent.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
             if (this.currentKeyPressed == null) {
@@ -157,13 +205,7 @@ public class PrimaryController implements Initializable{
             }
         });
 
-        canvasParent.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.P && this.pan) {
-                setCanDrag(true);
-            } else if (keyEvent.getCode() == KeyCode.P && !this.pan) {
-                setCanDrag(false);
-            }
-        });
+
 
         canvasParent.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.MIDDLE) {
