@@ -12,7 +12,7 @@ public class Ellipse extends GraphicsObject {
 	}
 
 	public Ellipse(Point centre, EllipseProps ellipseProps,  Container parent) {
-		this(centre, ellipseProps, new Stroke(), parent)
+		this(centre, ellipseProps, new Stroke(), parent);
 	}
 	
 	@Override
@@ -26,5 +26,22 @@ public class Ellipse extends GraphicsObject {
 
 	public void setStroke(Stroke stroke) {
 		this.stroke = stroke;
+	}
+	
+	
+	public EllipseProps getEllipseProps() {
+		return ellipseProps;
+	}
+	
+	public void setEllipseProps(EllipseProps ellipseProps) {
+		this.ellipseProps = ellipseProps;
+	}
+	
+	public Point getCentre() {
+		return centre;
+	}
+	
+	public void setCentre(Point centre) {
+		this.centre = centre;
 	}
 }
