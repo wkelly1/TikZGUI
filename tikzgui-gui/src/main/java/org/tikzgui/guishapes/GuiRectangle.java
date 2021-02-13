@@ -108,5 +108,11 @@ public class GuiRectangle extends Rectangle implements Shape{
         int pos = this.parent.getChildren().indexOf(this);
         this.parent.getChildren().add(pos, rect);
     }
+
+    public void delete(){
+        parent.getChildren().remove(this);
+        parent.getChildren().remove(boundingBox);
+
+    }
 }
 

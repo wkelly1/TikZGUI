@@ -3,24 +3,15 @@ package org.tikzgui.gui;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.canvas.*;
 import javafx.event.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
-import javafx.stage.Stage;
 import org.tikzgui.core.PictureContainer;
 import org.tikzgui.core.Point;
 import org.tikzgui.core.Rectangle;
@@ -28,6 +19,7 @@ import org.tikzgui.guishapes.GuiRectangle;
 import org.tikzgui.texgen.TexGenerator;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class PrimaryController implements Initializable {
@@ -95,8 +87,30 @@ public class PrimaryController implements Initializable {
             setCanDrag(true);
             canvasParent.setCursor(Cursor.DEFAULT);
         });
+
+        ToolbarToggle zoomIn = new ToolbarToggle(getClass().getResource("icons/zoomIn.png").toExternalForm(), true);
+        ToolbarToggle zoomOut = new ToolbarToggle(getClass().getResource("icons/zoomOut.png").toExternalForm(), true);
+        ToolbarToggle export = new ToolbarToggle("Export", false);
+        zoomIn.addActionHandler(() -> {
+            canvas.setScaleX(canvas.getScaleX() + 0.1);
+            canvas.setScaleY(canvas.getScaleY() + 0.1);
+        });
+        zoomOut.addActionHandler(() -> {
+            canvas.setScaleX(canvas.getScaleX() - 0.1);
+            canvas.setScaleY(canvas.getScaleY() - 0.1);
+        });
+        export.addActionHandler(() -> {
+            TexGenerator generator = new TexGenerator(rootContainer);
+            String tex = generator.generate();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("TikZ Output");
+            alert.setHeaderText("TikZ Output");
+            alert.setContentText(tex);
+
+            alert.showAndWait();
+        });
         ToolbarButton[] btnsLeft = {pointer, shape, pan};
-        ToolbarButton[] btnsRight = {};
+        ToolbarToggle[] btnsRight = {zoomOut, zoomIn, export};
 
         tb = new Toolbar(btnsLeft, btnsRight);
         tb.setAction("POINTER");
@@ -136,8 +150,9 @@ public class PrimaryController implements Initializable {
         canvasParent.setPannable(value);
     }
 
-    private void initializeShapeEdit(Node parent) {
 
+    private void deleteShape(Node shape){
+        canvas.getChildren().remove(shape);
     }
 
     private void setSelected(Node element) {
@@ -149,6 +164,20 @@ public class PrimaryController implements Initializable {
     private void removeSelected() {
 //        ((GuiRectangle) selected).unselect();
         properties.getChildren().removeAll(properties.getChildren());
+    }
+
+    private ArrayList<Node> getSelected(){
+        ArrayList<Node> out = new ArrayList<Node>();
+        for (Node i : canvas.getChildren()){
+            try {
+                if (((GuiRectangle) i).isSelected()) {
+                    out.add(i);
+                }
+            } catch(ClassCastException e ){
+                continue;
+            }
+        }
+        return out;
     }
 
 
@@ -270,6 +299,11 @@ public class PrimaryController implements Initializable {
 
             if (keyEvent.getCode() == KeyCode.S) {
                 tb.setAction("SHAPE");
+            }
+
+            if (keyEvent.getCode() == KeyCode.DELETE){
+                getSelected().forEach(this::deleteShape);
+
             }
         });
 
