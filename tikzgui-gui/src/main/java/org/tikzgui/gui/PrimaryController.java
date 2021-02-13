@@ -10,6 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
+import org.tikzgui.core.PictureContainer;
+import org.tikzgui.core.Point;
+import org.tikzgui.core.Rectangle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,6 +27,7 @@ public class PrimaryController implements Initializable{
 
     private KeyEvent currentKeyPressed;
 
+    private PictureContainer rootContainer = new PictureContainer();
 
     @FXML
     private Canvas canvas;
@@ -150,13 +154,15 @@ public class PrimaryController implements Initializable{
             }
         });
 
-
-
-
-
         canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
             if (!canvasParent.isPannable()) {
                 gc.fillRect(event.getX(), event.getY(), 10.0, 10.0);
+                Rectangle rect = new Rectangle(new Point(event.getX(), event.getY()), new Point(event.getX() + 10, event.getY() + 10), rootContainer);
+                rootContainer.addChild(rect);
+                for (int i=0; i<rootContainer.getChildren().length; i++){
+                    System.out.println(((Rectangle) rootContainer.getChildren()[i]).getPointA().toString());
+                }
+
             }
         });
 
