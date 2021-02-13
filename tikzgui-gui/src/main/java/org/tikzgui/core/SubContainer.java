@@ -18,8 +18,8 @@ public abstract class SubContainer extends Container {
 	@Override
 	public ArrayList<PropertySet> getProperties() {
 
-		ArrayList<PropertySet> allProperties = new ArrayList<>(parent.getProperties());
-		allProperties.addAll(super.getProperties());
+		ArrayList<PropertySet> allProperties = new ArrayList<>(super.getProperties());
+		allProperties.addAll(parent.getProperties());
 		return allProperties;
 	}
 
