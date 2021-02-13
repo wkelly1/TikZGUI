@@ -74,16 +74,14 @@ public class GuiRectangle extends Rectangle implements Shape{
     @Override
     public void drawBoundingSelectBox() {
 
-
         int pos = this.parent.getChildren().indexOf(this);
 
         RectBoundingBox boundingBox = new RectBoundingBox(this, this.parent);
 
-
-
         this.boundingBox = boundingBox;
 
         this.parent.getChildren().add(pos, boundingBox.getBox());
+
         removeHover();
     }
 

@@ -41,6 +41,9 @@ public class RectResizer {
                     if (event.getX() <= currentNodeX) {
                         shape.setX(event.getX());
                         shape.setWidth((currentNodeX - event.getX()));
+
+
+
                     } else {
                         shape.setWidth((event.getX() - currentNodeX));
                     }
@@ -61,6 +64,7 @@ public class RectResizer {
                     shape.setY(event.getY());
 
                 }
+                bounding.calcOffset();
 
             }
         });
