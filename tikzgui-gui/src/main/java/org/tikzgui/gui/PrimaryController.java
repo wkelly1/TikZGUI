@@ -251,7 +251,7 @@ public class PrimaryController implements Initializable{
         canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, (MouseEvent event) -> {
             System.out.println("done");
 
-            Rectangle rect = new Rectangle(new Point(event.getX(), event.getY()), new Point(event.getX() + 1, event.getY() + 1), rootContainer);
+            Rectangle rect = new Rectangle(new Point(event.getX()/10, event.getY()/10), new Point((event.getX() + 10)/10, (event.getY() + 10)/10), rootContainer);
             rootContainer.addChild(rect);
             for (int i=0; i<rootContainer.getChildren().length; i++){
                 System.out.println(((Rectangle) rootContainer.getChildren()[i]).getPointA().toString());
