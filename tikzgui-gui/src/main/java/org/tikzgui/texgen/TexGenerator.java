@@ -1,6 +1,5 @@
 package org.tikzgui.texgen;
 
-import org.tikzgui.core.GraphicsObject;
 import org.tikzgui.core.TeXElement;
 
 public class TexGenerator {
