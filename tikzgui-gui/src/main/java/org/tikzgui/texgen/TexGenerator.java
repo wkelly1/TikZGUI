@@ -22,7 +22,7 @@ public class TexGenerator {
         }
 
         out += "\\end{tikzpicture}";
-        return ""; //dummy TODO: implement
+        return out;
     }
 
 }

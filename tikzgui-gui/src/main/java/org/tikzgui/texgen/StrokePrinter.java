@@ -1,5 +1,7 @@
 package org.tikzgui.texgen;
 
+import org.tikzgui.core.Stroke;
+
 public class StrokePrinter {
 
     Stroke stroke;
