@@ -25,10 +25,33 @@ public class RectResizer {
         this.direction = direction;
 
         handle.addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent event) -> {
-            this.currentNodeX = shape.getX();
-            this.currentNodeY = shape.getY();
-            this.currentNodeXEnd = shape.getX() + shape.getWidth();
-            this.currentNodeYEnd = shape.getY() + shape.getHeight();
+            System.out.println("X: " + shape.getX());
+            System.out.println("Y: " + shape.getY());
+            System.out.println("Height: " + shape.getHeight());
+            switch (direction) {
+                case "ul" :
+                case "dl" : //moving left
+                    this.currentNodeX = shape.getX() + shape.getWidth();
+                    break;
+                case "ur" :
+                case "dr" ://moving right
+                    this.currentNodeX = shape.getX();
+                    break;
+            }
+            switch (direction) {
+                case "ul":
+                case "ur": //moving up
+                    this.currentNodeY = shape.getY() + shape.getHeight();
+                    System.out.println("here");
+                    break;
+                case "dl":
+                case "dr": //moving right
+                    this.currentNodeY = shape.getY();
+                    System.out.println("not here");
+                    break;
+            }
+            System.out.println("currentX: " + currentNodeX);
+            System.out.println("currentY: " + currentNodeY);
             resizing = true;
         });
 
@@ -37,87 +60,17 @@ public class RectResizer {
         parent.addEventHandler(MouseEvent.MOUSE_DRAGGED, (MouseEvent event) -> {
 
             if (resizing) {
-                if (direction == "ur" || direction == "dr") {
-                    if (event.getX() >= currentNodeX) {
-                        shape.setWidth((event.getX() - currentNodeX));
-                    } else if (event.getX() < currentNodeX) {
-                        shape.setWidth(currentNodeX - event.getX());
-                        shape.setX(event.getX() - shape.getStrokeWidth());
-                    }
-                } else {
-                    if (event.getX() >= currentNodeX) {
-                        if (event.getX() > currentNodeXEnd){
-                            shape.setWidth(event.getX() - currentNodeXEnd);
-                        } else {
+                System.out.println(this.direction);
+                double xPos = event.getX() < this.currentNodeX ? event.getX() : this.currentNodeX;
+                double yPos = event.getY() < this.currentNodeY ? event.getY() : this.currentNodeY;
+                double currentWidth = Math.abs(event.getX() - this.currentNodeX);
+                double currentHeight = Math.abs(this.currentNodeY - event.getY());
 
-                            shape.setWidth(currentNodeXEnd - event.getX());
-                            shape.setX(event.getX());
-                        }
-                    } else if (event.getX() < currentNodeX) {
-                        shape.setWidth(shape.getWidth() + (shape.getX() - event.getX()));
-                        shape.setX(event.getX());
-                    }
-                }
-
-                if (direction.equals("dl") || direction.equals("dr")) {
-                    if (event.getY() >= currentNodeY) {
-                        shape.setHeight((event.getY() - currentNodeY));
-                    } else if (event.getY() < currentNodeY) {
-                        shape.setHeight(currentNodeY - event.getY());
-                        shape.setY(event.getY() - shape.getStrokeWidth());
-                    }
-                } else {
-                    if (event.getY() >= currentNodeY) {
-                        if (event.getY() > currentNodeYEnd){
-                            shape.setHeight(event.getY() - currentNodeYEnd);
-                        } else {
-
-                            shape.setHeight(currentNodeYEnd - event.getY());
-                            shape.setY(event.getY());
-                        }
-                    } else if (event.getY() < currentNodeY) {
-                        shape.setHeight(shape.getHeight() + (shape.getY() - event.getY()));
-                        shape.setY(event.getY());
-                    }
-                }
-
-
-//                if (event.getY() >= currentNodeY) {
-//                    shape.setHeight(event.getY() - currentNodeY);
-//                } else if (event.getY() < currentNodeY) {
-//                    shape.setHeight(currentNodeY - event.getY());
-//                    shape.setY(event.getY() - shape.getStrokeWidth());
-//                }
-
-
-
-
-//                if (event.getX() >= currentNodeX) {
-//                    if (event.getX() <= currentNodeX) {
-//                        shape.setX(event.getX());
-//                        shape.setWidth((currentNodeX - event.getX()));
-//                    } else {
-//                        shape.setWidth((event.getX() - currentNodeX));
-//                    }
-//                } else if (event.getX() < currentNodeX) {
-//                    shape.setWidth(currentNodeX - event.getX());
-//                    shape.setX(event.getX());
-//                }
-//
-//                if (event.getY() >= currentNodeY) {
-//                    if (event.getY() <= currentNodeY) {
-//                        shape.setY(event.getY());
-//                        shape.setHeight(currentNodeY - event.getY());
-//                    } else {
-//                      shape.setHeight(event.getY() - currentNodeY);
-//                    }
-//                } else if (event.getY() < currentNodeY) {
-//                    shape.setHeight(currentNodeY - event.getY());
-//                    shape.setY(event.getY());
-//
-//                }
+                shape.setWidth(currentWidth);
+                shape.setHeight(currentHeight);
+                shape.setX(xPos);
+                shape.setY(yPos);
                 bounding.calcOffset();
-
             }
         });
 
