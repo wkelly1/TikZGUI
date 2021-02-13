@@ -19,3 +19,17 @@
   -fx-font-weight: bold;
   -fx-padding: 5;
 }
+
+#squareBtn{
+    -fx-background-color: #5684DF;
+    -fx-border: none;
+    -fx-background-radius: 0;
+    -fx-text-fill: white;
+}
+
+#panBtn{
+    -fx-background-color: transparent;
+    -fx-border: none;
+    -fx-background-radius: 0;
+    -fx-text-fill: white;
+}

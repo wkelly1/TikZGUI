@@ -5,7 +5,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.*;
 import javafx.event.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -16,7 +18,7 @@ import java.util.ResourceBundle;
 public class PrimaryController implements Initializable{
     private double maxWidth = 0.0;
     private double maxHeight = 0.0;
-
+    private boolean pan = false;
 
     @FXML
     private Canvas canvas;
@@ -27,14 +29,36 @@ public class PrimaryController implements Initializable{
     @FXML
     public ScrollPane canvasParent;
 
+    @FXML
+    public Button panBtn;
+
+    @FXML
+    public Button squareBtn;
+
     public void initGraphics()
     {
         gc = canvas.getGraphicsContext2D();
     }
 
+
     @FXML
-    private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
+    private void onPan() throws IOException {
+        if (!this.pan) {
+            panBtn.setStyle("-fx-background-color: #5684DF");
+            squareBtn.setStyle("-fx-background-color: transparent");
+            canvasParent.setPannable(true);
+            this.pan = true;
+        }
+    }
+
+    @FXML
+    private void onSquare() throws IOException {
+        if (this.pan) {
+            squareBtn.setStyle("-fx-background-color: #5684DF");
+            panBtn.setStyle("-fx-background-color: transparent");
+            canvasParent.setPannable(false);
+            this.pan = false;
+        }
     }
 
     @Override
@@ -43,17 +67,13 @@ public class PrimaryController implements Initializable{
         canvas.setWidth(canvasParent.widthProperty().doubleValue());
         canvas.setHeight(canvasParent.heightProperty().doubleValue());
 
-        canvasParent.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if (keyEvent.getCode().getCode() == 32 && !canvasParent.isPannable()) {
-                canvasParent.setPannable(true);
-
-            }
-        });
-
         canvasParent.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
-            if (keyEvent.getCode().getCode() == 32 && canvasParent.isPannable()) {
+            if (keyEvent.getCode() == KeyCode.P && this.pan) {
                 canvasParent.setPannable(false);
-
+                this.pan = false;
+            } else if (keyEvent.getCode() == KeyCode.P && !this.pan) {
+                canvasParent.setPannable(true);
+                this.pan = true;
             }
         });
 

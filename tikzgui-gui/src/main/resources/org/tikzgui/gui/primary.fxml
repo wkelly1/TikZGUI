@@ -5,19 +5,14 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Button?>
 
 <BorderPane id="BorderPane" prefHeight="650.0" prefWidth="980.0"
             xmlns="http://javafx.com/javafx/8.0.60"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.tikzgui.gui.PrimaryController">
 
-    <top>
-        <HBox prefHeight="30" fx:id="toolbar">
-            <children>
 
-            </children>
-        </HBox>
-    </top>
     <left>
         <VBox prefWidth="100" fx:id="leftBar">
 
@@ -37,8 +32,16 @@
     <center>
         <ScrollPane fx:id="canvasParent">
             <HBox>
-                <Canvas fx:id="canvas" />
+                <Canvas fx:id="canvas"/>
             </HBox>
         </ScrollPane>
     </center>
+    <top>
+        <HBox prefHeight="30" fx:id="toolbar">
+
+            <Button fx:id="panBtn" text="Pan" onAction="#onPan"/>
+            <Button fx:id="squareBtn" text="Square" onAction="#onSquare"/>
+
+        </HBox>
+    </top>
 </BorderPane>
