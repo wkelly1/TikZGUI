@@ -8,7 +8,7 @@ public class Printer {
 
     
     public <T extends GraphicsObject> String print(T obj) {
-    	GraphicsObjectPrinter<T> printer = GraphicsObjectPrinterFactory.getPrinter(obj);
+    	TeXElementPrinter<T> printer = TeXElementPrinterFactory.getPrinter(obj);
     	return printer.print(obj);
     }
 

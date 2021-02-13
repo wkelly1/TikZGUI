@@ -4,7 +4,7 @@ import java.util.stream.Collectors;
 
 import org.tikzgui.core.*;
 
-public class PictureContainerPrinter extends GraphicsObjectPrinter<PictureContainer> {
+public class PictureContainerPrinter extends TeXElementPrinter<PictureContainer> {
 
 	@Override
 	public String print(PictureContainer container, Printer printer) {
