@@ -41,6 +41,7 @@
 
             <Button fx:id="panBtn" onAction="#onPan" prefHeight="49" prefWidth="50"/>
             <Button fx:id="squareBtn" onAction="#onSquare" prefHeight="49" prefWidth="50"/>
+            <Button fx:id="export"  text="export" onAction="#onExport" prefHeight="49" prefWidth="50"/>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
                 <Button fx:id="zoomOut"  onAction="#zoomOut" prefHeight="49" prefWidth="30" />
                 <Button fx:id="zoomIn"  onAction="#zoomIn" prefHeight="49" prefWidth="30"/>

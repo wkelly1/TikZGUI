@@ -2,14 +2,18 @@ package org.tikzgui.gui;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.*;
 import javafx.event.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import org.tikzgui.core.PictureContainer;
 import org.tikzgui.core.Point;
 import org.tikzgui.core.Rectangle;
@@ -89,6 +93,23 @@ public class PrimaryController implements Initializable{
             canvasParent.setCursor(Cursor.DEFAULT);
         }
     }
+
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+
+        return fxmlLoader.load();
+    }
+
+    @FXML
+    private void onExport() throws IOException {
+        Stage stage = new Stage();
+        Scene scene = new Scene(loadFXML("secondary"), 400, 400);
+        stage.setTitle("TikZGUI");
+        scene.getStylesheets().add(getClass().getResource("css/main.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
     private void setCanDrag(boolean value) {
         if (!value){
