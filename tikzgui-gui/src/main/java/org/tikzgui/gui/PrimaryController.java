@@ -8,9 +8,7 @@ import javafx.scene.canvas.*;
 import javafx.event.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 
 import java.net.URL;
@@ -21,8 +19,11 @@ public class PrimaryController implements Initializable{
     private double maxHeight = 0.0;
     private boolean pan = false;
 
-    private double canvasInitWidth = 5000.0;
-    private double canvasInitHeight = 5000.0;
+    final private double canvasInitWidth = 5000.0;
+    final private double canvasInitHeight = 5000.0;
+
+    private KeyEvent currentKeyPressed;
+
 
     @FXML
     private Canvas canvas;
@@ -70,9 +71,7 @@ public class PrimaryController implements Initializable{
         if (!this.pan) {
             panBtn.setStyle("-fx-background-color: #5684DF");
             squareBtn.setStyle("-fx-background-color: transparent");
-            canvasParent.setPannable(true);
-            this.pan = true;
-            canvasParent.setCursor(Cursor.HAND);
+            setCanDrag(true);
         }
     }
 
@@ -87,19 +86,73 @@ public class PrimaryController implements Initializable{
         }
     }
 
+    private void setCanDrag(boolean value) {
+        if (!value){
+            canvasParent.setPannable(false);
+            this.pan = false;
+            canvasParent.setCursor(Cursor.DEFAULT);
+        } else {
+            canvasParent.setPannable(true);
+            this.pan = true;
+            canvasParent.setCursor(Cursor.HAND);
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
 
-        canvasParent.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.P && this.pan) {
-                canvasParent.setPannable(false);
-                this.pan = false;
-            } else if (keyEvent.getCode() == KeyCode.P && !this.pan) {
-                canvasParent.setPannable(true);
-                this.pan = true;
+        canvasParent.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if (this.currentKeyPressed == null) {
+                this.currentKeyPressed = keyEvent;
             }
         });
+
+        canvasParent.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
+            if (this.currentKeyPressed != null) {
+                this.currentKeyPressed = null;
+            }
+        });
+
+        canvasParent.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.P && this.pan) {
+                setCanDrag(true);
+            } else if (keyEvent.getCode() == KeyCode.P && !this.pan) {
+                setCanDrag(false);
+            }
+        });
+
+        canvasParent.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
+            if (mouseEvent.getButton() == MouseButton.MIDDLE) {
+                setCanDrag(true);
+            }
+        });
+
+        canvasParent.addEventFilter(MouseEvent.MOUSE_RELEASED, mouseEvent -> {
+            if (mouseEvent.getButton() == MouseButton.MIDDLE) {
+                setCanDrag(false);
+            }
+        });
+
+        canvasParent.addEventFilter(ScrollEvent.SCROLL, scrollEvent -> {
+            if (this.currentKeyPressed != null) {
+
+                if (this.currentKeyPressed.getCode().getName().equals("Ctrl")){
+                    scrollEvent.consume();
+                    if (scrollEvent.getDeltaY() > 0) {
+                        canvas.setScaleX(canvas.getScaleX() + 0.1);
+                        canvas.setScaleY(canvas.getScaleY() + 0.1);
+                    } else if (scrollEvent.getDeltaY() < 0) {
+                        canvas.setScaleX(canvas.getScaleX() - 0.1);
+                        canvas.setScaleY(canvas.getScaleY() - 0.1);
+                    }
+                }
+            }
+        });
+
+
+
+
 
         canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
             if (!canvasParent.isPannable()) {

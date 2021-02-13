@@ -41,3 +41,25 @@
     -fx-text-fill: white;
     -fx-graphic: url('../icons/pan.png');
 }
+
+
+#zoomIn{
+    -fx-background-color: transparent;
+    -fx-border: none;
+    -fx-background-radius: 0;
+    -fx-text-fill: white;
+    -fx-graphic: url('../icons/zoomIn.png');
+}
+#zoomOut{
+    -fx-background-color: transparent;
+    -fx-border: none;
+    -fx-background-radius: 0;
+    -fx-text-fill: white;
+    -fx-graphic: url('../icons/zoomOut.png');
+}
+#zoomOut:hover{
+    -fx-background-color: #6F7178;
+}
+#zoomIn:hover{
+    -fx-background-color: #6F7178;
+}
