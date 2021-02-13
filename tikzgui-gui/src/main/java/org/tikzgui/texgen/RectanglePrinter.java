@@ -5,12 +5,14 @@ import org.tikzgui.core.Rectangle;
 public class RectanglePrinter extends TeXElementPrinter<Rectangle> {
 	@Override
     public String print(Rectangle rectangle, Printer printer) {
+        String printedStroke = printer.print(rectangle.getStroke());
+        
         String out = "\\draw ";
-        StrokePrinter strokePrinter = new StrokePrinter(rectangle.getStroke());
-        out += strokePrinter.print() + " ";
         out += rectangle.getPointA().toString();
         out += " rectangle ";
-        out += rectangle.getPointB().toString() + ";";
+        out += rectangle.getPointB().toString();
+        out += " [" + printedStroke + "] ";
+        out += ";";
 
         return out;
     }
