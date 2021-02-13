@@ -82,15 +82,18 @@ public class PrimaryController implements Initializable {
         ToolbarButton pointer = new ToolbarButton("POINTER", "Pointer", false, Cursor.DEFAULT, canvasParent);
         pointer.addActionHandler(() -> {
             setCanDrag(false);
+            canvasParent.setCursor(Cursor.DEFAULT);
         });
 
         ToolbarButton shape = new ToolbarButton("SHAPE", getClass().getResource("icons/plus.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
         shape.addActionHandler(() -> {
             setCanDrag(false);
+            canvasParent.setCursor(Cursor.CROSSHAIR);
         });
         ToolbarButton pan = new ToolbarButton("PAN", getClass().getResource("icons/pan.png").toExternalForm(), true, Cursor.HAND, canvasParent);
         pan.addActionHandler(() -> {
             setCanDrag(true);
+            canvasParent.setCursor(Cursor.DEFAULT);
         });
         ToolbarButton[] btnsLeft = {pointer, shape, pan};
         ToolbarButton[] btnsRight = {};

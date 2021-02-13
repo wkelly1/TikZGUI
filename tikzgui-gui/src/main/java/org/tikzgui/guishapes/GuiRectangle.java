@@ -88,7 +88,6 @@ public class GuiRectangle extends Rectangle implements Shape{
 
     @Override
     public void removeBoundingBox() {
-        System.out.println(boundingBox);
         this.parent.getChildren().remove(boundingBox);
         this.boundingBox = null;
     }

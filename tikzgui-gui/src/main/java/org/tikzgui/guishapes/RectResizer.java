@@ -1,15 +1,8 @@
 package org.tikzgui.guishapes;
 
-import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import org.tikzgui.core.Point;
 
 public class RectResizer {
     private Node parent;
@@ -21,7 +14,7 @@ public class RectResizer {
     private double currentNodeXEnd;
     private double currentNodeYEnd;
     private String direction;
-    private boolean running = false;
+    private boolean resizing = false;
 
     public RectResizer(Node parent, Rectangle shape, Node handle, RectBoundingBox bounding, String direction) {
         this.parent = parent;
@@ -36,12 +29,14 @@ public class RectResizer {
             this.currentNodeY = shape.getY();
             this.currentNodeXEnd = shape.getX() + shape.getWidth();
             this.currentNodeYEnd = shape.getY() + shape.getHeight();
-            running = true;
+            resizing = true;
         });
+
+
 
         parent.addEventHandler(MouseEvent.MOUSE_DRAGGED, (MouseEvent event) -> {
 
-            if (running) {
+            if (resizing) {
                 if (direction == "ur" || direction == "dr") {
                     if (event.getX() >= currentNodeX) {
                         shape.setWidth((event.getX() - currentNodeX));
@@ -50,7 +45,6 @@ public class RectResizer {
                         shape.setX(event.getX() - shape.getStrokeWidth());
                     }
                 } else {
-                    System.out.println(event.getX() >= currentNodeX);
                     if (event.getX() >= currentNodeX) {
                         if (event.getX() > currentNodeXEnd){
                             shape.setWidth(event.getX() - currentNodeXEnd);
@@ -65,7 +59,7 @@ public class RectResizer {
                     }
                 }
 
-                if (direction == "dl" || direction == "dr") {
+                if (direction.equals("dl") || direction.equals("dr")) {
                     if (event.getY() >= currentNodeY) {
                         shape.setHeight((event.getY() - currentNodeY));
                     } else if (event.getY() < currentNodeY) {
@@ -73,7 +67,6 @@ public class RectResizer {
                         shape.setY(event.getY() - shape.getStrokeWidth());
                     }
                 } else {
-                    System.out.println(event.getY() >= currentNodeY);
                     if (event.getY() >= currentNodeY) {
                         if (event.getY() > currentNodeYEnd){
                             shape.setHeight(event.getY() - currentNodeYEnd);
@@ -129,7 +122,7 @@ public class RectResizer {
         });
 
         parent.addEventHandler(MouseEvent.MOUSE_RELEASED, (MouseEvent event) -> {
-            running = false;
+            resizing = false;
 
 //            Rectangle rect = new Rectangle(new Point(event.getX() / 10, event.getY() / 10), new Point((event.getX() + 10) / 10, (event.getY() + 10) / 10), rootContainer);
 //            rootContainer.addChild(rect);

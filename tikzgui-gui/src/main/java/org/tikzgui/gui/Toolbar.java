@@ -39,7 +39,6 @@ public class Toolbar extends HBox {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     deselectAll();
-                    System.out.println(btn.getAction());
                     btn.select();
                     setAction(btn.getAction());
                 }
@@ -51,7 +50,6 @@ public class Toolbar extends HBox {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     deselectAll();
-                    System.out.println(btn.getAction());
                     btn.select();
                     setAction(btn.getAction());
 

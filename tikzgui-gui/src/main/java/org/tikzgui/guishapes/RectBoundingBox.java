@@ -41,6 +41,7 @@ public class RectBoundingBox {
         Rectangle bl_R = new Rectangle(innerRect.getX() - 15, innerRect.getY() + innerRect.getHeight() - 15, 10, 10);
         Rectangle br_R = new Rectangle(innerRect.getX() + innerRect.getWidth() - 15, innerRect.getY() + innerRect.getHeight() - 5, 10, 10);
 
+
         Pane whOuter = new Pane();
         Label wh = new Label(innerRect.getWidth() + " x " + innerRect.getHeight());
         whOuter.setPadding(new Insets(1.0));
@@ -68,26 +69,26 @@ public class RectBoundingBox {
         br_R.setFill(Color.TRANSPARENT);
 
         rect.setFill(Color.TRANSPARENT);
-        rect.setStrokeWidth(4);
+        rect.setStrokeWidth(innerRect.getStrokeWidth() + 3);
         rect.setStroke(Color.web("#18A0FB"));
+        rect.setCursor(Cursor.MOVE);
 
-
-        tl.setFill(Color.BLUE);
+        tl.setFill(Color.WHITE);
         tl.setStroke(Color.web("#18A0FB"));
         tl.setStrokeWidth(1);
         tl.setCursor(Cursor.NW_RESIZE);
 
-        tr.setFill(Color.GREEN);
+        tr.setFill(Color.WHITE);
         tr.setStroke(Color.web("#18A0FB"));
         tr.setStrokeWidth(1);
         tr.setCursor(Cursor.NE_RESIZE);
 
-        bl.setFill(Color.GRAY);
+        bl.setFill(Color.WHITE);
         bl.setStroke(Color.web("#18A0FB"));
         bl.setStrokeWidth(1);
         bl.setCursor(Cursor.SW_RESIZE);
 
-        br.setFill(Color.RED);
+        br.setFill(Color.WHITE);
         br.setStroke(Color.web("#18A0FB"));
         br.setStrokeWidth(1);
         br.setCursor(Cursor.SE_RESIZE);
@@ -97,16 +98,10 @@ public class RectBoundingBox {
         new RectResizer(parent, innerRect, tl, this, "ul");
         new RectResizer(parent, innerRect, tr, this, "ur");
         new RectResizer(parent, innerRect, bl, this, "dl");
+        new RectMover(parent, innerRect, rect, this);
     }
 
-    //    rect = new Rectangle(innerRect.getX(), innerRect.getY(), innerRect.getWidth(), innerRect.getHeight());
-//    tl = new Rectangle(innerRect.getX()-5, innerRect.getY()-5, 10, 10);
-//    tr = new Rectangle(innerRect.getX() + innerRect.getWidth() -5, innerRect.getY()-5, 10, 10);
-//    bl = new Rectangle(innerRect.getX()-5, innerRect.getY()+innerRect.getHeight()-5, 10, 10);
-//    br = new Rectangle(innerRect.getX()+innerRect.getWidth()-5, innerRect.getY()+innerRect.getHeight()-5, 10, 10);
     public void calcOffset() {
-
-
         labelText.setText(innerRect.getWidth() + " x " + innerRect.getHeight());
         label.setLayoutX(innerRect.getX() + (innerRect.getWidth() / 2) - 40);
         label.setLayoutY(innerRect.getY() + innerRect.getHeight() + 5);
@@ -116,33 +111,18 @@ public class RectBoundingBox {
         rect.setWidth(innerRect.getWidth());
         rect.setHeight(innerRect.getHeight());
 
-        tl.setX(innerRect.getX() - 5);
-        tl.setY(innerRect.getY() - 5);
+        tl.setX(innerRect.getX() - this.innerRect.getStrokeWidth());
+        tl.setY(innerRect.getY() - this.innerRect.getStrokeWidth());
 
-        tr.setX(innerRect.getX() + innerRect.getWidth() - 5);
-        tr.setY(innerRect.getY() - 5);
+        tr.setX(innerRect.getX() + innerRect.getWidth() - this.innerRect.getStrokeWidth());
+        tr.setY(innerRect.getY() - this.innerRect.getStrokeWidth());
 
-        bl.setX(innerRect.getX() - 5);
-        bl.setY(innerRect.getY() + innerRect.getHeight() - 5);
+        bl.setX(innerRect.getX() - this.innerRect.getStrokeWidth());
+        bl.setY(innerRect.getY() + innerRect.getHeight() - this.innerRect.getStrokeWidth());
 
-        br.setX(innerRect.getX() + innerRect.getWidth() - 5);
-        br.setY(innerRect.getY() + innerRect.getHeight() - 5);
+        br.setX(innerRect.getX() + innerRect.getWidth() - this.innerRect.getStrokeWidth());
+        br.setY(innerRect.getY() + innerRect.getHeight() - this.innerRect.getStrokeWidth());
     }
-
-    public void setWidth(double width) {
-        tr.setX(rect.getX() + width - 5);
-        br.setX(rect.getX() + width - 5);
-    }
-
-    public void setHeight(double height) {
-        bl.setX(rect.getY() + height - 5);
-        br.setX(rect.getY() + height - 5);
-    }
-
-    public void setX(double x) {
-
-    }
-
 
     public Group getBox() {
         return this.box;
