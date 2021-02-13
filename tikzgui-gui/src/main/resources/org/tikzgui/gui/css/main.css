@@ -17,10 +17,9 @@
 
 #canvasParent {
     -fx-effect: innershadown(gaussian, rgba(121, 120, 120, 0.25), 57, 0, 0, 0);
+    -fx-border: none;
 }
-#canvasParent:focus {
-    -fx-outline: none;
-}
+
 
 #header1 {
   -fx-font-weight: bold;

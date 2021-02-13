@@ -41,6 +41,8 @@
 
             <Button fx:id="panBtn" onAction="#onPan" prefHeight="49" prefWidth="50"/>
             <Button fx:id="squareBtn" onAction="#onSquare" prefHeight="49" prefWidth="50"/>
+            <Button fx:id="zoomOut" text="zoom" onAction="#zoomOut" prefHeight="49" prefWidth="50"/>
+            <Button fx:id="zoomIn" text="zoom" onAction="#zoomIn" prefHeight="49" prefWidth="50"/>
 
         </HBox>
     </top>

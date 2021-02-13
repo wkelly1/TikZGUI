@@ -54,6 +54,18 @@ public class PrimaryController implements Initializable{
 
 
     @FXML
+    private void zoomIn() throws IOException {
+        canvas.setScaleX(canvas.getScaleX() + 0.1);
+        canvas.setScaleY(canvas.getScaleY() + 0.1);
+    }
+
+    @FXML
+    private void zoomOut() throws IOException {
+        canvas.setScaleX(canvas.getScaleX() - 0.1);
+        canvas.setScaleY(canvas.getScaleY() - 0.1);
+    }
+
+    @FXML
     private void onPan() throws IOException {
         if (!this.pan) {
             panBtn.setStyle("-fx-background-color: #5684DF");
