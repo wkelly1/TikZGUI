@@ -26,6 +26,7 @@ public abstract class Property<T> extends TeXElement {
 		this.value=value;
 		this.latexId = latexId;
 		this.name = name;
+		this.defaultVal = defaultVal;
 	}
 	
 	public T getDefault() {

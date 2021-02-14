@@ -33,6 +33,7 @@ public class GuiEllipse extends Ellipse implements Shape<org.tikzgui.core.Ellips
     @Override
     public void select() {
         isSelected = true;
+
         drawBoundingSelectBox();
     }
 
@@ -63,6 +64,7 @@ public class GuiEllipse extends Ellipse implements Shape<org.tikzgui.core.Ellips
 
         this.parent.getChildren().add(pos, boundingBox.getBox());
 
+        System.out.println(boundingBox.getBox().getLayoutX());
         removeHover();
     }
 
@@ -97,7 +99,7 @@ public class GuiEllipse extends Ellipse implements Shape<org.tikzgui.core.Ellips
     }
 
     Runnable update = () -> {
-        System.out.println("dskfljjsdl");
+        System.out.println("DEFULAT: " +  guiElement.getStroke().getLineWidth().getDefault());
         this.setStrokeWidth(getGuiElement().getStroke().getLineWidth().get().orElse(guiElement.getStroke().getLineWidth().getDefault()));
         if (boundingBox != null){
             boundingBox.calcOffset();
@@ -157,6 +159,11 @@ public class GuiEllipse extends Ellipse implements Shape<org.tikzgui.core.Ellips
         this.setCenterY(value);
         if(guiElement != null)
         	guiElement.getCentre().setY(value);
+    }
+
+    @Override
+    public String toString() {
+        return "Ellipse ";
     }
 }
 

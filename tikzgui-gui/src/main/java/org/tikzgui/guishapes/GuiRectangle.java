@@ -163,5 +163,10 @@ public class GuiRectangle extends Rectangle implements Shape<org.tikzgui.core.Re
     public Runnable getUpdate() {
         return update;
     }
+
+    @Override
+    public String toString() {
+        return "Rectangle ";
+    }
 }
 

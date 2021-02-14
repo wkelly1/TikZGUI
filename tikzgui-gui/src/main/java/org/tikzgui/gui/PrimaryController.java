@@ -17,6 +17,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import org.tikzgui.core.*;
 import org.tikzgui.guishapes.GuiEllipse;
+import org.tikzgui.guishapes.GuiNode;
 import org.tikzgui.guishapes.GuiRectangle;
 import org.tikzgui.guishapes.Shape;
 import org.tikzgui.texgen.TexGenerator;
@@ -85,13 +86,19 @@ public class PrimaryController implements Initializable {
             canvasParent.setCursor(Cursor.DEFAULT);
         });
 
-        ToolbarButton square = new ToolbarButton("SQUARE", getClass().getResource("icons/plus.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
+        ToolbarButton square = new ToolbarButton("SQUARE", getClass().getResource("icons/square.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
         square.addActionHandler(() -> {
             setCanDrag(false);
             canvasParent.setCursor(Cursor.CROSSHAIR);
         });
 
-        ToolbarButton ellipse = new ToolbarButton("ELLIPSE", getClass().getResource("icons/plus.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
+        ToolbarButton ellipse = new ToolbarButton("ELLIPSE", getClass().getResource("icons/circle.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
+        ellipse.addActionHandler(() -> {
+            setCanDrag(false);
+            canvasParent.setCursor(Cursor.CROSSHAIR);
+        });
+        
+        ToolbarButton node = new ToolbarButton("NODE", getClass().getResource("icons/plus.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
         ellipse.addActionHandler(() -> {
             setCanDrag(false);
             canvasParent.setCursor(Cursor.CROSSHAIR);
@@ -124,7 +131,7 @@ public class PrimaryController implements Initializable {
 
             alert.showAndWait();
         });
-        ToolbarButton[] btnsLeft = {pointer, square, ellipse, pan};
+        ToolbarButton[] btnsLeft = {pointer, square, ellipse, node, pan};
         ToolbarToggle[] btnsRight = {zoomOut, zoomIn, export};
 
         tb = new Toolbar(btnsLeft, btnsRight);
@@ -170,7 +177,7 @@ public class PrimaryController implements Initializable {
 
         for (int i=1; i<elements.size()+1; i++){
             final org.tikzgui.guishapes.Shape elem = elements.get(i-1);
-            HBox panelItem = createLayerPanelItem("Rectangle "+ i );
+            HBox panelItem = createLayerPanelItem(elements.get(i-1).toString() + i);
             panelItem.setOnMouseClicked((MouseEvent e) -> {
                 if (!elem.isSelected()){
                     elem.select();
@@ -194,7 +201,7 @@ public class PrimaryController implements Initializable {
 
     private void deleteShape(Shape shape){
         getSelected().forEach(node -> {
-            ((GuiRectangle) node).delete();
+            node.delete();
             elements.remove(node);
         });
 
@@ -337,6 +344,8 @@ public class PrimaryController implements Initializable {
                 ellipse.setBoundingWidth(1);
                 ellipse.setBoundingHeight(1);
 
+
+
                 ellipse.setOnMouseEntered(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent t) {
@@ -365,14 +374,16 @@ public class PrimaryController implements Initializable {
                     @Override
                     public void handle(MouseEvent t) {
                         if (tb.getAction().equals("POINTER")) {
-
                             if (!ellipse.isSelected()) {
+
                                 ellipse.select();
-                                setSelected(ellipse);
+                                System.out.println(ellipse.isSelected());
+//                                setSelected(ellipse);
 
                             } else {
+
                                 ellipse.unselect();
-                                removeSelected();
+//                                removeSelected();
                             }
                             t.consume();
                         }
@@ -382,9 +393,9 @@ public class PrimaryController implements Initializable {
 
                 ellipse.setFill(null);
                 ellipse.setStroke(Color.BLACK);
-                ellipse.setStrokeWidth(5);
+                ellipse.setStrokeWidth(3);
                 HBox hbox = new HBox();
-                Label lbl = new Label("Rectangle " + shapeIndex);
+                Label lbl = new Label("Ellipse " + shapeIndex);
 
                 lbl.getStyleClass().add("layer");
                 hbox.getChildren().add(lbl);
@@ -419,7 +430,7 @@ public class PrimaryController implements Initializable {
 
         parent.addEventHandler(MouseEvent.MOUSE_RELEASED, (MouseEvent event) -> {
             if (tb.getAction().equals("SQUARE") && currentNode != null) {
-                Rectangle rect2 = new Rectangle(new Point(event.getX() / 10, event.getY() / 10), new Point((event.getX() + 10) / 10, (event.getY() + 10) / 10), rootContainer);
+                Rectangle rect2 = new Rectangle(new Point(event.getX(), event.getY()), new Point((event.getX() + 10), (event.getY() + 10)), rootContainer);
 
                 currentNode.setGuiElement(rect2);
                 rootContainer.addChild(rect2);
@@ -441,8 +452,80 @@ public class PrimaryController implements Initializable {
                 currentNode = null;
             }
         });
+        
+        
+        // NODE drawing
+        parent.addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent event) -> {
+            if (tb.getAction().equals("NODE")) {
+                GuiNode node = new GuiNode(parent);
+                node.setBoundingX(event.getX());
+                node.setBoundingY(event.getY());
+
+
+                node.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent t) {
+
+                        if (tb.getAction().equals("POINTER")) {
+
+                            if (!node.isSelected()) {
+                                node.setHover();
+                            }
+                        }
+                    }
+                });
+
+                node.setOnMouseExited(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent t) {
+
+                        if (tb.getAction().equals("POINTER")) {
+                            if (!node.isSelected()) {
+                                node.removeHover();
+                            }
+                        }
+                    }
+                });
+                
+                node.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent t) {
+                        if (tb.getAction().equals("POINTER")) {
+
+                            if (!node.isSelected()) {
+                                System.out.println("SELECTED");
+                                node.select();
+                            } else {
+                                node.unselect();
+                            }
+                            t.consume();
+                        }
+                    }
+                });
+                HBox hbox = new HBox();
+                Label lbl = new Label("Node " + shapeIndex);
+                
+                org.tikzgui.core.Node guiElementNode = new org.tikzgui.core.Node(rootContainer, new GeneralProperties(), "Node"+shapeIndex, new Point(node.getBoundingX(), node.getBoundingY()), "node");
+                
+
+                lbl.getStyleClass().add("layer");
+                hbox.getChildren().add(lbl);
+
+                leftBar.getChildren().add(lbl);
+                shapeIndex++;
+                
+                canvas.getChildren().add(node);
+                elements.add(node);
+                
+                node.setGuiElement(guiElementNode);
+                node.getUpdate().run();
+                
+            }
+        });
 
     }
+    
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
