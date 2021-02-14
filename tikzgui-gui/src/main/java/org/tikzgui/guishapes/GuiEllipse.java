@@ -158,5 +158,10 @@ public class GuiEllipse extends Ellipse implements Shape<org.tikzgui.core.Ellips
         if(guiElement != null)
         	guiElement.getCentre().setY(value);
     }
+
+    @Override
+    public String toString() {
+        return "Ellipse ";
+    }
 }
 

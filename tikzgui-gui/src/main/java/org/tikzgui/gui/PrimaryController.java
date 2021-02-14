@@ -86,13 +86,13 @@ public class PrimaryController implements Initializable {
             canvasParent.setCursor(Cursor.DEFAULT);
         });
 
-        ToolbarButton square = new ToolbarButton("SQUARE", getClass().getResource("icons/plus.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
+        ToolbarButton square = new ToolbarButton("SQUARE", getClass().getResource("icons/square.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
         square.addActionHandler(() -> {
             setCanDrag(false);
             canvasParent.setCursor(Cursor.CROSSHAIR);
         });
 
-        ToolbarButton ellipse = new ToolbarButton("ELLIPSE", getClass().getResource("icons/plus.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
+        ToolbarButton ellipse = new ToolbarButton("ELLIPSE", getClass().getResource("icons/circle.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
         ellipse.addActionHandler(() -> {
             setCanDrag(false);
             canvasParent.setCursor(Cursor.CROSSHAIR);
@@ -177,7 +177,7 @@ public class PrimaryController implements Initializable {
 
         for (int i=1; i<elements.size()+1; i++){
             final org.tikzgui.guishapes.Shape elem = elements.get(i-1);
-            HBox panelItem = createLayerPanelItem("Rectangle "+ i );
+            HBox panelItem = createLayerPanelItem(elements.get(i-1).toString() + i);
             panelItem.setOnMouseClicked((MouseEvent e) -> {
                 if (!elem.isSelected()){
                     elem.select();
@@ -201,7 +201,7 @@ public class PrimaryController implements Initializable {
 
     private void deleteShape(Shape shape){
         getSelected().forEach(node -> {
-            ((GuiRectangle) node).delete();
+            node.delete();
             elements.remove(node);
         });
 
@@ -391,7 +391,7 @@ public class PrimaryController implements Initializable {
                 ellipse.setStroke(Color.BLACK);
                 ellipse.setStrokeWidth(5);
                 HBox hbox = new HBox();
-                Label lbl = new Label("Rectangle " + shapeIndex);
+                Label lbl = new Label("Ellipse " + shapeIndex);
 
                 lbl.getStyleClass().add("layer");
                 hbox.getChildren().add(lbl);
@@ -489,6 +489,7 @@ public class PrimaryController implements Initializable {
                         if (tb.getAction().equals("POINTER")) {
 
                             if (!node.isSelected()) {
+                                System.out.println("SELECTED");
                                 node.select();
                                 setSelected(node);
 

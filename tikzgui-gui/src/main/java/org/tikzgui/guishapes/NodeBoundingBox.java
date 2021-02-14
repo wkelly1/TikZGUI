@@ -25,7 +25,7 @@ public class NodeBoundingBox implements BoundingBox {
 		rect.setStroke(Color.web("#18A0FB"));
 		rect.setCursor(Cursor.MOVE);
 		box.getChildren().add(rect);
-		parent.getChildren().add(box);
+//		parent.getChildren().add(box);
 		new RectMover(parent, innerNode, rect, this);
 	}
 

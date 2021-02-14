@@ -143,4 +143,9 @@ public class GuiNode extends Text implements Shape<org.tikzgui.core.Node> {
 			guiElement.getPosition().setY(y);
 	}
 
+	@Override
+	public String toString() {
+		return "Node ";
+	}
+
 }
