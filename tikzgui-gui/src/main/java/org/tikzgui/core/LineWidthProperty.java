@@ -1,6 +1,9 @@
 package org.tikzgui.core;
 
 public class LineWidthProperty extends DimProperty {
+	static String latexId = "line width";
+	static String name = "Line Width";
+	
 	public static enum Widths {
 		ultraThin (0.25),
 		veryThin (0.5),
@@ -20,10 +23,10 @@ public class LineWidthProperty extends DimProperty {
 	static Double defaultWidth = 1.0;
 
 	public LineWidthProperty() {
-		super(defaultWidth);
+		super(defaultWidth, latexId, name);
 	}
 	public LineWidthProperty(Double width) {
-		super(width, defaultWidth);
+		super(width, defaultWidth, latexId, name);
 	}
 	public LineWidthProperty(Widths width) {
 		this(width.get());
