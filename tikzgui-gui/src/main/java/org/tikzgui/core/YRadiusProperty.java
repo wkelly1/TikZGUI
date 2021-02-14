@@ -14,4 +14,12 @@ public class YRadiusProperty extends DimProperty {
 		super(val, defaultVal, latexId, name);
 	}
 
+	@Override
+	public String toString() {
+		if (this.get().isEmpty()) {
+			return "";
+		} else {
+			return latexId + " = " + this.get().orElse(-1.0).doubleValue()/10;
+		}
+	}
 }
