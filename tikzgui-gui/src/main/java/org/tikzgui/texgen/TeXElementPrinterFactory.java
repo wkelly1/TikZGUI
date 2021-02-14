@@ -14,6 +14,8 @@ public class TeXElementPrinterFactory {
 		texElemPrinters.put(LineWidthProperty.class, new PropertyPrinter<LineWidthProperty>()) ;
 		texElemPrinters.put(Stroke.class, propSetPrinter);
 		texElemPrinters.put(EllipseProps.class, propSetPrinter);
+		texElemPrinters.put(XRadiusProperty.class, new PropertyPrinter<XRadiusProperty>());
+		texElemPrinters.put(YRadiusProperty.class, new PropertyPrinter<YRadiusProperty>());
 	}
 	
 	public static <T extends TeXElement> TeXElementPrinter<? super T> getPrinter(T object) {

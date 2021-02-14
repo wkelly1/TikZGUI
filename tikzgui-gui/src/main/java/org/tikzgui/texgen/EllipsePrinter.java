@@ -5,6 +5,8 @@ import org.tikzgui.core.*;
 public class EllipsePrinter extends TeXElementPrinter <Ellipse> {
 	@Override
     public String print (Ellipse ellipse, Printer printer) {
+		System.out.println(printer.print(ellipse.getEllipseProps()));
+		
         String out = "\\draw ";
 		out += ellipse.getCentre().toString();
 		out += " ellipse ";
