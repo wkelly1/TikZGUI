@@ -11,10 +11,10 @@ public class PropertyControlFactory {
 		
 	}
 	
-	public <T> PropertyControl<?> getPropertyControl(Property<T> property) {
+	public <T> PropertyControl<?> getPropertyControl(Property<T> property, Runnable update) {
 		if(property instanceof DimProperty) 
-			return new DimPropertyControl((DimProperty)property); 
+			return new DimPropertyControl((DimProperty)property, update);
 		else
-			return new GenericPropertyControl<T>(property);
+			return new GenericPropertyControl<T>(property, update);
 	}
 }

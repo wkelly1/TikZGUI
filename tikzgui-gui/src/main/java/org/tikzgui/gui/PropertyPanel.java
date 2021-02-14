@@ -29,7 +29,7 @@ public class PropertyPanel extends VBox {
         Shape currentShape = selectedList.get(0);
         System.out.println(currentShape.getGuiElement());
         for (PropertySet ps : currentShape.getGuiElement().getProperties()){
-            PropertySetPanel panel = new PropertySetPanel(ps);
+            PropertySetPanel panel = new PropertySetPanel(ps, currentShape.getUpdate());
             this.getChildren().add(panel);
         }
     }

@@ -11,8 +11,8 @@ public class RectanglePrinter extends TeXElementPrinter<Rectangle> {
         String out = "\\draw ";
         out += rectangle.getPointA().toString();
         out += " rectangle ";
+        out += " [" + this.printPropertySetArray(rectangle.getProperties().toArray(new PropertySet[rectangle.getProperties().size()]), printer) + "] ";
         out += rectangle.getPointB().toString();
-        out += " [" + this.printPropertySetArray((PropertySet[]) rectangle.getProperties().toArray(), printer) + "] ";
         out += ";";
 
         return out;

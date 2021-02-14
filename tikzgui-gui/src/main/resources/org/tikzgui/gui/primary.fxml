@@ -27,7 +27,7 @@
     </left>
 
     <right>
-        <VBox prefWidth="150" fx:id="rightBar">
+        <VBox prefWidth="200" fx:id="rightBar">
 
             <Label fx:id="header1" text="Properties"/>
 

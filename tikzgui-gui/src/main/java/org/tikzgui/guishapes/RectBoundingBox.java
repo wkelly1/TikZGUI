@@ -20,6 +20,7 @@ public class RectBoundingBox {
     private Label labelText;
     private GuiRectangle innerRect;
 
+    final private double boxDim = 10;
 
     public RectBoundingBox(GuiRectangle innerRect, Node parent) {
         Group group = new Group();
@@ -31,10 +32,10 @@ public class RectBoundingBox {
 //        bl = new Rectangle(innerRect.getX()-5, innerRect.getY()+innerRect.getHeight()-5, 10, 10);
 //        br = new Rectangle(innerRect.getX()+innerRect.getWidth()-5, innerRect.getY()+innerRect.getHeight()-5, 10, 10);
 
-        tl = new Rectangle(10, 10);
-        tr = new Rectangle(10, 10);
-        bl = new Rectangle(10, 10);
-        br = new Rectangle(10, 10);
+        tl = new Rectangle(boxDim, boxDim);
+        tr = new Rectangle(boxDim, boxDim);
+        bl = new Rectangle(boxDim, boxDim);
+        br = new Rectangle(boxDim, boxDim);
 
         Rectangle tl_R = new Rectangle(innerRect.getX() - 15, innerRect.getY() - 15, 10, 10);
         Rectangle tr_R = new Rectangle(innerRect.getX() + innerRect.getWidth() - 15, innerRect.getY() - 15, 10, 10);
@@ -102,26 +103,30 @@ public class RectBoundingBox {
     }
 
     public void calcOffset() {
+        double strokeWidth = innerRect.getStrokeWidth();
+
+        rect.setStrokeWidth(innerRect.getStrokeWidth() + 3);
+
         labelText.setText(innerRect.getWidth() + " x " + innerRect.getHeight());
         label.setLayoutX(innerRect.getX() + (innerRect.getWidth() / 2) - 40);
-        label.setLayoutY(innerRect.getY() + innerRect.getHeight() + 5);
+        label.setLayoutY(innerRect.getY() + innerRect.getHeight() + strokeWidth + 5);
 
         rect.setX(innerRect.getX());
         rect.setY(innerRect.getY());
         rect.setWidth(innerRect.getWidth());
         rect.setHeight(innerRect.getHeight());
 
-        tl.setX(innerRect.getX() - this.innerRect.getStrokeWidth());
-        tl.setY(innerRect.getY() - this.innerRect.getStrokeWidth());
+        tl.setX(innerRect.getX() - 0.5*strokeWidth - boxDim);
+        tl.setY(innerRect.getY() - 0.5*strokeWidth - boxDim);
 
-        tr.setX(innerRect.getX() + innerRect.getWidth() - this.innerRect.getStrokeWidth());
-        tr.setY(innerRect.getY() - this.innerRect.getStrokeWidth());
+        tr.setX(innerRect.getX() + innerRect.getWidth() + 0.5*strokeWidth);
+        tr.setY(innerRect.getY() - 0.5*strokeWidth - boxDim);
 
-        bl.setX(innerRect.getX() - this.innerRect.getStrokeWidth());
-        bl.setY(innerRect.getY() + innerRect.getHeight() - this.innerRect.getStrokeWidth());
+        bl.setX(innerRect.getX() - 0.5*strokeWidth - boxDim);
+        bl.setY(innerRect.getY() + innerRect.getHeight() + 0.5*strokeWidth);
 
-        br.setX(innerRect.getX() + innerRect.getWidth() - this.innerRect.getStrokeWidth());
-        br.setY(innerRect.getY() + innerRect.getHeight() - this.innerRect.getStrokeWidth());
+        br.setX(innerRect.getX() + innerRect.getWidth() + 0.5*strokeWidth);
+        br.setY(innerRect.getY() + innerRect.getHeight() + 0.5*strokeWidth);
     }
 
     public Group getBox() {

@@ -10,10 +10,14 @@ import org.tikzgui.core.Property;
 public class PropertyControl<T> {
 	protected HBox container = new HBox();
 	private Label label;
-	
-	public PropertyControl(Property<T> property) {
+	protected Property<T> property;
+	protected Runnable update;
+
+	public PropertyControl(Property<T> property, Runnable update) {
 		label = new Label(property.getName());
 		container.getChildren().add(label);
+		this.property = property;
+		this.update = update;
 	}
 	
 	public Node getContents() {
