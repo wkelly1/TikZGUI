@@ -235,6 +235,13 @@ public class PrimaryController implements Initializable {
 
 
     private void initializeShapeDraw(Pane parent) {
+        // Deselct
+        parent.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
+            System.out.println("DESELECT");
+            removeSelected();
+
+        });
+
         // SQUARE drawing
         parent.addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent event) -> {
             if (tb.getAction().equals("SQUARE")) {
@@ -320,6 +327,7 @@ public class PrimaryController implements Initializable {
 
         parent.addEventHandler(MouseEvent.MOUSE_RELEASED, (MouseEvent event) -> {
             if (tb.getAction().equals("SQUARE")) {
+
                 Rectangle rect2 = new Rectangle(new Point(event.getX() / 10, event.getY() / 10), new Point((event.getX() + 10) / 10, (event.getY() + 10) / 10), rootContainer);
                 rect2.getStroke().setLineWidth(new LineWidthProperty(2.0));
                 currentNode.setGuiElement(rect2);
