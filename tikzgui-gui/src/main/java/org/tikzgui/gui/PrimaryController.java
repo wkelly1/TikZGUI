@@ -15,9 +15,10 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
 import org.tikzgui.core.*;
+import org.tikzgui.guishapes.GuiEllipse;
 import org.tikzgui.guishapes.GuiRectangle;
+import org.tikzgui.guishapes.Shape;
 import org.tikzgui.texgen.TexGenerator;
 
 import java.net.URL;
@@ -59,7 +60,7 @@ public class PrimaryController implements Initializable {
 
     private Toolbar tb;
 
-    private ArrayList<Shape> elements = new ArrayList<>();
+    private ArrayList<org.tikzgui.guishapes.Shape> elements = new ArrayList<>();
 
     private HashMap<GraphicsObject, org.tikzgui.guishapes.Shape> map = new HashMap<>();
 
@@ -84,11 +85,18 @@ public class PrimaryController implements Initializable {
             canvasParent.setCursor(Cursor.DEFAULT);
         });
 
-        ToolbarButton shape = new ToolbarButton("SHAPE", getClass().getResource("icons/plus.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
-        shape.addActionHandler(() -> {
+        ToolbarButton square = new ToolbarButton("SQUARE", getClass().getResource("icons/plus.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
+        square.addActionHandler(() -> {
             setCanDrag(false);
             canvasParent.setCursor(Cursor.CROSSHAIR);
         });
+
+        ToolbarButton ellipse = new ToolbarButton("ELLIPSE", getClass().getResource("icons/plus.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
+        ellipse.addActionHandler(() -> {
+            setCanDrag(false);
+            canvasParent.setCursor(Cursor.CROSSHAIR);
+        });
+
         ToolbarButton pan = new ToolbarButton("PAN", getClass().getResource("icons/pan.png").toExternalForm(), true, Cursor.HAND, canvasParent);
         pan.addActionHandler(() -> {
             setCanDrag(true);
@@ -116,7 +124,7 @@ public class PrimaryController implements Initializable {
 
             alert.showAndWait();
         });
-        ToolbarButton[] btnsLeft = {pointer, shape, pan};
+        ToolbarButton[] btnsLeft = {pointer, square, ellipse, pan};
         ToolbarToggle[] btnsRight = {zoomOut, zoomIn, export};
 
         tb = new Toolbar(btnsLeft, btnsRight);
@@ -138,20 +146,20 @@ public class PrimaryController implements Initializable {
         System.out.println(generator.generate());
     }
 
-    private void setAction(String action) {
-        if (action.equals("PAN")) {
-            this.tb.setAction("PAN");
-            setCanDrag(true);
-        }
-        if (action.equals("SHAPE")) {
-            this.tb.setAction("SHAPE");
-            setCanDrag(false);
-        }
-        if (action.equals("POINTER")) {
-            this.tb.setAction("POINTER");
-            setCanDrag(false);
-        }
-    }
+//    private void setAction(String action) {
+//        if (action.equals("PAN")) {
+//            this.tb.setAction("PAN");
+//            setCanDrag(true);
+//        }
+//        if (action.equals("SQUARE")) {
+//            this.tb.setAction("SQUARE");
+//            setCanDrag(false);
+//        }
+//        if (action.equals("POINTER")) {
+//            this.tb.setAction("POINTER");
+//            setCanDrag(false);
+//        }
+//    }
 
     private void setCanDrag(boolean value) {
         canvasParent.setPannable(value);
@@ -161,11 +169,11 @@ public class PrimaryController implements Initializable {
         leftBar.getChildren().removeAll(leftBar.getChildren());
 
         for (int i=1; i<elements.size()+1; i++){
-            final Node elem = elements.get(i-1);
+            final org.tikzgui.guishapes.Shape elem = elements.get(i-1);
             HBox panelItem = createLayerPanelItem("Rectangle "+ i );
             panelItem.setOnMouseClicked((MouseEvent e) -> {
-                if (!((GuiRectangle) elem).isSelected()){
-                    ((GuiRectangle) elem).select();
+                if (!elem.isSelected()){
+                    elem.select();
                 }
             });
 
@@ -184,7 +192,7 @@ public class PrimaryController implements Initializable {
         return hbox;
     }
 
-    private void deleteShape(Node shape){
+    private void deleteShape(Shape shape){
         getSelected().forEach(node -> {
             ((GuiRectangle) node).delete();
             elements.remove(node);
@@ -203,16 +211,14 @@ public class PrimaryController implements Initializable {
     private void removeSelected() {
         selectedShapes.removeAll(selectedShapes);
 
-        getSelected().forEach(node -> {
-            ((GuiRectangle) node).unselect();
-        });
+        getSelected().forEach(Shape::unselect);
     }
 
-    private ArrayList<Node> getSelected(){
-        ArrayList<Node> selected = new ArrayList<>();
-        elements.forEach(node -> {
-            if (((GuiRectangle) node).isSelected()){
-                selected.add(node);
+    private ArrayList<Shape> getSelected(){
+        ArrayList<Shape> selected = new ArrayList<>();
+        elements.forEach(shape -> {
+            if (shape.isSelected()){
+                selected.add(shape);
             }
         });
         return selected;
@@ -222,9 +228,9 @@ public class PrimaryController implements Initializable {
 
 
     private void initializeShapeDraw(Pane parent) {
-        // Shape drawing
+        // SQUARE drawing
         parent.addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent event) -> {
-            if (tb.getAction().equals("SHAPE")) {
+            if (tb.getAction().equals("SQUARE")) {
 //                javafx.scene.shape.Rectangle rect1 = new javafx.scene.shape.Rectangle(event.getX(), event.getY(), 1, 1);
                 GuiRectangle rect = new GuiRectangle(event.getX(), event.getY(), 1, 1, parent);
 
@@ -297,16 +303,16 @@ public class PrimaryController implements Initializable {
                 double currentHeight = Math.abs(currentNodeY - event.getY());
                 double xPos = Math.min(event.getX(), currentNodeX);
                 double yPos = Math.min(event.getY(), currentNodeY);
-                ((javafx.scene.shape.Rectangle) currentNode).setWidth(currentWidth);
-                ((javafx.scene.shape.Rectangle) currentNode).setHeight(currentHeight);
-                ((javafx.scene.shape.Rectangle) currentNode).setX(xPos);
-                ((javafx.scene.shape.Rectangle) currentNode).setY(yPos);
+                currentNode.setBoundingWidth(currentWidth);
+                currentNode.setBoundingHeight(currentHeight);
+                currentNode.setBoundingX(xPos);
+                currentNode.setBoundingY(yPos);
 
             }
         });
 
         parent.addEventHandler(MouseEvent.MOUSE_RELEASED, (MouseEvent event) -> {
-            if (tb.getAction().equals("SHAPE")) {
+            if (tb.getAction().equals("SQUARE")) {
                 Rectangle rect2 = new Rectangle(new Point(event.getX() / 10, event.getY() / 10), new Point((event.getX() + 10) / 10, (event.getY() + 10) / 10), rootContainer);
                 rect2.getStroke().setLineWidth(new LineWidthProperty(2.0));
                 currentNode.setGuiElement(rect2);
@@ -316,6 +322,126 @@ public class PrimaryController implements Initializable {
                 currentNode = null;
             }
         });
+
+
+
+
+        // ELLIPSE drawing
+        parent.addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent event) -> {
+            if (tb.getAction().equals("ELLIPSE")) {
+//                javafx.scene.shape.Rectangle rect1 = new javafx.scene.shape.Rectangle(event.getX(), event.getY(), 1, 1);
+//                GuiRectangle rect = new GuiRectangle(event.getX(), event.getY(), 1, 1, parent);
+                GuiEllipse ellipse = new GuiEllipse(parent);
+                ellipse.setBoundingX(event.getX());
+                ellipse.setBoundingY(event.getY());
+                ellipse.setBoundingWidth(1);
+                ellipse.setBoundingHeight(1);
+
+                ellipse.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent t) {
+
+                        if (tb.getAction().equals("POINTER")) {
+
+                            if (!ellipse.isSelected()) {
+                                ellipse.setHover();
+                            }
+                        }
+                    }
+                });
+
+                ellipse.setOnMouseExited(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent t) {
+
+                        if (tb.getAction().equals("POINTER")) {
+                            if (!ellipse.isSelected()) {
+                                ellipse.removeHover();
+                            }
+                        }
+                    }
+                });
+                ellipse.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent t) {
+                        if (tb.getAction().equals("POINTER")) {
+
+                            if (!ellipse.isSelected()) {
+                                ellipse.select();
+                                setSelected(ellipse);
+
+                            } else {
+                                ellipse.unselect();
+                                removeSelected();
+                            }
+                            t.consume();
+                        }
+                    }
+                });
+
+
+                ellipse.setFill(null);
+                ellipse.setStroke(Color.BLACK);
+                ellipse.setStrokeWidth(5);
+                HBox hbox = new HBox();
+                Label lbl = new Label("Rectangle " + shapeIndex);
+
+                lbl.getStyleClass().add("layer");
+                hbox.getChildren().add(lbl);
+
+                leftBar.getChildren().add(lbl);
+                shapeIndex++;
+                currentNode = ellipse;
+//                currentNodeX = ellipse.getBoundingX();
+                currentNodeX = event.getX();
+                currentNodeY = event.getY();
+//                currentNodeY = ellipse.getBoundingY();
+                canvas.getChildren().add(ellipse);
+                elements.add(ellipse);
+            }
+        });
+
+
+        parent.addEventHandler(MouseEvent.MOUSE_DRAGGED, (MouseEvent event) -> {
+            if (currentNode != null) {
+                System.out.println(currentNode.getBoundingHeight() + " "+  currentNode.getBoundingWidth());
+                double currentWidth = Math.abs(event.getX() - currentNodeX);
+                double currentHeight = Math.abs(currentNodeY - event.getY());
+                double xPos = Math.min(event.getX(), currentNodeX);
+                double yPos = Math.min(event.getY(), currentNodeY);
+                currentNode.setBoundingWidth(currentWidth);
+                currentNode.setBoundingHeight(currentHeight);
+                currentNode.setBoundingX(xPos);
+                currentNode.setBoundingY(yPos);
+
+            }
+        });
+
+        parent.addEventHandler(MouseEvent.MOUSE_RELEASED, (MouseEvent event) -> {
+            if (tb.getAction().equals("SQUARE") && currentNode != null) {
+                Rectangle rect2 = new Rectangle(new Point(event.getX() / 10, event.getY() / 10), new Point((event.getX() + 10) / 10, (event.getY() + 10) / 10), rootContainer);
+
+                currentNode.setGuiElement(rect2);
+                rootContainer.addChild(rect2);
+                updateLayers();
+                map.put(rect2, currentNode);
+                currentNode.getUpdate().run();
+                currentNode = null;
+            }
+
+            if (tb.getAction().equals("ELLIPSE") && currentNode != null) {
+                Ellipse ellipse = new Ellipse(new Point(((GuiEllipse) currentNode).getCenterX(),  ((GuiEllipse) currentNode).getCenterY()), new EllipseProps(new XRadiusProperty(((GuiEllipse) currentNode).getRadiusX()), new YRadiusProperty( ((GuiEllipse) currentNode).getRadiusY())), rootContainer);
+
+                currentNode.setGuiElement(ellipse);
+                rootContainer.addChild(ellipse);
+                updateLayers();
+                map.put(ellipse, currentNode);
+
+                currentNode.getUpdate().run();
+                currentNode = null;
+            }
+        });
+
     }
 
     @Override
@@ -334,7 +460,7 @@ public class PrimaryController implements Initializable {
             }
 
             if (keyEvent.getCode() == KeyCode.S) {
-                tb.setAction("SHAPE");
+                tb.setAction("SQUARE");
             }
 
             if (keyEvent.getCode() == KeyCode.DELETE){

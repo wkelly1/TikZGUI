@@ -10,19 +10,19 @@ public class RectMover {
 
     private boolean moving = false;
 
-    public RectMover(Node parent, Rectangle shape, Node handle, RectBoundingBox bounding) {
+    public RectMover(Node parent, Shape shape, Node handle, BoundingBox bounding) {
         handle.addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent event) -> {
             moving = true;
-            this.difX = event.getX() - shape.getX();
-            this.difY = event.getY() - shape.getY();
+            this.difX = event.getX() - shape.getBoundingX();
+            this.difY = event.getY() - shape.getBoundingY();
 
         });
 
         parent.addEventHandler(MouseEvent.MOUSE_DRAGGED, (MouseEvent event) -> {
             if (moving) {
                 event.consume();
-                shape.setX(event.getX() - difX);
-                shape.setY(event.getY() - difY);
+                shape.setBoundingX(event.getX() - difX);
+                shape.setBoundingY(event.getY() - difY);
                 bounding.calcOffset();
             }
         });

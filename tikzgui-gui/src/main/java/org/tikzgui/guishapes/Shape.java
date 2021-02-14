@@ -14,4 +14,14 @@ public interface Shape<T extends GraphicsObject> {
     public void removeHover();
     public void setHover();
     public Runnable getUpdate();
+    public void delete();
+    public double getBoundingWidth();
+    public double getBoundingHeight();
+    public double getBoundingX();
+    public double getBoundingY();
+
+    public void setBoundingWidth(double width);
+    public void setBoundingHeight(double height);
+    public void setBoundingX(double x);
+    public void setBoundingY(double y);
 }

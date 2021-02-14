@@ -7,8 +7,8 @@ import javafx.scene.shape.Rectangle;
 public class RectResizer {
     private Node parent;
     private Node handle;
-    private Node shape;
-    private RectBoundingBox bounding;
+    private Shape shape;
+    private BoundingBox bounding;
     private double currentNodeX;
     private double currentNodeY;
     private double currentNodeXEnd;
@@ -16,7 +16,7 @@ public class RectResizer {
     private String direction;
     private boolean resizing = false;
 
-    public RectResizer(Node parent, Rectangle shape, Node handle, RectBoundingBox bounding, String direction) {
+    public RectResizer(Node parent, Shape shape, Node handle, BoundingBox bounding, String direction) {
         this.parent = parent;
         this.handle = handle;
         this.shape = shape;
@@ -25,28 +25,28 @@ public class RectResizer {
         this.direction = direction;
 
         handle.addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent event) -> {
-            System.out.println("X: " + shape.getX());
-            System.out.println("Y: " + shape.getY());
-            System.out.println("Height: " + shape.getHeight());
+            System.out.println("X: " + shape.getBoundingX());
+            System.out.println("Y: " + shape.getBoundingY());
+            System.out.println("Height: " + shape.getBoundingHeight());
             switch (direction) {
                 case "ul" :
                 case "dl" : //moving left
-                    this.currentNodeX = shape.getX() + shape.getWidth();
+                    this.currentNodeX = shape.getBoundingX() + shape.getBoundingWidth();
                     break;
                 case "ur" :
                 case "dr" ://moving right
-                    this.currentNodeX = shape.getX();
+                    this.currentNodeX = shape.getBoundingX();
                     break;
             }
             switch (direction) {
                 case "ul":
                 case "ur": //moving up
-                    this.currentNodeY = shape.getY() + shape.getHeight();
+                    this.currentNodeY = shape.getBoundingY() + shape.getBoundingHeight();
                     System.out.println("here");
                     break;
                 case "dl":
                 case "dr": //moving right
-                    this.currentNodeY = shape.getY();
+                    this.currentNodeY = shape.getBoundingY();
                     System.out.println("not here");
                     break;
             }
@@ -66,10 +66,10 @@ public class RectResizer {
                 double currentWidth = Math.abs(event.getX() - this.currentNodeX);
                 double currentHeight = Math.abs(this.currentNodeY - event.getY());
 
-                shape.setWidth(currentWidth);
-                shape.setHeight(currentHeight);
-                shape.setX(xPos);
-                shape.setY(yPos);
+                shape.setBoundingWidth(currentWidth);
+                shape.setBoundingHeight(currentHeight);
+                shape.setBoundingX(xPos);
+                shape.setBoundingY(yPos);
                 bounding.calcOffset();
             }
         });
