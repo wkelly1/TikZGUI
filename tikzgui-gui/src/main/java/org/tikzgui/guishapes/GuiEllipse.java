@@ -132,21 +132,31 @@ public class GuiEllipse extends Ellipse implements Shape<org.tikzgui.core.Ellips
     @Override
     public void setBoundingWidth(double width){
         this.setRadiusX(width/2);
+        if (guiElement != null)
+        	guiElement.getEllipseProps().getXRadius().set(width/2);
     }
 
     @Override
     public void setBoundingHeight(double height){
         this.setRadiusY(height/2);
+        if (guiElement != null)
+        	guiElement.getEllipseProps().getXRadius().set(height/2);
     }
 
     @Override
     public void setBoundingX(double x){
-        this.setCenterX(x + this.getRadiusX());
+    	double value = x + this.getRadiusX();
+        this.setCenterX(value);
+        if(guiElement != null)
+        	guiElement.getCentre().setX(value);
     }
 
     @Override
     public void setBoundingY(double y){
-        this.setCenterY(y + this.getRadiusY());
+    	double value = y + this.getRadiusY();
+        this.setCenterY(value);
+        if(guiElement != null)
+        	guiElement.getCentre().setY(value);
     }
 }
 
