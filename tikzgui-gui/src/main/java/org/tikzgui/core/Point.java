@@ -26,6 +26,6 @@ public class Point {
 	
 	@Override
 	public String toString() {
-		return "(" + x + ", " + y + ")";
+		return "(" + x/10 + ", " + y/10 + ")";
 	}
 }

@@ -14,7 +14,7 @@ public abstract class DimProperty extends Property<Double> {
 		if (this.get().isEmpty()) {
 			return "";
 		} else {
-			return latexId + " = " + this.get().orElse(-1.0).doubleValue();
+			return latexId + " = " + this.get().orElse(-1.0).doubleValue()/10;
 		}
 	}
 	
@@ -24,7 +24,7 @@ public abstract class DimProperty extends Property<Double> {
 		if(this.get().isEmpty()) {
 			return "" + this.getDefault();
 		} else {
-			return "" + this.get().orElse(-1.0).doubleValue();
+			return "" + this.get().orElse(-1.0).doubleValue()/10;
 		}
 	}
 }

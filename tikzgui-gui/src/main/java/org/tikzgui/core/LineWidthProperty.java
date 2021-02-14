@@ -32,4 +32,22 @@ public class LineWidthProperty extends DimProperty {
 		this(width.get());
 	}
 	
+	@Override
+	public String toString() {
+		if (this.get().isEmpty()) {
+			return "";
+		} else {
+			return latexId + " = " + this.get().orElse(-1.0).doubleValue();
+		}
+	}
+	
+	
+	@Override
+	public String getValueString() {
+		if(this.get().isEmpty()) {
+			return "" + this.getDefault();
+		} else {
+			return "" + this.get().orElse(-1.0).doubleValue();
+		}
+	}
 }

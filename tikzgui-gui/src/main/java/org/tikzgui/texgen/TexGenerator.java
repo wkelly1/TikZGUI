@@ -26,6 +26,8 @@ public class TexGenerator {
 
         out += "\\end{tikzpicture}\n";
         out += "\\end{document}\n";
+        
+        System.out.println(out);
         return out;
     }
 
