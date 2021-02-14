@@ -13,5 +13,14 @@ public class XRadiusProperty extends DimProperty {
 	public XRadiusProperty(Double val) {
 		super(val, defaultVal, latexId, name);
 	}
+	
+	@Override
+	public String toString() {
+		if (this.get().isEmpty()) {
+			return "";
+		} else {
+			return latexId + " = " + this.get().orElse(-1.0).doubleValue()/10;
+		}
+	}
 
 }
