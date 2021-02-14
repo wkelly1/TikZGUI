@@ -9,12 +9,15 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import org.tikzgui.core.GraphicsObject;
 
-public class GuiRectangle extends Rectangle implements Shape{
+import java.util.function.Consumer;
+
+public class GuiRectangle extends Rectangle implements Shape<org.tikzgui.core.Rectangle> {
     private boolean isSelected = false;
     private org.tikzgui.core.Rectangle guiElement;
     private Pane parent;
     private RectBoundingBox boundingBox;
     private Rectangle tempBoundingBox;
+
 
     public GuiRectangle(Pane parent) {
         super();
@@ -60,8 +63,8 @@ public class GuiRectangle extends Rectangle implements Shape{
     }
 
     @Override
-    public void setGuiElement(GraphicsObject obj) {
-        this.guiElement = (org.tikzgui.core.Rectangle) obj;
+    public void setGuiElement(org.tikzgui.core.Rectangle obj) {
+        this.guiElement = obj;
     }
 
     @Override
@@ -107,12 +110,17 @@ public class GuiRectangle extends Rectangle implements Shape{
         parent.getChildren().remove(boundingBox.getBox());
     }
 
-    public VBox propertiesPanel(){
-        VBox properties = new VBox();
-        TextField x = new TextField();
-        x.setText(Double.toString(this.getX()));
-        return properties;
-    }
+    Runnable update = () -> {
+        System.out.println("dskfljjsdl");
+        this.setStrokeWidth(getGuiElement().getStroke().getLineWidth().get().orElse(-1.0));
+        if (boundingBox != null){
+            boundingBox.calcOffset();
+        }
+    };
 
+    @Override
+    public Runnable getUpdate() {
+        return update;
+    }
 }
 

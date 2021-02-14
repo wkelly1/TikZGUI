@@ -6,6 +6,8 @@
 <?import javafx.scene.layout.*?>
 
 <?import org.tikzgui.gui.Toolbar?>
+<?import org.tikzgui.gui.PropertyPanel?>
+
 <BorderPane fx:id="layout" prefHeight="850.0" prefWidth="1280.0"
             xmlns="http://javafx.com/javafx/8.0.60"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -25,15 +27,17 @@
     </left>
 
     <right>
-        <VBox prefWidth="150" fx:id="rightBAr">
+        <VBox prefWidth="200" fx:id="rightBar">
 
             <Label fx:id="header1" text="Properties"/>
 
-            <VBox fx:id="properties" style="-fx-padding: 10">
+            <PropertyPanel fx:id="properties" style="-fx-padding: 10"/>
+
+<!--            <VBox fx:id="properties" style="-fx-padding: 10">-->
 
 
 
-            </VBox>
+<!--            </VBox>-->
         </VBox>
     </right>
     <center>

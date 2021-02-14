@@ -2,9 +2,12 @@ package org.tikzgui.gui;
 
 import java.io.IOException;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.event.*;
@@ -13,15 +16,12 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
-import org.tikzgui.core.PictureContainer;
-import org.tikzgui.core.Point;
-import org.tikzgui.core.Rectangle;
+import org.tikzgui.core.*;
 import org.tikzgui.guishapes.GuiRectangle;
 import org.tikzgui.texgen.TexGenerator;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class PrimaryController implements Initializable {
     private double maxWidth = 0.0;
@@ -30,7 +30,7 @@ public class PrimaryController implements Initializable {
     final private double canvasInitWidth = 5000.0;
     final private double canvasInitHeight = 5000.0;
 
-    private Shape currentNode;
+    private org.tikzgui.guishapes.Shape currentNode;
     private double currentNodeX;
     private double currentNodeY;
 
@@ -46,7 +46,7 @@ public class PrimaryController implements Initializable {
     private VBox leftBar;
 
     @FXML
-    private VBox properties;
+    private PropertyPanel properties;
 
     @FXML
     private AnchorPane canvas;
@@ -60,6 +60,10 @@ public class PrimaryController implements Initializable {
     private Toolbar tb;
 
     private ArrayList<Shape> elements = new ArrayList<>();
+
+    private HashMap<GraphicsObject, org.tikzgui.guishapes.Shape> map = new HashMap<>();
+
+    private ObservableList<org.tikzgui.guishapes.Shape> selectedShapes = FXCollections.observableArrayList();
 
 
     public void initGraphics() {
@@ -190,16 +194,17 @@ public class PrimaryController implements Initializable {
     }
 
     private void setSelected(Node element) {
-
         removeSelected();
-        properties.getChildren().add(new Label(element.getClass().toString()));
+        selectedShapes.add((org.tikzgui.guishapes.Shape) element);
+
+//        properties.getChildren().add(new Label(element.getClass().toString()));
     }
 
     private void removeSelected() {
-        getSelected().forEach(node -> {
-            System.out.println("UNSELECT");
-            ((GuiRectangle) node).unselect();
+        selectedShapes.removeAll(selectedShapes);
 
+        getSelected().forEach(node -> {
+            ((GuiRectangle) node).unselect();
         });
     }
 
@@ -285,11 +290,6 @@ public class PrimaryController implements Initializable {
             }
         });
 
-//        canvasParent.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
-//            if (tb.getAction().equals("POINTER")) {
-//                removeSelected();
-//            }
-//        });
 
         parent.addEventHandler(MouseEvent.MOUSE_DRAGGED, (MouseEvent event) -> {
             if (currentNode != null) {
@@ -306,15 +306,22 @@ public class PrimaryController implements Initializable {
         });
 
         parent.addEventHandler(MouseEvent.MOUSE_RELEASED, (MouseEvent event) -> {
-            Rectangle rect = new Rectangle(new Point(event.getX() / 10, event.getY() / 10), new Point((event.getX() + 10) / 10, (event.getY() + 10) / 10), rootContainer);
-            rootContainer.addChild(rect);
-            currentNode = null;
-            updateLayers();
+            if (tb.getAction().equals("SHAPE")) {
+                Rectangle rect2 = new Rectangle(new Point(event.getX() / 10, event.getY() / 10), new Point((event.getX() + 10) / 10, (event.getY() + 10) / 10), rootContainer);
+                rect2.getStroke().setLineWidth(new LineWidthProperty(2.0));
+                currentNode.setGuiElement(rect2);
+                rootContainer.addChild(rect2);
+                updateLayers();
+                map.put(rect2, currentNode);
+                currentNode = null;
+            }
         });
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        properties.setSelectedList(selectedShapes);
+
 
         // KEY BINDINGS
         canvasParent.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
@@ -405,6 +412,8 @@ public class PrimaryController implements Initializable {
                 this.maxHeight = newValue.doubleValue();
             }
         });
+
+
 
 
         initGraphics();

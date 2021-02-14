@@ -61,8 +61,8 @@ public class RectResizer {
 
             if (resizing) {
                 System.out.println(this.direction);
-                double xPos = event.getX() < this.currentNodeX ? event.getX() : this.currentNodeX;
-                double yPos = event.getY() < this.currentNodeY ? event.getY() : this.currentNodeY;
+                double xPos = Math.min(event.getX(), this.currentNodeX);
+                double yPos = Math.min(event.getY(), this.currentNodeY);
                 double currentWidth = Math.abs(event.getX() - this.currentNodeX);
                 double currentHeight = Math.abs(this.currentNodeY - event.getY());
 

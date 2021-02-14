@@ -17,10 +17,10 @@ public class EllipsePrinter extends TeXElementPrinter <Ellipse> {
 		
 		
         String out = "\\draw ";
-        out += ellipse.getCentre().toString();
-        out += " ellipse ";
-        out += "[" + printPropertySetArray((PropertySet[])ellipse.getProperties().toArray(), printer) + "] ";
-        out += ";";
+		out += ellipse.getCentre().toString();
+		out += " ellipse ";
+		out += "[" + printPropertySetArray(ellipse.getProperties().toArray(new PropertySet[ellipse.getProperties().size()]), printer) + "] ";
+		out += ";";
 
         return out;
     }
