@@ -5,27 +5,39 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
+<?import org.tikzgui.gui.Toolbar?>
+<?import org.tikzgui.gui.PropertyPanel?>
 
-<BorderPane id="BorderPane" prefHeight="850.0" prefWidth="1280.0"
+<BorderPane fx:id="layout" prefHeight="850.0" prefWidth="1280.0"
             xmlns="http://javafx.com/javafx/8.0.60"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.tikzgui.gui.PrimaryController">
     <left>
         <ScrollPane style="-fx-hbar-policy: never; -fx-vbar-policy: never;  -fx-background-color: #fff;"
                     fitToHeight="true">
-            <VBox prefWidth="150" fx:id="leftBar" style="-fx-padding: 10">
 
+            <VBox style="-fx-background-color: white;">
                 <Label fx:id="header1" text="Layers"/>
+                <VBox prefWidth="150" fx:id="leftBar">
 
+
+                </VBox>
             </VBox>
         </ScrollPane>
     </left>
 
     <right>
-        <VBox prefWidth="150" fx:id="rightBAr">
+        <VBox prefWidth="150" fx:id="rightBar">
 
             <Label fx:id="header1" text="Properties"/>
 
+            <PropertyPanel fx:id="properties" style="-fx-padding: 10"/>
+
+<!--            <VBox fx:id="properties" style="-fx-padding: 10">-->
+
+
+
+<!--            </VBox>-->
         </VBox>
     </right>
     <center>
@@ -38,16 +50,17 @@
     </center>
 
 
-    <top>
-        <HBox prefHeight="50" fx:id="toolbar">
+<!--    <top>-->
+<!--        <HBox prefHeight="50" fx:id="toolbar">-->
 
-            <Button fx:id="panBtn" onAction="#onPan" prefHeight="49" prefWidth="50"/>
-            <Button fx:id="squareBtn" onAction="#onSquare" prefHeight="49" prefWidth="50"/>
-            <Button fx:id="export" text="export" onAction="#onExport" prefHeight="49"/>
-            <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
-                <Button fx:id="zoomOut" onAction="#zoomOut" prefHeight="49" prefWidth="30"/>
-                <Button fx:id="zoomIn" onAction="#zoomIn" prefHeight="49" prefWidth="30"/>
-            </HBox>
-        </HBox>
-    </top>
+<!--            <Button fx:id="panBtn" onAction="#onPan" prefHeight="49" prefWidth="50"/>-->
+<!--            <Button fx:id="squareBtn" onAction="#onSquare" prefHeight="49" prefWidth="50"/>-->
+<!--            <Button fx:id="export" text="export" onAction="#onExport" prefHeight="49"/>-->
+<!--            <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">-->
+<!--                <Button fx:id="zoomOut" onAction="#zoomOut" prefHeight="49" prefWidth="30"/>-->
+<!--                <Button fx:id="zoomIn" onAction="#zoomIn" prefHeight="49" prefWidth="30"/>-->
+<!--            </HBox>-->
+<!--        </HBox>-->
+
+<!--    </top>-->
 </BorderPane>

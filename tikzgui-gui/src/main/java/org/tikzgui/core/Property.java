@@ -19,7 +19,7 @@ public abstract class Property<T> extends TeXElement {
 	}
 	
 	public Optional<T> get() {
-		if (inherit)
+		if (!inherit)
 			return Optional.of(value);
 		else
 			return Optional.empty();
