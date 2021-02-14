@@ -11,7 +11,7 @@ import org.tikzgui.core.GraphicsObject;
 
 public class GuiRectangle extends Rectangle implements Shape{
     private boolean isSelected = false;
-    private org.tikzgui.core.Rectangle guiElement;
+    private GraphicsObject guiElement;
     private Pane parent;
     private RectBoundingBox boundingBox;
     private Rectangle tempBoundingBox;
@@ -55,13 +55,13 @@ public class GuiRectangle extends Rectangle implements Shape{
     }
 
     @Override
-    public org.tikzgui.core.Rectangle getGuiElement() {
+    public GraphicsObject getGuiElement() {
         return guiElement;
     }
 
     @Override
     public void setGuiElement(GraphicsObject obj) {
-        this.guiElement = (org.tikzgui.core.Rectangle) obj;
+        this.guiElement = obj;
     }
 
     @Override
@@ -107,12 +107,6 @@ public class GuiRectangle extends Rectangle implements Shape{
         parent.getChildren().remove(boundingBox.getBox());
     }
 
-    public VBox propertiesPanel(){
-        VBox properties = new VBox();
-        TextField x = new TextField();
-        x.setText(Double.toString(this.getX()));
-        return properties;
-    }
 
 }
 
