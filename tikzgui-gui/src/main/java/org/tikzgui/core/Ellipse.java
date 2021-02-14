@@ -9,6 +9,7 @@ public class Ellipse extends GraphicsObject {
 		super(parent);
 		this.centre = centre;
 		this.stroke = stroke;
+		this.ellipseProps = ellipseProps;
 	}
 
 	public Ellipse(Point centre, EllipseProps ellipseProps,  Container parent) {

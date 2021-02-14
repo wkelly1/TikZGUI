@@ -9,7 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class RectBoundingBox {
+public class RectBoundingBox implements BoundingBox {
     private Group box;
     private Rectangle rect;
     private Rectangle tl;

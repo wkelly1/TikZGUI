@@ -10,7 +10,7 @@ public class YRadiusProperty extends DimProperty {
 
 	}
 
-	protected YRadiusProperty(Double val) {
+	public YRadiusProperty(Double val) {
 		super(val, defaultVal, latexId, name);
 	}
 

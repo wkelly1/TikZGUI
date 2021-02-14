@@ -6,39 +6,24 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import org.tikzgui.core.GraphicsObject;
 
 import java.util.function.Consumer;
 
-public class GuiRectangle extends Rectangle implements Shape<org.tikzgui.core.Rectangle> {
+public class GuiEllipse extends Ellipse implements Shape<org.tikzgui.core.Ellipse> {
     private boolean isSelected = false;
-    private org.tikzgui.core.Rectangle guiElement;
+    private org.tikzgui.core.Ellipse guiElement;
     private Pane parent;
-    private RectBoundingBox boundingBox;
+    private EllipseBoundingBox boundingBox;
     private Rectangle tempBoundingBox;
 
 
-    public GuiRectangle(Pane parent) {
+    public GuiEllipse(Pane parent) {
         super();
         this.parent = parent;
     }
-
-    public GuiRectangle(double var1, double var3, Pane parent) {
-        super(var1, var3);
-        this.parent = parent;
-    }
-
-    public GuiRectangle(double var1, double var3, Paint var5, Pane parent) {
-        super(var1, var3, var5);
-        this.parent = parent;
-    }
-
-    public GuiRectangle(double var1, double var3, double var5, double var7, Pane parent) {
-        super(var1, var3, var5, var7);
-        this.parent = parent;
-    }
-
 
     @Override
     public boolean isSelected() {
@@ -58,12 +43,12 @@ public class GuiRectangle extends Rectangle implements Shape<org.tikzgui.core.Re
     }
 
     @Override
-    public org.tikzgui.core.Rectangle getGuiElement() {
+    public org.tikzgui.core.Ellipse getGuiElement() {
         return guiElement;
     }
 
     @Override
-    public void setGuiElement(org.tikzgui.core.Rectangle obj) {
+    public void setGuiElement(org.tikzgui.core.Ellipse obj) {
         this.guiElement = obj;
     }
 
@@ -72,7 +57,7 @@ public class GuiRectangle extends Rectangle implements Shape<org.tikzgui.core.Re
 
         int pos = this.parent.getChildren().indexOf(this);
 
-        RectBoundingBox boundingBox = new RectBoundingBox(this, this.parent);
+        EllipseBoundingBox boundingBox = new EllipseBoundingBox(this, this.parent);
 
         this.boundingBox = boundingBox;
 
@@ -96,7 +81,7 @@ public class GuiRectangle extends Rectangle implements Shape<org.tikzgui.core.Re
 
     @Override
     public void setHover() {
-        Rectangle rect = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        Rectangle rect = new Rectangle(this.getBoundingX(), this.getBoundingY(), this.getBoundingWidth(), this.getBoundingHeight());
         rect.setFill(Color.TRANSPARENT);
         rect.setStrokeWidth(4);
         rect.setStroke(Color.web("#18A0FB"));
@@ -111,48 +96,8 @@ public class GuiRectangle extends Rectangle implements Shape<org.tikzgui.core.Re
         parent.getChildren().remove(boundingBox.getBox());
     }
 
-    @Override
-    public double getBoundingWidth(){
-        return this.getWidth();
-    }
-
-    @Override
-    public double getBoundingHeight(){
-        return this.getHeight();
-    }
-
-    @Override
-    public double getBoundingX(){
-        return this.getX();
-    }
-
-    @Override
-    public double getBoundingY(){
-        return this.getY();
-    }
-
-    @Override
-    public void setBoundingWidth(double width){
-        this.setWidth(width);
-    }
-
-    @Override
-    public void setBoundingHeight(double height){
-        this.setHeight(height);
-    }
-
-    @Override
-    public void setBoundingX(double x){
-        this.setX(x);
-    }
-
-    @Override
-    public void setBoundingY(double y){
-        this.setY(y);
-    }
-
     Runnable update = () -> {
-
+        System.out.println("dskfljjsdl");
         this.setStrokeWidth(getGuiElement().getStroke().getLineWidth().get().orElse(guiElement.getStroke().getLineWidth().getDefault()));
         if (boundingBox != null){
             boundingBox.calcOffset();
@@ -162,6 +107,46 @@ public class GuiRectangle extends Rectangle implements Shape<org.tikzgui.core.Re
     @Override
     public Runnable getUpdate() {
         return update;
+    }
+
+    @Override
+    public double getBoundingWidth(){
+        return this.getRadiusX() * 2;
+    }
+
+    @Override
+    public double getBoundingHeight(){
+        return this.getRadiusY() * 2;
+    }
+
+    @Override
+    public double getBoundingX(){
+        return this.getCenterX() - (getRadiusX());
+    }
+
+    @Override
+    public double getBoundingY(){
+        return this.getCenterY() - (getRadiusY());
+    }
+
+    @Override
+    public void setBoundingWidth(double width){
+        this.setRadiusX(width/2);
+    }
+
+    @Override
+    public void setBoundingHeight(double height){
+        this.setRadiusY(height/2);
+    }
+
+    @Override
+    public void setBoundingX(double x){
+        this.setCenterX(x + this.getRadiusX());
+    }
+
+    @Override
+    public void setBoundingY(double y){
+        this.setCenterY(y + this.getRadiusY());
     }
 }
 
