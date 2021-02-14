@@ -51,7 +51,7 @@ public class GuiNode extends Text implements Shape<org.tikzgui.core.Node> {
 	public void drawBoundingSelectBox() {
 		int pos = this.parent.getChildren().indexOf(this);
 		boundingBox = new NodeBoundingBox(this.getBoundsInParent(), this, parent);
-		//parent.getChildren().add(pos, boundingBox.getBox());
+		parent.getChildren().add(pos, boundingBox.getBox());
 		removeHover();
 	}
 

@@ -12,15 +12,16 @@ public class NodeBoundingBox implements BoundingBox {
 	private Bounds bounds;
 	private Group box;
 	private Rectangle rect;
-	
+	private GuiNode innerNode;
+
 	public NodeBoundingBox (Bounds bounds, GuiNode innerNode, Pane parent) {
 		this.bounds = bounds;
-		
+		this.innerNode = innerNode;
 		box = new Group(); 
 		rect = new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());
 		
 		calcOffset();
-		//rect.setFill(Color.TRANSPARENT);
+		rect.setFill(Color.TRANSPARENT);
 		rect.setStrokeWidth(2);
 		rect.setStroke(Color.web("#18A0FB"));
 		rect.setCursor(Cursor.MOVE);
@@ -31,8 +32,8 @@ public class NodeBoundingBox implements BoundingBox {
 
 	@Override
 	public void calcOffset() {
-		rect.setX(bounds.getMinX());
-		rect.setY(bounds.getMinY());
+		rect.setX(innerNode.getBoundingX());
+		rect.setY(innerNode.getBoundingY());
 		rect.setWidth(bounds.getWidth());
 		rect.setHeight(bounds.getHeight());
 	}

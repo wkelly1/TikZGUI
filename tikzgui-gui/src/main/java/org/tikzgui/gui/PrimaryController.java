@@ -344,6 +344,8 @@ public class PrimaryController implements Initializable {
                 ellipse.setBoundingWidth(1);
                 ellipse.setBoundingHeight(1);
 
+
+
                 ellipse.setOnMouseEntered(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent t) {
@@ -372,14 +374,16 @@ public class PrimaryController implements Initializable {
                     @Override
                     public void handle(MouseEvent t) {
                         if (tb.getAction().equals("POINTER")) {
-
                             if (!ellipse.isSelected()) {
+
                                 ellipse.select();
-                                setSelected(ellipse);
+                                System.out.println(ellipse.isSelected());
+//                                setSelected(ellipse);
 
                             } else {
+
                                 ellipse.unselect();
-                                removeSelected();
+//                                removeSelected();
                             }
                             t.consume();
                         }
@@ -389,7 +393,7 @@ public class PrimaryController implements Initializable {
 
                 ellipse.setFill(null);
                 ellipse.setStroke(Color.BLACK);
-                ellipse.setStrokeWidth(5);
+                ellipse.setStrokeWidth(3);
                 HBox hbox = new HBox();
                 Label lbl = new Label("Ellipse " + shapeIndex);
 
@@ -491,11 +495,8 @@ public class PrimaryController implements Initializable {
                             if (!node.isSelected()) {
                                 System.out.println("SELECTED");
                                 node.select();
-                                setSelected(node);
-
                             } else {
                                 node.unselect();
-                                removeSelected();
                             }
                             t.consume();
                         }

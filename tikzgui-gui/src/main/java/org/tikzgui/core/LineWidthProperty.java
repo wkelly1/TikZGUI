@@ -20,7 +20,7 @@ public class LineWidthProperty extends DimProperty {
 			return width;
 		}
 	}
-	static Double defaultWidth = 1.0;
+	static Double defaultWidth = 3.0;
 
 	public LineWidthProperty() {
 		super(defaultWidth, latexId, name);
