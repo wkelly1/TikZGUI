@@ -1,8 +1,10 @@
 package org.tikzgui.guishapes;
 
 import org.tikzgui.core.Node;
-import javafx.scene.layout.Pane;
+import org.tikzgui.core.Rectangle;
 
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 
 public class GuiNode extends Text implements Shape<org.tikzgui.core.Node> {
@@ -10,10 +12,12 @@ public class GuiNode extends Text implements Shape<org.tikzgui.core.Node> {
 	private NodeBoundingBox boundingBox;
 	private Pane parent;
 	private Node guiElement;
+	private javafx.scene.shape.Rectangle tempBoundingBox;
 	
 	
 	public GuiNode(Pane parent) {
 		this.parent = parent;
+		this.getStyleClass().add("node");
 	}
 
 	@Override
@@ -45,8 +49,9 @@ public class GuiNode extends Text implements Shape<org.tikzgui.core.Node> {
 
 	@Override
 	public void drawBoundingSelectBox() {
-		boundingBox = new NodeBoundingBox(this.getBoundsInParent());
-		parent.getChildren().add(boundingBox.getBox());
+		int pos = this.parent.getChildren().indexOf(this);
+		boundingBox = new NodeBoundingBox(this.getBoundsInParent(), this, parent);
+		//parent.getChildren().add(pos, boundingBox.getBox());
 		removeHover();
 	}
 
@@ -58,18 +63,25 @@ public class GuiNode extends Text implements Shape<org.tikzgui.core.Node> {
 
 	@Override
 	public void removeHover() {
-		styleProperty().set("");
-		
+		parent.getChildren().remove(tempBoundingBox);
+		this.tempBoundingBox = null;
 	}
 
 	@Override
 	public void setHover() {
-		styleProperty().set("--fx-border-color: #18A0FB; --fx-border-width: 2");
+		tempBoundingBox = new javafx.scene.shape.Rectangle(this.getBoundingX(), this.getBoundingY(), this.getBoundingWidth(), this.getBoundingHeight());
+		tempBoundingBox.setFill(Color.TRANSPARENT);
+		tempBoundingBox.setStrokeWidth(4);
+        tempBoundingBox.setStroke(Color.web("#18A0FB"));
+        int pos = this.parent.getChildren().indexOf(this);
+        this.parent.getChildren().add(pos, tempBoundingBox);
+		
 		
 	}
 
 	
 	Runnable update = () -> {
+		setText(guiElement.getContents());
         if (boundingBox != null){
             boundingBox.calcOffset();
         }

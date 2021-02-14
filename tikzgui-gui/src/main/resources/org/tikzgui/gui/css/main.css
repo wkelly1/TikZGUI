@@ -83,3 +83,9 @@
     -fx-stoke-width: 3;
     -fx-border-style: inside
 }
+
+.node:hover {
+    -fx-border-style: solid; 
+    -fx-border-color: #18A0FB; 
+    -fx-border-width: 2;
+}

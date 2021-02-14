@@ -17,6 +17,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import org.tikzgui.core.*;
 import org.tikzgui.guishapes.GuiEllipse;
+import org.tikzgui.guishapes.GuiNode;
 import org.tikzgui.guishapes.GuiRectangle;
 import org.tikzgui.guishapes.Shape;
 import org.tikzgui.texgen.TexGenerator;
@@ -96,6 +97,12 @@ public class PrimaryController implements Initializable {
             setCanDrag(false);
             canvasParent.setCursor(Cursor.CROSSHAIR);
         });
+        
+        ToolbarButton node = new ToolbarButton("NODE", getClass().getResource("icons/plus.png").toExternalForm(), true, Cursor.DEFAULT, canvasParent);
+        ellipse.addActionHandler(() -> {
+            setCanDrag(false);
+            canvasParent.setCursor(Cursor.CROSSHAIR);
+        });
 
         ToolbarButton pan = new ToolbarButton("PAN", getClass().getResource("icons/pan.png").toExternalForm(), true, Cursor.HAND, canvasParent);
         pan.addActionHandler(() -> {
@@ -124,7 +131,7 @@ public class PrimaryController implements Initializable {
 
             alert.showAndWait();
         });
-        ToolbarButton[] btnsLeft = {pointer, square, ellipse, pan};
+        ToolbarButton[] btnsLeft = {pointer, square, ellipse, node, pan};
         ToolbarToggle[] btnsRight = {zoomOut, zoomIn, export};
 
         tb = new Toolbar(btnsLeft, btnsRight);
@@ -419,7 +426,7 @@ public class PrimaryController implements Initializable {
 
         parent.addEventHandler(MouseEvent.MOUSE_RELEASED, (MouseEvent event) -> {
             if (tb.getAction().equals("SQUARE") && currentNode != null) {
-                Rectangle rect2 = new Rectangle(new Point(event.getX() / 10, event.getY() / 10), new Point((event.getX() + 10) / 10, (event.getY() + 10) / 10), rootContainer);
+                Rectangle rect2 = new Rectangle(new Point(event.getX(), event.getY()), new Point((event.getX() + 10), (event.getY() + 10)), rootContainer);
 
                 currentNode.setGuiElement(rect2);
                 rootContainer.addChild(rect2);
@@ -441,8 +448,82 @@ public class PrimaryController implements Initializable {
                 currentNode = null;
             }
         });
+        
+        
+        // NODE drawing
+        parent.addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent event) -> {
+            if (tb.getAction().equals("NODE")) {
+                GuiNode node = new GuiNode(parent);
+                node.setBoundingX(event.getX());
+                node.setBoundingY(event.getY());
+
+
+                node.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent t) {
+
+                        if (tb.getAction().equals("POINTER")) {
+
+                            if (!node.isSelected()) {
+                                node.setHover();
+                            }
+                        }
+                    }
+                });
+
+                node.setOnMouseExited(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent t) {
+
+                        if (tb.getAction().equals("POINTER")) {
+                            if (!node.isSelected()) {
+                                node.removeHover();
+                            }
+                        }
+                    }
+                });
+                
+                node.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent t) {
+                        if (tb.getAction().equals("POINTER")) {
+
+                            if (!node.isSelected()) {
+                                node.select();
+                                setSelected(node);
+
+                            } else {
+                                node.unselect();
+                                removeSelected();
+                            }
+                            t.consume();
+                        }
+                    }
+                });
+                HBox hbox = new HBox();
+                Label lbl = new Label("Node " + shapeIndex);
+                
+                org.tikzgui.core.Node guiElementNode = new org.tikzgui.core.Node(rootContainer, new GeneralProperties(), "Node"+shapeIndex, new Point(node.getBoundingX(), node.getBoundingY()), "node");
+                
+
+                lbl.getStyleClass().add("layer");
+                hbox.getChildren().add(lbl);
+
+                leftBar.getChildren().add(lbl);
+                shapeIndex++;
+                
+                canvas.getChildren().add(node);
+                elements.add(node);
+                
+                node.setGuiElement(guiElementNode);
+                node.getUpdate().run();
+                
+            }
+        });
 
     }
+    
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
